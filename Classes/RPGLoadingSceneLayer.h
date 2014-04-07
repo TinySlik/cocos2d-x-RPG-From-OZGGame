@@ -1,13 +1,13 @@
 //
 //  RPGLoadingSceneLayer.h
-//  FantasyRPG
+//  OzgGameRPG
 //
-//  Created by 欧志刚 on 14-1-5.
+//  Created by ozg on 14-1-5.
 //
 //
 
-#ifndef __FantasyRPG__RPGLoadingSceneLayer__
-#define __FantasyRPG__RPGLoadingSceneLayer__
+#ifndef __OzgGameRPG__RPGLoadingSceneLayer__
+#define __OzgGameRPG__RPGLoadingSceneLayer__
 
 #include "RPGBaseSceneLayer.h"
 
@@ -34,4 +34,4 @@ public:
     void goToNextScene();
 };
 
-#endif /* defined(__FantasyRPG__RPGLoadingSceneLayer__) */
+#endif /* defined(__OzgGameRPG__RPGLoadingSceneLayer__) */

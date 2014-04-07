@@ -2,7 +2,7 @@
 //  RPGData.cpp
 //  OzgGameRPG
 //
-//  Created by 欧志刚 on 14-4-5.
+//  Created by ozg on 14-4-5.
 //
 //
 

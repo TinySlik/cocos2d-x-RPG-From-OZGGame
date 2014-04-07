@@ -1,8 +1,8 @@
 //
 //  RPGLoadingSceneLayer.cpp
-//  RPG
+//  OzgGameRPG
 //
-//  Created by 欧志刚 on 14-1-5.
+//  Created by ozg on 14-1-5.
 //
 //
 

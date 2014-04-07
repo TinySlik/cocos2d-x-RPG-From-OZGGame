@@ -1,13 +1,13 @@
 //
-//  RPGAlertLayer.h
+//  RPGConfirmLayer.h
 //  OzgGameRPG
 //
-//  Created by 欧志刚 on 14-3-30.
+//  Created by ozg on 14-3-30.
 //
 //
 
-#ifndef __OzgGameRPG__RPGAlertLayer__
-#define __OzgGameRPG__RPGAlertLayer__
+#ifndef __OzgGameRPG__RPGConfirmLayer__
+#define __OzgGameRPG__RPGConfirmLayer__
 
 #include "cocos2d.h"
 
@@ -26,4 +26,4 @@ public:
     
 };
 
-#endif /* defined(__OzgGameRPG__RPGAlertLayer__) */
+#endif /* defined(__OzgGameRPG__RPGConfirmLayer__) */

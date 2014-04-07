@@ -1,8 +1,8 @@
 //
 //  RPGMapNPCRoleSprite.cpp
-//  FantasyRPG
+//  OzgGameRPG
 //
-//  Created by 欧志刚 on 14-1-17.
+//  Created by ozg on 14-1-17.
 //
 //
 

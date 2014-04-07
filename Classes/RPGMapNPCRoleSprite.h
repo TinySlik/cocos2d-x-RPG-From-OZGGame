@@ -1,13 +1,13 @@
 //
 //  RPGMapNPCRoleSprite.h
-//  FantasyRPG
+//  OzgGameRPG
 //
-//  Created by 欧志刚 on 14-1-17.
+//  Created by ozg on 14-1-17.
 //
 //
 
-#ifndef __FantasyRPG__RPGMapNPCRoleSprite__
-#define __FantasyRPG__RPGMapNPCRoleSprite__
+#ifndef __OzgGameRPG__RPGMapNPCRoleSprite__
+#define __OzgGameRPG__RPGMapNPCRoleSprite__
 
 #include "RPGMapRoleSprite.h"
 
@@ -33,4 +33,4 @@ public:
     
 };
 
-#endif /* defined(__FantasyRPG__RPGMapNPCRoleSprite__) */
+#endif /* defined(__OzgGameRPG__RPGMapNPCRoleSprite__) */

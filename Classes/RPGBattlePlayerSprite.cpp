@@ -2,7 +2,7 @@
 //  RPGBattlePlayerSprite.cpp
 //  OzgGameRPG
 //
-//  Created by 欧志刚 on 14-4-3.
+//  Created by ozg on 14-4-3.
 //
 //
 
