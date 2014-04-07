@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
+  <image source="map.png" width="512" height="512"/>
+ </tileset>
+ <layer name="bg" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJy7yMDAcIkMfItMfSB8GYgfAjETnfFjIu1VJ9HcFVSylxKMzc30sJfa/iU17Ie6fwfC3u1AvIOAmhVYMLK95Lj3OBCfGKThTMi/tLJXHA3Ty78gu5ihmJb2oudnetk7UP6lNH5XYNGDnBYbgbgJDTeT6CZy/LsQiBeh4cV0sJcaGGTvRyD+RGf8GYgBkXJsEg==
+  </data>
+ </layer>
+ <layer name="house" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztyzkNAAAMw8Dyx9kPRkMha+WTPDrCk6pUq1Fr/gAAAN8dLU8Efw==
+  </data>
+ </layer>
+ <objectgroup name="obstacles" width="30" height="20">
+  <object name="obstacle1" x="416" y="256" width="64" height="64"/>
+  <object name="wall1" x="0" y="0" width="448" height="32"/>
+  <object name="wall2" x="480" y="0" width="480" height="32"/>
+  <object name="wall3" x="0" y="32" width="32" height="256"/>
+  <object name="wall4" x="0" y="320" width="32" height="288"/>
+  <object name="wall5" x="0" y="608" width="960" height="32"/>
+  <object name="wall6" x="928" y="32" width="32" height="576"/>
+  <object name="obstacle10" x="672" y="64" width="32" height="32"/>
+  <object name="obstacle11" x="768" y="96" width="32" height="32"/>
+  <object name="obstacle8" x="288" y="64" width="32" height="32"/>
+  <object name="obstacle9" x="448" y="160" width="32" height="32"/>
+  <object name="obstacle7" x="704" y="256" width="160" height="32"/>
+  <object name="obstacle6" x="704" y="320" width="160" height="32"/>
+  <object name="obstacle5" x="576" y="416" width="32" height="32"/>
+  <object name="obstacle2" x="384" y="512" width="192" height="64"/>
+  <object name="obstacle3" x="128" y="512" width="32" height="32"/>
+  <object name="obstacle4" x="288" y="512" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="transitions" width="30" height="20">
+  <object name="map02" x="0" y="288" width="32" height="32">
+   <properties>
+    <property name="map_id" value="2"/>
+    <property name="player_direction" value="left"/>
+    <property name="player_to_x" value="28.0"/>
+    <property name="player_to_y" value="10.0"/>
+   </properties>
+  </object>
+  <object name="map03" x="448" y="0" width="32" height="32">
+   <properties>
+    <property name="map_id" value="3"/>
+    <property name="player_direction" value="up"/>
+    <property name="player_to_x" value="8.0"/>
+    <property name="player_to_y" value="1.0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

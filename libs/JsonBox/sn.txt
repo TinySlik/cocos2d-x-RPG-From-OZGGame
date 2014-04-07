@@ -1,0 +1,21 @@
+https://github.com/anhero/JsonBox
+
+xcode
+Header Search Paths
+"$(SRCROOT)/../libs/JsonBox/include"
+
+
+JsonBox::Value json;
+//        json.loadFromString("{\"a\":\"A\", \"b\":\"B\", \"c\":\"C\"}");
+        json.loadFromString("[5, 6, 7]");
+        
+//        CCLog("%s", json["a"].getString().c_str());
+//        CCLog("%i", json.getArray()[1].getInt());
+        
+//        json["d"] = "D";
+        
+        std::ostringstream s;
+        json.writeToStream(s);
+        string result = s.str();
+        
+        CCLog("%s", result.c_str());

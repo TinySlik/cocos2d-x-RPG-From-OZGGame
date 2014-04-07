@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="17" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="map" tilewidth="32" tileheight="32">
+  <image source="map.png" width="512" height="512"/>
+ </tileset>
+ <layer name="bg" width="17" height="15">
+  <data encoding="base64" compression="zlib">
+   eJyrYWBg8ANifyCuIQKvhmJfJLE9QBwHxPFA3EME3g3FsVD+XiA+SQH2BGIvCs2IBOIoCs3IBOIsCs0YKTgbiL2B2AeIcygwIxqIYygwgxDOHwRhRSo+DcRngPgsAXUAqnu43Q==
+  </data>
+ </layer>
+ <objectgroup name="obstacles" width="17" height="15">
+  <object name="obstacle1" x="0" y="0" width="544" height="64"/>
+  <object name="obstacle2" x="480" y="64" width="64" height="96"/>
+  <object name="obstacle3" x="160" y="288" width="128" height="64"/>
+  <object name="obstacle4" x="416" y="352" width="32" height="32"/>
+  <object name="obstacle5" x="-32" y="64" width="32" height="416"/>
+  <object name="obstacle6" x="544" y="160" width="32" height="320"/>
+  <object name="obstacle7" x="-32" y="480" width="608" height="32"/>
+ </objectgroup>
+ <objectgroup name="transitions" width="17" height="15">
+  <object name="map01" x="224" y="448" width="96" height="32">
+   <properties>
+    <property name="map_id" value="1"/>
+    <property name="player_direction" value="down"/>
+    <property name="player_to_x" value="14.0"/>
+    <property name="player_to_y" value="18.0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

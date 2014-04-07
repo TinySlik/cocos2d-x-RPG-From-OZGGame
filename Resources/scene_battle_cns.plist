@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>escape_success</key>
+	<string>逃跑成功</string>
+	<key>escape_fail</key>
+	<string>逃跑失败</string>
+	<key>battle_playermenu_attack</key>
+	<string>攻击</string>
+	<key>battle_playermenu_defense</key>
+	<string>防御</string>
+	<key>battle_playermenu_skill</key>
+	<string>技能</string>
+	<key>battle_playermenu_items</key>
+	<string>道具</string>
+	<key>battle_playermenu_escape</key>
+	<string>逃跑</string>
+</dict>
+</plist>
