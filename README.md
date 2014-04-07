@@ -6,10 +6,10 @@ ozg game — RPG
 
 游戏中所用的一部分图片来自 http://www.66rpg.com/type.php?t=17 另一部分图片来自 http://usui.moo.jp/rpg_tukuru.html
 
-所用声音文件来自 http://www.66rpg.com/type.php?t=17
+声音文件来自 http://www.66rpg.com/type.php?t=17
 
 
-目前只在iOS平台下进行测试
+目前只在iOS平台下进行测试，战斗画面的攻击、技能、道具，地图界面的技能、道具均未完成。
 
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot1.png)
 
