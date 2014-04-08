@@ -79,18 +79,39 @@ RPGBattleMenu* RPGBattleMenu::createWithParentNode(CCDictionary* stringList, CCN
 
 void RPGBattleMenu::showMenu()
 {
-    CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->getChildByTag(kRPGBattleMenuTagBg);
+    CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagBg);
     bgLayer->setVisible(true);
     
-    this->setVisible(true);
+    CCMenuItem *menuAttack = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagAttack);
+    menuAttack->setVisible(true);
+    
+    CCMenuItem *menuSkill = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagSkill);
+    menuSkill->setVisible(true);
+    
+    CCMenuItem *menuItems = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagItems);
+    menuItems->setVisible(true);
+    
+    CCMenuItem *menuEscape = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagEscape);
+    menuEscape->setVisible(true);
 }
 
 void RPGBattleMenu::hideMenu()
 {
-    CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->getChildByTag(kRPGBattleMenuTagBg);
+    CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagBg);
     bgLayer->setVisible(false);
     
-    this->setVisible(false);
+    CCMenuItem *menuAttack = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagAttack);
+    menuAttack->setVisible(false);
+    
+    CCMenuItem *menuSkill = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagSkill);
+    menuSkill->setVisible(false);
+    
+    CCMenuItem *menuItems = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagItems);
+    menuItems->setVisible(false);
+    
+    CCMenuItem *menuEscape = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagEscape);
+    menuEscape->setVisible(false);
+    
 }
 
 //private
@@ -161,9 +182,42 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             
         }
             break;
+        case kRPGBattleMenuTagCancel:
+        {
+            CCLog("取消");
+            this->showMenu();
+            
+            CCMenuItem *menuCancel = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagCancel);
+            menuCancel->removeFromParentAndCleanup(true);
+            
+            switch (this->m_selectedMenuTag)
+            {
+                case kRPGBattleMenuTagAttack:
+                    ((RPGBattleSceneLayer*)this->m_parentNode)->enabledTouched(false);
+                    ((RPGBattleSceneLayer*)this->m_parentNode)->cancelAllSelected();
+                    
+                    break;
+                    
+//                default:
+//                    break;
+            }
+            
+        }
+            break;
         default:
         {
             CCLog("攻击");
+            this->hideMenu();
+            
+            this->m_selectedMenuTag = kRPGBattleMenuTagAttack;
+            
+            CCMenuItemSprite *menuCancel = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGBattleMenu::onMenu));
+            menuCancel->setPosition(ccp(75, 660));
+            menuCancel->setTag(kRPGBattleMenuTagCancel);
+            menuCancel->setScale(0.75);
+            this->addChild(menuCancel);
+            
+            ((RPGBattleSceneLayer*)this->m_parentNode)->enabledTouched(true);
             
         }
             break;

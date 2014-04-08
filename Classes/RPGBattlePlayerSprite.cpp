@@ -106,6 +106,8 @@ bool RPGBattlePlayerSprite::initWithPlayerData(RPGPlayer* data)
         this->m_data = data;
         this->setScale(1.75);
         
+        this->m_isSelected = false;
+        
         CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesNormal, 0.2);
         CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));        
         this->runAction(animate);
@@ -125,4 +127,30 @@ RPGBattlePlayerSprite* RPGBattlePlayerSprite::createWithPlayerData(RPGPlayer* da
     }
     CC_SAFE_DELETE(obj);
     return NULL;
+}
+
+void RPGBattlePlayerSprite::selected(bool isSelected)
+{
+    this->m_isSelected = isSelected;
+    
+    if(this->m_isSelected)
+    {
+        CCSprite *handCursor = (CCSprite*)this->getChildByTag(kRPGBattlePlayerSpriteTagCursor);
+        if(!handCursor)
+        {
+            handCursor = CCSprite::createWithSpriteFrameName("gui_hand.png");
+            handCursor->setScale(0.15);
+            handCursor->setTag(kRPGBattlePlayerSpriteTagCursor);
+            handCursor->setFlipX(true);
+            handCursor->setPosition(ccp(-12, 10));
+            this->addChild(handCursor);
+        }
+    }
+    else
+    {
+        CCSprite *handCursor = (CCSprite*)this->getChildByTag(kRPGBattlePlayerSpriteTagCursor);
+        if(handCursor)
+            handCursor->removeFromParentAndCleanup(true);
+    }
+    
 }

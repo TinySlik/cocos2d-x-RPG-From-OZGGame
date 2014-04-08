@@ -243,7 +243,6 @@ void RPGMapMenuLayer::onMenu(cocos2d::CCObject *pObject)
                 this->setStatusPlayer(dataId);
                 CCMenuItemSprite *player = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGMapMenuLayerTagMainMenuPlayerStatus + dataId);
                 
-                //光标的位置
                 CCSprite *handCursor = (CCSprite*)this->getChildByTag(kRPGMapMenuLayerTagHandCursor);
                 if(!handCursor)
                 {
@@ -252,6 +251,8 @@ void RPGMapMenuLayer::onMenu(cocos2d::CCObject *pObject)
                     handCursor->setTag(kRPGMapMenuLayerTagHandCursor);
                     this->addChild(handCursor);
                 }
+                
+                //光标的位置
                 handCursor->setPosition(ccp(player->getPositionX() + 60, 555));
                 
                 break;

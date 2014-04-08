@@ -20,7 +20,8 @@ enum RPGBattleMenuTag
     kRPGBattleMenuTagAttack = 2,
     kRPGBattleMenuTagSkill = 4,
     kRPGBattleMenuTagItems = 5,
-    kRPGBattleMenuTagEscape = 6
+    kRPGBattleMenuTagEscape = 6,
+    kRPGBattleMenuTagCancel = 7
     
 };
 
@@ -32,12 +33,14 @@ private:
     
     CCDictionary* m_stringList;
     
-    RPGPlayer* m_playerData;
-    
     void createMenuItem(float x, float y, CCString *text, RPGBattleMenuTag tag);
     void onMenu(CCObject *pObject);
     
 public:
+    
+    RPGPlayer* m_playerData;
+    
+    int m_selectedMenuTag; //选中了哪个项(攻击、技能、道具)
     
     RPGBattleMenu();
     virtual ~RPGBattleMenu();

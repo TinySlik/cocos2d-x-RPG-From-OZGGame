@@ -22,7 +22,7 @@ RPGBattleSceneLayer::~RPGBattleSceneLayer()
     this->m_monsterDataList->release();
     this->m_playerList->release();
     this->m_monsterList->release();
-    
+        
     CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("monsters.plist");
     
     CCLog("RPGBattleSceneLayer 释放");
@@ -270,6 +270,8 @@ bool RPGBattleSceneLayer::init()
         
         //怪物部分结束
         
+        this->m_enabledTouched = false;
+        
         this->computingProgress();
                 
         this->scheduleUpdate();
@@ -347,6 +349,86 @@ void RPGBattleSceneLayer::update(float delta)
 //    CCLog("%f", delta);
 }
 
+bool RPGBattleSceneLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
+{
+    
+    return true;
+}
+
+void RPGBattleSceneLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
+{
+    
+}
+
+void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
+{
+    CCPoint point = pTouch->getLocation();
+    
+    RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+    
+    switch (battleMenu->m_selectedMenuTag)
+    {
+        case kRPGBattleMenuTagAttack:
+        {
+//            CCLog("攻击");
+            
+            //检测选中的player
+            for (int i = 0; i < this->m_playerList->count(); i++)
+            {
+                RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+                if(player->boundingBox().containsPoint(point))
+                {
+                    if(player->m_isSelected)
+                    {
+                        CCLog("攻击player");
+                        
+                        player->selected(false);
+                        this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
+                        
+                    }
+                    else
+                        player->selected(true);
+                }
+                else
+                    player->selected(false);
+                
+            }
+            
+            //检测选中的怪物
+            for (int i = 0; i < this->m_monsterList->count(); i++)
+            {
+                RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->m_monsterList->objectAtIndex(i);
+                if(monster->boundingBox().containsPoint(point))
+                {
+                    if(monster->m_isSelected)
+                    {
+                        CCLog("攻击怪物");
+                        
+                        RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+                        RPGPlayer *playerData = battleMenu->m_playerData;
+                        
+                        monster->selected(false);
+                        battleMenu->removeFromParentAndCleanup(true);
+                        
+                        this->attack(playerData, monster->m_data);
+                        
+                    }
+                    else
+                        monster->selected(true);
+                }
+                else
+                    monster->selected(false);
+                
+            }
+            
+        }
+            break;
+//        default:
+//            break;
+    }
+    
+}
+
 void RPGBattleSceneLayer::showMsg(cocos2d::CCString *msgText)
 {
     this->showMsg(msgText, true);
@@ -405,6 +487,8 @@ void RPGBattleSceneLayer::goToMap()
     //保存player的数据
     savePlayerData(&this->m_db, this->m_playerDataList);
     
+    this->enabledTouched(false);
+    
     CCArray *loadTextures = CCArray::create();
     loadTextures->addObject(CCString::create("map.png"));
     loadTextures->addObject(CCString::create("joystick.png"));
@@ -423,6 +507,62 @@ void RPGBattleSceneLayer::goToMap()
     CCScene *s = RPGLoadingSceneLayer::scene(loadTextures, releaseTextures, "single_map");
     CCTransitionFade *t = CCTransitionFade::create(GAME_SCENE, s);
     CCDirector::sharedDirector()->replaceScene(t);
+}
+
+void RPGBattleSceneLayer::enabledTouched(bool enabled)
+{
+    if(this->m_enabledTouched)
+        CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
+    
+    this->m_enabledTouched = enabled;
+    
+    if(this->m_enabledTouched)
+        CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 1, true);
+    
+}
+
+void RPGBattleSceneLayer::cancelAllSelected()
+{
+    for (int i = 0; i < this->m_playerList->count(); i++)
+    {
+        RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+        player->selected(false);
+        
+    }
+    
+    for (int i = 0; i < this->m_monsterList->count(); i++)
+    {
+        RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->m_monsterList->objectAtIndex(i);
+        monster->selected(false);
+        
+    }
+    
+}
+
+void RPGBattleSceneLayer::attack(cocos2d::CCObject *attackObjData, cocos2d::CCObject *targetObjData)
+{
+    CCLog("aaa");
+    
+    //发起攻击的对象
+    if(dynamic_cast<RPGPlayer*>(attackObjData) != NULL)
+    {
+        
+    }
+    else if(dynamic_cast<RPGMonster*>(attackObjData) != NULL)
+    {
+        
+    }
+    
+    //受到攻击的对象
+    if(dynamic_cast<RPGPlayer*>(targetObjData) != NULL)
+    {
+        
+    }
+    else if(dynamic_cast<RPGMonster*>(targetObjData) != NULL)
+    {
+        
+    }
+    
 }
 
 //private

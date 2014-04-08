@@ -15,12 +15,17 @@
 USING_NS_CC;
 using namespace std;
 
+enum RPGBattlePlayerSpriteTag
+{
+    kRPGBattlePlayerSpriteTagCursor = 1
+    
+};
+
 class RPGBattlePlayerSprite : public CCSprite
 {
     
 private:
-    
-    RPGPlayer* m_data;
+        
     CCArray* m_spriteFramesNormal; //通常
     CCArray* m_spriteFramesHurt; //受到攻击
     CCArray* m_spriteFramesDying; //临死
@@ -34,10 +39,16 @@ private:
     
 public:
     
+    RPGPlayer* m_data;
+    
+    bool m_isSelected;
+    
     RPGBattlePlayerSprite();
     virtual ~RPGBattlePlayerSprite();
     bool initWithPlayerData(RPGPlayer* data);
     static RPGBattlePlayerSprite* createWithPlayerData(RPGPlayer* data);
+    
+    void selected(bool isSelected);
     
 };
 
