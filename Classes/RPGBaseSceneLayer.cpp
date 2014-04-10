@@ -38,7 +38,7 @@ void savePlayerData(CppSQLite3DB* db, CCArray* playerDataList)
     {
         RPGPlayer *playerData = (RPGPlayer*)playerDataList->objectAtIndex(i);
         
-        CCString *sql = CCString::createWithFormat("update player set max_hp = %i, hp = %i, max_mp = %i, mp = %i, attack = %f, defense = %f, speed = %f, magic_attack = %f, magic_defense = %f, items_id_arms = %i, items_id_armor = %i, level = %i, skill = '%s', next_exp = %i where id = %i", playerData->m_maxHP, playerData->m_HP, playerData->m_maxMP, playerData->m_MP, playerData->m_attack, playerData->m_defense, playerData->m_speed, playerData->m_magicAttack, playerData->m_magicDefense, playerData->m_itemsIdArms, playerData->m_itemsIdArmor, playerData->m_level, playerData->m_skill.c_str(), playerData->m_nextExp, playerData->m_dataId);
+        CCString *sql = CCString::createWithFormat("update player set max_hp = %i, hp = %i, max_mp = %i, mp = %i, attack = %f, defense = %f, speed = %f, skill_attack = %f, skill_defense = %f, items_id_arms = %i, items_id_armor = %i, level = %i, skill = '%s', next_exp = %i where id = %i", playerData->m_maxHP, playerData->m_HP, playerData->m_maxMP, playerData->m_MP, playerData->m_attack, playerData->m_defense, playerData->m_speed, playerData->m_skillAttack, playerData->m_skillDefense, playerData->m_itemsIdArms, playerData->m_itemsIdArmor, playerData->m_level, playerData->m_skill.c_str(), playerData->m_nextExp, playerData->m_dataId);
         db->execDML(sql->getCString());
     }
 }

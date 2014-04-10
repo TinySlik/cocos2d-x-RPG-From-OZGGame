@@ -28,8 +28,8 @@ public:
     float m_attack;
     float m_defense;
     float m_speed;
-    float m_magicAttack;
-    float m_magicDefense;
+    float m_skillAttack;
+    float m_skillDefense;
     int m_itemsIdArms;
     int m_itemsIdArmor;
     int m_level;
@@ -58,8 +58,8 @@ public:
     float m_attack;
     float m_defense;
     float m_speed;
-    float m_magicAttack;
-    float m_magicDefense;
+    float m_skillAttack;
+    float m_skillDefense;
     int m_exp;
     string m_skill;
     string m_tex;
@@ -80,6 +80,7 @@ class RPGSkill : public CCObject
     
 public:
     string m_name;
+    float m_skillAttack;
     int m_mp;
     
     RPGSkill();

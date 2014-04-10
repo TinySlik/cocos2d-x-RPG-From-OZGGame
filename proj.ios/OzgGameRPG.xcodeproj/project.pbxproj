@@ -217,12 +217,16 @@
 		46C59AD317641FF300F43DC3 /* AudioEngine.lua in Resources */ = {isa = PBXBuildFile; fileRef = 46C59AD117641FF300F43DC3 /* AudioEngine.lua */; };
 		46C59AD417641FF300F43DC3 /* CCBReaderLoad.lua in Resources */ = {isa = PBXBuildFile; fileRef = 46C59AD217641FF300F43DC3 /* CCBReaderLoad.lua */; };
 		8909857018F253DE0021AE26 /* battle_msg_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */; };
+		8936C3B518F6D72100AE709E /* select_player_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8936C3B418F6D72100AE709E /* select_player_style1.tmx */; };
 		895EC07318F05AE600C3814D /* RPGData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 895EC07118F05AE600C3814D /* RPGData.cpp */; };
 		8960C17F18E7D0BD0075EF99 /* alert_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8960C17E18E7D0BD0075EF99 /* alert_style1.tmx */; };
 		8960C18218E7D51C0075EF99 /* RPGConfirmLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8960C18018E7D51C0075EF99 /* RPGConfirmLayer.cpp */; };
 		896BAEE618EF04CF006581FD /* audio_battle_end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 896BAEE318EF04CF006581FD /* audio_battle_end.mp3 */; };
 		896BAEE718EF04CF006581FD /* audio_battle_menu.wav in Resources */ = {isa = PBXBuildFile; fileRef = 896BAEE418EF04CF006581FD /* audio_battle_menu.wav */; };
 		896BAEE818EF04CF006581FD /* audio_battle_start.wav in Resources */ = {isa = PBXBuildFile; fileRef = 896BAEE518EF04CF006581FD /* audio_battle_start.wav */; };
+		8988A4DF18F42BDC004277ED /* audio_battle_attack1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8988A4DD18F42BDC004277ED /* audio_battle_attack1.wav */; };
+		8988A4E018F42BDC004277ED /* audio_battle_attack2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8988A4DE18F42BDC004277ED /* audio_battle_attack2.wav */; };
+		8988A4E318F42EDB004277ED /* RPGComputingResults.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8988A4E118F42EDB004277ED /* RPGComputingResults.cpp */; };
 		8999051A18F17A3D00012A0E /* RPGBattleMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8999051818F17A3D00012A0E /* RPGBattleMenu.cpp */; };
 		8999051D18F17E6C00012A0E /* battle_battlemenu_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8999051C18F17E6C00012A0E /* battle_battlemenu_style1.tmx */; };
 		89CB7D7F18E9A47800A5921B /* map_menu1_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 89CB7D7C18E9A47800A5921B /* map_menu1_style1.tmx */; };
@@ -305,8 +309,13 @@
 		89F5D14F18E7C5E5009D703C /* db.sys in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D14E18E7C5E5009D703C /* db.sys */; };
 		89F5D15318E7C70F009D703C /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89F5D15118E7C70F009D703C /* CppSQLite3.cpp */; };
 		9E427D0518EBBA9F00DA4E79 /* map_menu4_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 9E427D0418EBBA9F00DA4E79 /* map_menu4_style1.tmx */; };
+		9E5271DD18F647400018BD94 /* RPGMapStatusMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5271DB18F647400018BD94 /* RPGMapStatusMenuLayer.cpp */; };
+		9E5271E018F647B90018BD94 /* RPGMapItemsMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5271DE18F647B90018BD94 /* RPGMapItemsMenuLayer.cpp */; };
+		9E5271E318F648750018BD94 /* RPGMapEquipMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5271E118F648750018BD94 /* RPGMapEquipMenuLayer.cpp */; };
+		9E5271E618F6489B0018BD94 /* RPGMapSkillMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5271E418F6489B0018BD94 /* RPGMapSkillMenuLayer.cpp */; };
 		9E5C5F6E18EE59BB00A68C36 /* battle_menu_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 9E5C5F6D18EE59BB00A68C36 /* battle_menu_style1.tmx */; };
 		9E5C5F7118EE68BD00A68C36 /* RPGBattleMonsterSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5C5F6F18EE68BD00A68C36 /* RPGBattleMonsterSprite.cpp */; };
+		9E83B14A18F66151001E9616 /* RPGMapChoicePlayerMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E83B14818F66151001E9616 /* RPGMapChoicePlayerMenuLayer.cpp */; };
 		ED35C0C718323498002A0750 /* CCArmatureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED35C03818323497002A0750 /* CCArmatureAnimation.cpp */; };
 		ED35C0C818323498002A0750 /* CCProcessBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED35C03A18323497002A0750 /* CCProcessBase.cpp */; };
 		ED35C0C918323498002A0750 /* CCTween.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED35C03C18323497002A0750 /* CCTween.cpp */; };
@@ -814,6 +823,7 @@
 		46C59AD117641FF300F43DC3 /* AudioEngine.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AudioEngine.lua; sourceTree = "<group>"; };
 		46C59AD217641FF300F43DC3 /* CCBReaderLoad.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CCBReaderLoad.lua; sourceTree = "<group>"; };
 		8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = battle_msg_style1.tmx; sourceTree = "<group>"; };
+		8936C3B418F6D72100AE709E /* select_player_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = select_player_style1.tmx; sourceTree = "<group>"; };
 		895EC07118F05AE600C3814D /* RPGData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGData.cpp; path = ../Classes/RPGData.cpp; sourceTree = "<group>"; };
 		895EC07218F05AE600C3814D /* RPGData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGData.h; path = ../Classes/RPGData.h; sourceTree = "<group>"; };
 		8960C17E18E7D0BD0075EF99 /* alert_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = alert_style1.tmx; sourceTree = "<group>"; };
@@ -822,6 +832,10 @@
 		896BAEE318EF04CF006581FD /* audio_battle_end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio_battle_end.mp3; sourceTree = "<group>"; };
 		896BAEE418EF04CF006581FD /* audio_battle_menu.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_battle_menu.wav; sourceTree = "<group>"; };
 		896BAEE518EF04CF006581FD /* audio_battle_start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_battle_start.wav; sourceTree = "<group>"; };
+		8988A4DD18F42BDC004277ED /* audio_battle_attack1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_battle_attack1.wav; sourceTree = "<group>"; };
+		8988A4DE18F42BDC004277ED /* audio_battle_attack2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_battle_attack2.wav; sourceTree = "<group>"; };
+		8988A4E118F42EDB004277ED /* RPGComputingResults.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGComputingResults.cpp; path = ../Classes/RPGComputingResults.cpp; sourceTree = "<group>"; };
+		8988A4E218F42EDB004277ED /* RPGComputingResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGComputingResults.h; path = ../Classes/RPGComputingResults.h; sourceTree = "<group>"; };
 		8999051818F17A3D00012A0E /* RPGBattleMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGBattleMenu.cpp; path = ../Classes/RPGBattleMenu.cpp; sourceTree = "<group>"; };
 		8999051918F17A3D00012A0E /* RPGBattleMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGBattleMenu.h; path = ../Classes/RPGBattleMenu.h; sourceTree = "<group>"; };
 		8999051C18F17E6C00012A0E /* battle_battlemenu_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = battle_battlemenu_style1.tmx; sourceTree = "<group>"; };
@@ -932,9 +946,19 @@
 		89F5D15118E7C70F009D703C /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
 		89F5D15218E7C70F009D703C /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
 		9E427D0418EBBA9F00DA4E79 /* map_menu4_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_menu4_style1.tmx; sourceTree = "<group>"; };
+		9E5271DB18F647400018BD94 /* RPGMapStatusMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGMapStatusMenuLayer.cpp; path = ../Classes/RPGMapStatusMenuLayer.cpp; sourceTree = "<group>"; };
+		9E5271DC18F647400018BD94 /* RPGMapStatusMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGMapStatusMenuLayer.h; path = ../Classes/RPGMapStatusMenuLayer.h; sourceTree = "<group>"; };
+		9E5271DE18F647B90018BD94 /* RPGMapItemsMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGMapItemsMenuLayer.cpp; path = ../Classes/RPGMapItemsMenuLayer.cpp; sourceTree = "<group>"; };
+		9E5271DF18F647B90018BD94 /* RPGMapItemsMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGMapItemsMenuLayer.h; path = ../Classes/RPGMapItemsMenuLayer.h; sourceTree = "<group>"; };
+		9E5271E118F648750018BD94 /* RPGMapEquipMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGMapEquipMenuLayer.cpp; path = ../Classes/RPGMapEquipMenuLayer.cpp; sourceTree = "<group>"; };
+		9E5271E218F648750018BD94 /* RPGMapEquipMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGMapEquipMenuLayer.h; path = ../Classes/RPGMapEquipMenuLayer.h; sourceTree = "<group>"; };
+		9E5271E418F6489B0018BD94 /* RPGMapSkillMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGMapSkillMenuLayer.cpp; path = ../Classes/RPGMapSkillMenuLayer.cpp; sourceTree = "<group>"; };
+		9E5271E518F6489B0018BD94 /* RPGMapSkillMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGMapSkillMenuLayer.h; path = ../Classes/RPGMapSkillMenuLayer.h; sourceTree = "<group>"; };
 		9E5C5F6D18EE59BB00A68C36 /* battle_menu_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = battle_menu_style1.tmx; sourceTree = "<group>"; };
 		9E5C5F6F18EE68BD00A68C36 /* RPGBattleMonsterSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGBattleMonsterSprite.cpp; path = ../Classes/RPGBattleMonsterSprite.cpp; sourceTree = "<group>"; };
 		9E5C5F7018EE68BD00A68C36 /* RPGBattleMonsterSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGBattleMonsterSprite.h; path = ../Classes/RPGBattleMonsterSprite.h; sourceTree = "<group>"; };
+		9E83B14818F66151001E9616 /* RPGMapChoicePlayerMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGMapChoicePlayerMenuLayer.cpp; path = ../Classes/RPGMapChoicePlayerMenuLayer.cpp; sourceTree = "<group>"; };
+		9E83B14918F66151001E9616 /* RPGMapChoicePlayerMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGMapChoicePlayerMenuLayer.h; path = ../Classes/RPGMapChoicePlayerMenuLayer.h; sourceTree = "<group>"; };
 		ED35C03818323497002A0750 /* CCArmatureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArmatureAnimation.cpp; sourceTree = "<group>"; };
 		ED35C03918323497002A0750 /* CCArmatureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArmatureAnimation.h; sourceTree = "<group>"; };
 		ED35C03A18323497002A0750 /* CCProcessBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCProcessBase.cpp; sourceTree = "<group>"; };
@@ -2316,6 +2340,16 @@
 				89F5D0C918E7C579009D703C /* RPGLoadingSceneLayer.h */,
 				89F5D0CA18E7C579009D703C /* RPGMapMenuLayer.cpp */,
 				89F5D0CB18E7C579009D703C /* RPGMapMenuLayer.h */,
+				9E5271DB18F647400018BD94 /* RPGMapStatusMenuLayer.cpp */,
+				9E5271DC18F647400018BD94 /* RPGMapStatusMenuLayer.h */,
+				9E5271DE18F647B90018BD94 /* RPGMapItemsMenuLayer.cpp */,
+				9E5271DF18F647B90018BD94 /* RPGMapItemsMenuLayer.h */,
+				9E5271E118F648750018BD94 /* RPGMapEquipMenuLayer.cpp */,
+				9E5271E218F648750018BD94 /* RPGMapEquipMenuLayer.h */,
+				9E5271E418F6489B0018BD94 /* RPGMapSkillMenuLayer.cpp */,
+				9E5271E518F6489B0018BD94 /* RPGMapSkillMenuLayer.h */,
+				9E83B14818F66151001E9616 /* RPGMapChoicePlayerMenuLayer.cpp */,
+				9E83B14918F66151001E9616 /* RPGMapChoicePlayerMenuLayer.h */,
 				89CB7D8918E9A8BF00A5921B /* RPGMapDialogLayer.cpp */,
 				89CB7D8A18E9A8BF00A5921B /* RPGMapDialogLayer.h */,
 				89F5D0CC18E7C579009D703C /* RPGMapNPCRoleSprite.cpp */,
@@ -2338,6 +2372,8 @@
 				89F5D0D918E7C579009D703C /* RPGStartSceneLayer.h */,
 				8960C18018E7D51C0075EF99 /* RPGConfirmLayer.cpp */,
 				8960C18118E7D51C0075EF99 /* RPGConfirmLayer.h */,
+				8988A4E118F42EDB004277ED /* RPGComputingResults.cpp */,
+				8988A4E218F42EDB004277ED /* RPGComputingResults.h */,
 				F293BB7E15EB831F00256477 /* AppDelegate.cpp */,
 				F293BB7F15EB831F00256477 /* AppDelegate.h */,
 			);
@@ -2347,6 +2383,9 @@
 		F293BC4615EB859D00256477 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8936C3B418F6D72100AE709E /* select_player_style1.tmx */,
+				8988A4DD18F42BDC004277ED /* audio_battle_attack1.wav */,
+				8988A4DE18F42BDC004277ED /* audio_battle_attack2.wav */,
 				8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */,
 				896BAEE318EF04CF006581FD /* audio_battle_end.mp3 */,
 				896BAEE418EF04CF006581FD /* audio_battle_menu.wav */,
@@ -2496,7 +2535,9 @@
 				89F5D11D18E7C5C0009D703C /* actor115.png in Resources */,
 				896BAEE818EF04CF006581FD /* audio_battle_start.wav in Resources */,
 				89CB7D8118E9A47800A5921B /* map_menu3_style1.tmx in Resources */,
+				8988A4E018F42BDC004277ED /* audio_battle_attack2.wav in Resources */,
 				89F5D10B18E7C5C0009D703C /* actor7_0.png in Resources */,
+				8936C3B518F6D72100AE709E /* select_player_style1.tmx in Resources */,
 				89F5D14B18E7C5DD009D703C /* scene_start_cns.plist in Resources */,
 				896BAEE618EF04CF006581FD /* audio_battle_end.mp3 in Resources */,
 				89F5D10E18E7C5C0009D703C /* actor7_3.png in Resources */,
@@ -2533,6 +2574,7 @@
 				15C1569B1683138E00D239F2 /* Icon-57.png in Resources */,
 				15C1569C1683138E00D239F2 /* Icon-72.png in Resources */,
 				89EA57BE18EAF1EC00A10956 /* monsters.plist in Resources */,
+				8988A4DF18F42BDC004277ED /* audio_battle_attack1.wav in Resources */,
 				15C1569D1683138E00D239F2 /* Icon-114.png in Resources */,
 				89F5D0EB18E7C5B4009D703C /* 方正粗圆简体.ttf in Resources */,
 				89EA57C118EAF2CB00A10956 /* battle_bg.png in Resources */,
@@ -2622,6 +2664,7 @@
 				298B2A3518D0671400C1920F /* ListViewReader.cpp in Sources */,
 				89EA57E418EB16F100A10956 /* Indenter.cpp in Sources */,
 				15C154111683112E00D239F2 /* CCControlColourPicker.cpp in Sources */,
+				9E5271DD18F647400018BD94 /* RPGMapStatusMenuLayer.cpp in Sources */,
 				15C154121683112E00D239F2 /* CCControlHuePicker.cpp in Sources */,
 				ED35C0EC18323498002A0750 /* UIButton.cpp in Sources */,
 				15C154131683112E00D239F2 /* CCControlPotentiometer.cpp in Sources */,
@@ -2699,6 +2742,7 @@
 				ED35C0E018323498002A0750 /* UIWidget.cpp in Sources */,
 				15C1551F1683118600D239F2 /* b2BroadPhase.cpp in Sources */,
 				15C155201683118600D239F2 /* b2CollideCircle.cpp in Sources */,
+				8988A4E318F42EDB004277ED /* RPGComputingResults.cpp in Sources */,
 				15C155211683118600D239F2 /* b2CollideEdge.cpp in Sources */,
 				15C155221683118600D239F2 /* b2CollidePolygon.cpp in Sources */,
 				ED35C0E418323498002A0750 /* CocosGUI.cpp in Sources */,
@@ -2732,10 +2776,12 @@
 				375BD562186846090024609E /* TriggerObj.cpp in Sources */,
 				89F5D0DA18E7C579009D703C /* OzgCCScrollBgNode.cpp in Sources */,
 				15C155311683118600D239F2 /* b2Body.cpp in Sources */,
+				9E5271E018F647B90018BD94 /* RPGMapItemsMenuLayer.cpp in Sources */,
 				ED35C0ED18323498002A0750 /* UICheckBox.cpp in Sources */,
 				15C155321683118600D239F2 /* b2ContactManager.cpp in Sources */,
 				15C155331683118600D239F2 /* b2Fixture.cpp in Sources */,
 				15C155341683118600D239F2 /* b2Island.cpp in Sources */,
+				9E5271E318F648750018BD94 /* RPGMapEquipMenuLayer.cpp in Sources */,
 				15C155351683118600D239F2 /* b2World.cpp in Sources */,
 				15C155361683118600D239F2 /* b2WorldCallbacks.cpp in Sources */,
 				15C155371683118600D239F2 /* b2ChainAndCircleContact.cpp in Sources */,
@@ -2770,6 +2816,7 @@
 				15C155491683118600D239F2 /* b2WeldJoint.cpp in Sources */,
 				15C1554A1683118600D239F2 /* b2WheelJoint.cpp in Sources */,
 				15C155591683118600D239F2 /* b2Rope.cpp in Sources */,
+				9E5271E618F6489B0018BD94 /* RPGMapSkillMenuLayer.cpp in Sources */,
 				89F5D0E018E7C579009D703C /* RPGMapMenuLayer.cpp in Sources */,
 				15C155DA168311AA00D239F2 /* CDAudioManager.m in Sources */,
 				ED35C0CE18323498002A0750 /* CCDecorativeDisplay.cpp in Sources */,
@@ -2784,6 +2831,7 @@
 				89F5D0E118E7C579009D703C /* RPGMapNPCRoleSprite.cpp in Sources */,
 				1583F16918D09FF900F3D630 /* UIScrollView.cpp in Sources */,
 				15C15688168311CB00D239F2 /* tolua_push.c in Sources */,
+				9E83B14A18F66151001E9616 /* RPGMapChoicePlayerMenuLayer.cpp in Sources */,
 				89F5D0DE18E7C579009D703C /* RPGBaseSceneLayer.cpp in Sources */,
 				15C15689168311CB00D239F2 /* tolua_to.c in Sources */,
 				15CA8CF718696744000032AB /* LuaCocoStudio.cpp in Sources */,

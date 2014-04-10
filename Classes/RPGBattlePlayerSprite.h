@@ -50,6 +50,9 @@ public:
     
     void selected(bool isSelected);
     
+    void animNormal();
+    void animAttack(CCObject* target, CCObject *targetObjData);
+    
 };
 
 #endif /* defined(__OzgGameRPG__RPGBattlePlayerSprite__) */

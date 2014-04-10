@@ -13,6 +13,7 @@
 #include "RPGBattlePlayerSprite.h"
 #include "RPGBattleMonsterSprite.h"
 #include "RPGBattleMenu.h"
+#include "RPGComputingResults.h"
 #include "OzgCCUtility.h"
 
 enum RPGBattleSceneLayerTag
@@ -87,6 +88,7 @@ public:
     void cancelAllSelected(); //取消全部选中的对象
     
     void attack(CCObject* attackObjData, CCObject* targetObjData); //player或怪物执行攻击
+    void attackResults(CCNode* sender, void* data); //计算攻击后的结果
     
 };
 

@@ -20,9 +20,9 @@
 	<string>防御：%i</string>
 	<key>status_speed</key>
 	<string>速度：%i</string>
-	<key>status_magic_attack</key>
+	<key>status_skill_attack</key>
 	<string>魔攻：%i</string>
-	<key>status_magic_defense</key>
+	<key>status_skill_defense</key>
 	<string>魔防：%i</string>
 	<key>confirm_exit_ok</key>
 	<string>确定</string>

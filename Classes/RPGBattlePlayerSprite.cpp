@@ -7,6 +7,7 @@
 //
 
 #include "RPGBattlePlayerSprite.h"
+#include "RPGBattleSceneLayer.h"
 #include "OzgCCUtility.h"
 
 RPGBattlePlayerSprite::RPGBattlePlayerSprite()
@@ -108,9 +109,7 @@ bool RPGBattlePlayerSprite::initWithPlayerData(RPGPlayer* data)
         
         this->m_isSelected = false;
         
-        CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesNormal, 0.2);
-        CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));        
-        this->runAction(animate);
+        this->animNormal();
         
         return true;
     }
@@ -153,4 +152,27 @@ void RPGBattlePlayerSprite::selected(bool isSelected)
             handCursor->removeFromParentAndCleanup(true);
     }
     
+}
+
+void RPGBattlePlayerSprite::animNormal()
+{
+    this->stopAllActions();
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesNormal, 0.2);
+    CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
+    this->runAction(animate);
+}
+
+void RPGBattlePlayerSprite::animAttack(CCObject* target, cocos2d::CCObject *targetObjData)
+{
+    this->stopAllActions();
+    
+    SimpleAudioEngine::sharedEngine()->playEffect("audio_battle_attack1.wav");
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesAttack, 0.15);
+    
+    //挥动武器的动作跟上面的一起执行
+    //waving
+    
+    this->runAction(CCSequence::createWithTwoActions(CCAnimate::create(animation), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackResults), targetObjData)));
 }

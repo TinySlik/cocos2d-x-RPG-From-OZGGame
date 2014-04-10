@@ -8,6 +8,7 @@
 
 #include "RPGBattleSceneLayer.h"
 #include "RPGLoadingSceneLayer.h"
+#include "RPGComputingResults.h"
 
 #define MONSTER_QUERY "select * from monster where map_id = %i order by random() limit 1"
 
@@ -92,8 +93,8 @@ bool RPGBattleSceneLayer::init()
             playerData->m_attack = query.getFloatField("attack");
             playerData->m_defense = query.getFloatField("defense");
             playerData->m_speed = query.getFloatField("speed");
-            playerData->m_magicAttack = query.getFloatField("magic_attack");
-            playerData->m_magicDefense = query.getFloatField("magic_defense");
+            playerData->m_skillAttack = query.getFloatField("skill_attack");
+            playerData->m_skillDefense = query.getFloatField("skill_defense");
             playerData->m_level = query.getIntField("level");
             playerData->m_name = query.getStringField("name_cns");
             playerData->m_nextExp = query.getIntField("next_exp");
@@ -195,8 +196,8 @@ bool RPGBattleSceneLayer::init()
                 monsterData->m_attack = query.getFloatField("attack");
                 monsterData->m_defense = query.getFloatField("defense");
                 monsterData->m_speed = query.getFloatField("speed");
-                monsterData->m_magicAttack = query.getFloatField("magic_attack");
-                monsterData->m_magicDefense = query.getFloatField("magic_defense");
+                monsterData->m_skillAttack = query.getFloatField("skill_attack");
+                monsterData->m_skillDefense = query.getFloatField("skill_defense");
                 monsterData->m_exp = query.getIntField("exp");
                 monsterData->m_skill = query.getStringField("skill");
                 monsterData->m_tex = query.getStringField("tex");
@@ -372,6 +373,8 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
         {
 //            CCLog("攻击");
             
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+            
             //检测选中的player
             for (int i = 0; i < this->m_playerList->count(); i++)
             {
@@ -541,27 +544,25 @@ void RPGBattleSceneLayer::cancelAllSelected()
 
 void RPGBattleSceneLayer::attack(cocos2d::CCObject *attackObjData, cocos2d::CCObject *targetObjData)
 {
-    CCLog("aaa");
-    
     //发起攻击的对象
     if(dynamic_cast<RPGPlayer*>(attackObjData) != NULL)
     {
-        
+        RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)attackObjData)->m_dataId);
+        player->animAttack(this, targetObjData);
     }
     else if(dynamic_cast<RPGMonster*>(attackObjData) != NULL)
     {
         
     }
     
-    //受到攻击的对象
-    if(dynamic_cast<RPGPlayer*>(targetObjData) != NULL)
-    {
-        
-    }
-    else if(dynamic_cast<RPGMonster*>(targetObjData) != NULL)
-    {
-        
-    }
+}
+
+void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
+{
+    SimpleAudioEngine::sharedEngine()->playEffect("audio_battle_attack2.wav");
+    
+    //计算伤害值
+    
     
 }
 
