@@ -47,7 +47,7 @@ bool RPGMapSkillMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
             mainMenu->addChild(menuBack);
         }
         
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu3_style1.tmx");
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu5_style1.tmx");
         mainBg->setPosition(CCPointZero);
         mainBg->setTag(kRPGMapSkillMenuLayerTagBg);
         this->addChild(mainBg);

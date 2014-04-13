@@ -8,7 +8,7 @@
 
 #include "RPGMapMenuLayer.h"
 #include "RPGMapSceneLayer.h"
-#include "RPGConfirmLayer.h"
+#include "RPGDialogLayer.h"
 #include "RPGStartSceneLayer.h"
 #include "JsonBox.h"
 #include "OzgCCUtility.h"
@@ -147,37 +147,13 @@ void RPGMapMenuLayer::onMenu(cocos2d::CCObject *pObject)
         case kRPGMapMenuLayerTagMainMenuExit:
         {
             //退出
-            RPGConfirmLayer *confirm = RPGConfirmLayer::create(((CCString*)this->m_stringList->objectForKey("confirm_exit"))->getCString(), ((CCString*)this->m_stringList->objectForKey("confirm_exit_ok"))->getCString(), kRPGMapMenuLayerTagConfirmExitOK, ((CCString*)this->m_stringList->objectForKey("confirm_cancel"))->getCString(), kRPGMapMenuLayerTagConfirmCancel, this->m_width, this->m_height, this, menu_selector(RPGMapMenuLayer::onMenu));
-            confirm->setTag(kRPGMapMenuLayerTagConfirm);
-            this->addChild(confirm);
+            RPGDialogLayer *dialog = RPGDialogLayer::create(((CCString*)this->m_stringList->objectForKey("confirm_exit"))->getCString(), ((CCString*)this->m_stringList->objectForKey("confirm_exit_ok"))->getCString(), kRPGMapMenuLayerTagDialogExitOK, ((CCString*)this->m_stringList->objectForKey("confirm_cancel"))->getCString(), kRPGMapMenuLayerTagDialogCancel, this->m_width, this->m_height, this, menu_selector(RPGMapMenuLayer::onDialog));
+            dialog->setTag(kRPGMapMenuLayerTagDialog);
+            this->addChild(dialog);
             
             CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGMapMenuLayerTagMainMenu);
             mainMenu->setEnabled(false);
             
-        }
-            break;
-        case kRPGMapMenuLayerTagConfirmExitOK:
-        {
-            //确定退出
-            RPGMapSceneLayer *mapSceneLayer = (RPGMapSceneLayer*)this->getParent();
-            mapSceneLayer->m_releaseTexture = true;
-            
-            CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(mapSceneLayer);
-            mapSceneLayer->unscheduleUpdate();
-            
-            SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
-            
-            CCScene *s = RPGStartSceneLayer::scene();
-            CCTransitionFade *t = CCTransitionFade::create(GAME_SCENE, s);
-            CCDirector::sharedDirector()->replaceScene(t);
-        }
-            break;
-        case kRPGMapMenuLayerTagConfirmCancel:
-        {
-            this->removeChildByTag(kRPGMapMenuLayerTagConfirm, true);
-            
-            CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGMapMenuLayerTagMainMenu);
-            mainMenu->setEnabled(true);
         }
             break;
         case kRPGMapMenuLayerTagMainMenuItems:
@@ -198,6 +174,40 @@ void RPGMapMenuLayer::onMenu(cocos2d::CCObject *pObject)
             break;
     }
         
+}
+
+void RPGMapMenuLayer::onDialog(cocos2d::CCObject *pObject)
+{
+    CCMenuItem *menuItem = (CCMenuItem*)pObject;
+    SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+    
+    switch (menuItem->getTag())
+    {
+        case kRPGMapMenuLayerTagDialogExitOK:
+        {
+            //确定退出
+            RPGMapSceneLayer *mapSceneLayer = (RPGMapSceneLayer*)this->getParent();
+            mapSceneLayer->m_releaseTexture = true;
+            
+            CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(mapSceneLayer);
+            mapSceneLayer->unscheduleUpdate();
+            
+            SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
+            
+            CCScene *s = RPGStartSceneLayer::scene();
+            CCTransitionFade *t = CCTransitionFade::create(GAME_SCENE, s);
+            CCDirector::sharedDirector()->replaceScene(t);
+        }
+            break;
+        case kRPGMapMenuLayerTagDialogCancel:
+        {
+            this->removeChildByTag(kRPGMapMenuLayerTagDialog, true);
+            
+            CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGMapMenuLayerTagMainMenu);
+            mainMenu->setEnabled(true);
+        }
+            break;
+    }
 }
 
 void RPGMapMenuLayer::createMenuItem(float x, float y, CCString *text, RPGMapMenuLayerTag tag)

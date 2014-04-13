@@ -42,6 +42,10 @@
 	<string>状态</string>
 	<key>menu_items</key>
 	<string>道具</string>
+	<key>menu_items_choice</key>
+	<string>对谁使用[%s]呢？</string>
+	<key>menu_items_fail</key>
+	<string>道具使用失败</string>
 	<key>menu_equip</key>
 	<string>装备</string>
 </dict>

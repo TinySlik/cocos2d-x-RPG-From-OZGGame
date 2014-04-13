@@ -82,3 +82,51 @@ RPGSkill* RPGSkill::create()
 }
 
 //RPGSkill end
+
+RPGItems::RPGItems()
+{
+    
+}
+
+RPGItems::~RPGItems()
+{
+    CCLog("RPGItems 释放");
+}
+
+RPGItems* RPGItems::create()
+{
+    RPGItems *obj = new RPGItems();
+    if(obj)
+    {
+        obj->autorelease();
+        return obj;
+    }
+    CC_SAFE_DELETE(obj);
+    return NULL;
+}
+
+//RPGItems end
+
+RPGExistingItems::RPGExistingItems()
+{
+    
+}
+
+RPGExistingItems::~RPGExistingItems()
+{
+    CCLog("RPGExistingItems 释放");
+}
+
+RPGExistingItems* RPGExistingItems::create()
+{
+    RPGExistingItems *obj = new RPGExistingItems();
+    if(obj)
+    {
+        obj->autorelease();
+        return obj;
+    }
+    CC_SAFE_DELETE(obj);
+    return NULL;
+}
+
+//RPGExistingItems end

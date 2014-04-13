@@ -15,7 +15,7 @@ class RPGMapNPCRoleSprite : public RPGMapRoleSprite
 {
     
 private:
-    bool m_autoMove = false;
+    bool m_autoMove;
     
     void autoMove(float delay);
     void autoMoveEnd();

@@ -11,6 +11,8 @@ ozg game — 单机版RPG
 
 目前只在iOS平台下进行测试，战斗画面的攻击、技能、道具，地图界面的技能、道具均未完成。
 
+每次更新数据库都需要把模拟器里面的数据库删除。
+
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot1.png)
 
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot2.png)

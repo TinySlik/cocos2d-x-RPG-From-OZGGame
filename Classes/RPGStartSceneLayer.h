@@ -18,9 +18,9 @@ enum RPGStartSceneLayerTag
     kRPGStartSceneLayerTagMenu = 2,
     kRPGStartSceneLayerTagMenuItemStart = 3,
     kRPGStartSceneLayerTagMenuItemDelete = 4,
-    kRPGStartSceneLayerTagMenuItemConfirmOK = 5,
-    kRPGStartSceneLayerTagMenuItemConfirmCancel = 6,
-    kRPGStartSceneLayerTagConfirm = 7
+    kRPGStartSceneLayerTagDialogOK = 5,
+    kRPGStartSceneLayerTagDialogCancel = 6,
+    kRPGStartSceneLayerTagDialog = 7
 };
 
 class RPGStartSceneLayer : public RPGBaseSceneLayer
@@ -28,7 +28,8 @@ class RPGStartSceneLayer : public RPGBaseSceneLayer
     
 private:
     void onMenu(CCObject *pObject);
-
+    void onDialog(CCObject *pObject);
+    
 public:
     
     RPGStartSceneLayer();

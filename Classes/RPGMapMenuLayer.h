@@ -30,9 +30,9 @@ enum RPGMapMenuLayerTag
     kRPGMapMenuLayerTagMainMenuClose = 7,
     kRPGMapMenuLayerTagMainMenuExit = 8,
     kRPGMapMenuLayerTagHandCursor = 22,
-    kRPGMapMenuLayerTagConfirmExitOK = 9,
-    kRPGMapMenuLayerTagConfirmCancel = 10,
-    kRPGMapMenuLayerTagConfirm = 11,
+    kRPGMapMenuLayerTagDialogExitOK = 9,
+    kRPGMapMenuLayerTagDialogCancel = 10,
+    kRPGMapMenuLayerTagDialog = 11,
     kRPGMapMenuLayerTagStatusPlayerName = 13,
     kRPGMapMenuLayerTagStatusPlayerLevel = 14,
     kRPGMapMenuLayerTagStatusPlayerHP = 15,
@@ -64,6 +64,8 @@ private:
     float m_height;
         
     void onMenu(CCObject *pObject);
+    void onDialog(CCObject *pObject);
+    
     void createMenuItem(float x, float y, CCString *text, RPGMapMenuLayerTag tag);
     
     void setMainMenuDefault(); //显示右边的菜单

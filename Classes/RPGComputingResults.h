@@ -14,7 +14,7 @@
 
 USING_NS_CC;
 
-class RPGComputingResults : public CCObject
+class RPGComputingResults
 {
     
 public:

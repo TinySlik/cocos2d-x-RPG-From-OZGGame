@@ -31,7 +31,7 @@ public:
     
     void executeLoading(float delay);
     void loadCallBack(CCObject* sender);
-    void goToNextScene();
+    void goToNextScene(float delay);
 };
 
 #endif /* defined(__OzgGameRPG__RPGLoadingSceneLayer__) */

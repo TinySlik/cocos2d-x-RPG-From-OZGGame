@@ -19,6 +19,8 @@ enum RPGMapSceneLayerTag
     kRPGMapSceneLayerTagMainMenu = 3,
     kRPGMapSceneLayerTagMainMenuCommand = 4,
     kRPGMapSceneLayerTagMenuLayer = 5,
+    kRPGMapSceneLayerTagChoicePlayerMenuLayer = 6,
+    kRPGMapSceneLayerTagChoicePlayerLab = 7,
     kRPGMapSceneLayerTagPlayer = 1999,
     kRPGMapSceneLayerTagNPC = 2000
     

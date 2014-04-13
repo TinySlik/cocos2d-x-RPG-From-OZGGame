@@ -15,7 +15,7 @@
 #include "SimpleAudioEngine.h"
 #include "CppSQLite3.h"
 #include "GameCfg.h"
-#include "RPGConfirmLayer.h"
+#include "RPGDialogLayer.h"
 #include "RPGData.h"
 
 USING_NS_CC;
@@ -26,6 +26,12 @@ using namespace CocosDenshion;
 
 //获取player列表
 #define PLAYER_QUERY "select * from player order by id asc"
+
+//获取save_data数据
+#define SAVEDATA_QUERY "select * from save_data where id = 1"
+
+//查询现有道具
+#define ITEMS_QUERY "select * from items where id in(%s) order by id asc"
 
 //技能的属性
 enum RPGSkillAttr

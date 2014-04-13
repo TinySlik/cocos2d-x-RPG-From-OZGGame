@@ -79,6 +79,7 @@ class RPGSkill : public CCObject
 {
     
 public:
+    int m_dataId;
     string m_name;
     float m_skillAttack;
     int m_mp;
@@ -87,6 +88,43 @@ public:
     virtual ~RPGSkill();
     
     static RPGSkill* create();
+};
+
+class RPGItems : public CCObject
+{
+    
+public:
+    
+    int m_dataId;
+    string m_name;
+    float m_buy;
+    float m_sell;
+    int m_type;
+    float m_attack;
+    float m_defense;
+    float m_speed;
+    float m_skillAttack;
+    float m_skillDefense;
+    
+    RPGItems();
+    virtual ~RPGItems();
+    
+    static RPGItems* create();
+    
+};
+
+//现有道具，数据库没有这个表
+class RPGExistingItems : public RPGItems
+{
+    
+public:
+    
+    int m_total; //该道具的个数
+    
+    RPGExistingItems();
+    virtual ~RPGExistingItems();
+    
+    static RPGExistingItems* create();
 };
 
 #endif /* defined(__OzgGameRPG__RPGData__) */

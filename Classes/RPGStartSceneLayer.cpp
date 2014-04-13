@@ -100,28 +100,12 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
         {
             CCSize winSize = CCDirector::sharedDirector()->getWinSize();
             
-            RPGConfirmLayer *confirm = RPGConfirmLayer::create(((CCString*)this->m_stringList->objectForKey("confirm_delete"))->getCString(), ((CCString*)this->m_stringList->objectForKey("confirm_ok"))->getCString(), kRPGStartSceneLayerTagMenuItemConfirmOK, ((CCString*)this->m_stringList->objectForKey("confirm_cancel"))->getCString(), kRPGStartSceneLayerTagMenuItemConfirmCancel, winSize.width, winSize.height, this, menu_selector(RPGStartSceneLayer::onMenu));
-            confirm->setTag(kRPGStartSceneLayerTagConfirm);
-            this->addChild(confirm);
+            RPGDialogLayer *dialog = RPGDialogLayer::create(((CCString*)this->m_stringList->objectForKey("confirm_delete"))->getCString(), ((CCString*)this->m_stringList->objectForKey("confirm_ok"))->getCString(), kRPGStartSceneLayerTagDialogOK, ((CCString*)this->m_stringList->objectForKey("confirm_cancel"))->getCString(), kRPGStartSceneLayerTagDialogCancel, winSize.width, winSize.height, this, menu_selector(RPGStartSceneLayer::onDialog));
+            dialog->setTag(kRPGStartSceneLayerTagDialog);
+            this->addChild(dialog);
             
             CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGStartSceneLayerTagMenu);
             mainMenu->setEnabled(false);
-        }
-            break;            
-        case kRPGStartSceneLayerTagMenuItemConfirmOK:
-        {
-            this->m_db.execDML("delete from save_data; delete from player;");
-            this->m_db.execDML(GAME_INIT_SQL);
-            
-            this->goToMapScene();
-        }
-            break;
-        case kRPGStartSceneLayerTagMenuItemConfirmCancel:
-        {
-            this->removeChildByTag(kRPGStartSceneLayerTagConfirm, true);
-            
-            CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGStartSceneLayerTagMenu);
-            mainMenu->setEnabled(true);
         }
             break;
         default:
@@ -132,6 +116,35 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
             break;
     }
     
+}
+
+void RPGStartSceneLayer::onDialog(cocos2d::CCObject *pObject)
+{
+    SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+    
+    CCMenuItem *menuItem = (CCMenuItem*)pObject;
+    
+    switch (menuItem->getTag())
+    {
+        case kRPGStartSceneLayerTagDialogCancel:
+        {
+            this->removeChildByTag(kRPGStartSceneLayerTagDialog, true);
+            
+            CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGStartSceneLayerTagMenu);
+            mainMenu->setEnabled(true);
+        }
+            break;
+        default:
+        {
+            //kRPGStartSceneLayerTagMenuItemDialogOK
+            
+            this->m_db.execDML("delete from save_data;");
+            this->m_db.execDML(GAME_INIT_SQL);
+            
+            this->goToMapScene();
+        }
+            break;
+    }
 }
 
 void RPGStartSceneLayer::goToMapScene()

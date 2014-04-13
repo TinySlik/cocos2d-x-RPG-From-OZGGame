@@ -95,7 +95,7 @@ void RPGLoadingSceneLayer::executeLoading(float delay)
         CCTextureCache::sharedTextureCache()->addImageAsync(loadTexture->getCString(), this, callfuncO_selector(RPGLoadingSceneLayer::loadCallBack));
     }
     else
-        this->goToNextScene();
+        this->goToNextScene(0);
     
 }
 
@@ -106,7 +106,7 @@ void RPGLoadingSceneLayer::loadCallBack(cocos2d::CCObject *sender)
     {
         //完毕
         //CCLog("loading 100%%");
-        this->goToNextScene();
+        this->goToNextScene(0);
     }
     else
     {
@@ -120,7 +120,7 @@ void RPGLoadingSceneLayer::loadCallBack(cocos2d::CCObject *sender)
     
 }
 
-void RPGLoadingSceneLayer::goToNextScene()
+void RPGLoadingSceneLayer::goToNextScene(float delay)
 {
     //CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
     CCScene *s = NULL;

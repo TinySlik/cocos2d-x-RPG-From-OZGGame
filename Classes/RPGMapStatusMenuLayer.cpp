@@ -12,7 +12,7 @@
 #include "OzgCCUtility.h"
 
 //获取一个player的详细数据
-#define PLAYER_QUERY_DETAIL "select p.*, arms.name_cns as arms_name, armor.name_cns as armor_name from player as p left join items as arms on p.items_id_arms = arms.id left join items as armor on p.items_id_armor = armor.id where p.id = %i"
+#define PLAYER_DETAIL_QUERY "select p.*, arms.name_cns as arms_name, armor.name_cns as armor_name from player as p left join items as arms on p.items_id_arms = arms.id left join items as armor on p.items_id_armor = armor.id where p.id = %i"
 
 //查询一个角色的技能
 #define SKILL_QUERY "select * from skill where id in(%s)"
@@ -185,7 +185,7 @@ void RPGMapStatusMenuLayer::setStatusPlayer(int dataId)
 {
     this->removeAllPlayerLab();
     
-    CppSQLite3Query query = this->m_db->execQuery(CCString::createWithFormat(PLAYER_QUERY_DETAIL, dataId)->getCString());
+    CppSQLite3Query query = this->m_db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, dataId)->getCString());
     while(!query.eof())
     {
         //左边
@@ -228,6 +228,7 @@ void RPGMapStatusMenuLayer::setStatusPlayer(int dataId)
             while(!skillQuery.eof())
             {
                 RPGSkill *skill = RPGSkill::create();
+                skill->m_dataId = skillQuery.getIntField("id");
                 skill->m_name = skillQuery.getStringField("name_cns");
                 skill->m_mp = skillQuery.getIntField("mp");
                 skill->m_skillAttack = skillQuery.getIntField("skill_attack");

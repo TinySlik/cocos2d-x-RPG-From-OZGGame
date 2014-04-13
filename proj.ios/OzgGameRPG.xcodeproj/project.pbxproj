@@ -220,7 +220,7 @@
 		8936C3B518F6D72100AE709E /* select_player_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8936C3B418F6D72100AE709E /* select_player_style1.tmx */; };
 		895EC07318F05AE600C3814D /* RPGData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 895EC07118F05AE600C3814D /* RPGData.cpp */; };
 		8960C17F18E7D0BD0075EF99 /* alert_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8960C17E18E7D0BD0075EF99 /* alert_style1.tmx */; };
-		8960C18218E7D51C0075EF99 /* RPGConfirmLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8960C18018E7D51C0075EF99 /* RPGConfirmLayer.cpp */; };
+		8960C18218E7D51C0075EF99 /* RPGDialogLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8960C18018E7D51C0075EF99 /* RPGDialogLayer.cpp */; };
 		896BAEE618EF04CF006581FD /* audio_battle_end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 896BAEE318EF04CF006581FD /* audio_battle_end.mp3 */; };
 		896BAEE718EF04CF006581FD /* audio_battle_menu.wav in Resources */ = {isa = PBXBuildFile; fileRef = 896BAEE418EF04CF006581FD /* audio_battle_menu.wav */; };
 		896BAEE818EF04CF006581FD /* audio_battle_start.wav in Resources */ = {isa = PBXBuildFile; fileRef = 896BAEE518EF04CF006581FD /* audio_battle_start.wav */; };
@@ -229,6 +229,8 @@
 		8988A4E318F42EDB004277ED /* RPGComputingResults.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8988A4E118F42EDB004277ED /* RPGComputingResults.cpp */; };
 		8999051A18F17A3D00012A0E /* RPGBattleMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8999051818F17A3D00012A0E /* RPGBattleMenu.cpp */; };
 		8999051D18F17E6C00012A0E /* battle_battlemenu_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8999051C18F17E6C00012A0E /* battle_battlemenu_style1.tmx */; };
+		89B2115B18FAAC3B0019F01C /* map_menu5_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 89B2115A18FAAC3B0019F01C /* map_menu5_style1.tmx */; };
+		89B2115E18FAC7180019F01C /* RPGResultsLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89B2115C18FAC7180019F01C /* RPGResultsLogic.cpp */; };
 		89CB7D7F18E9A47800A5921B /* map_menu1_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 89CB7D7C18E9A47800A5921B /* map_menu1_style1.tmx */; };
 		89CB7D8018E9A47800A5921B /* map_menu2_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 89CB7D7D18E9A47800A5921B /* map_menu2_style1.tmx */; };
 		89CB7D8118E9A47800A5921B /* map_menu3_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 89CB7D7E18E9A47800A5921B /* map_menu3_style1.tmx */; };
@@ -827,8 +829,8 @@
 		895EC07118F05AE600C3814D /* RPGData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGData.cpp; path = ../Classes/RPGData.cpp; sourceTree = "<group>"; };
 		895EC07218F05AE600C3814D /* RPGData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGData.h; path = ../Classes/RPGData.h; sourceTree = "<group>"; };
 		8960C17E18E7D0BD0075EF99 /* alert_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = alert_style1.tmx; sourceTree = "<group>"; };
-		8960C18018E7D51C0075EF99 /* RPGConfirmLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGConfirmLayer.cpp; path = ../Classes/RPGConfirmLayer.cpp; sourceTree = "<group>"; };
-		8960C18118E7D51C0075EF99 /* RPGConfirmLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGConfirmLayer.h; path = ../Classes/RPGConfirmLayer.h; sourceTree = "<group>"; };
+		8960C18018E7D51C0075EF99 /* RPGDialogLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGDialogLayer.cpp; path = ../Classes/RPGDialogLayer.cpp; sourceTree = "<group>"; };
+		8960C18118E7D51C0075EF99 /* RPGDialogLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGDialogLayer.h; path = ../Classes/RPGDialogLayer.h; sourceTree = "<group>"; };
 		896BAEE318EF04CF006581FD /* audio_battle_end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio_battle_end.mp3; sourceTree = "<group>"; };
 		896BAEE418EF04CF006581FD /* audio_battle_menu.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_battle_menu.wav; sourceTree = "<group>"; };
 		896BAEE518EF04CF006581FD /* audio_battle_start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_battle_start.wav; sourceTree = "<group>"; };
@@ -839,6 +841,9 @@
 		8999051818F17A3D00012A0E /* RPGBattleMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGBattleMenu.cpp; path = ../Classes/RPGBattleMenu.cpp; sourceTree = "<group>"; };
 		8999051918F17A3D00012A0E /* RPGBattleMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGBattleMenu.h; path = ../Classes/RPGBattleMenu.h; sourceTree = "<group>"; };
 		8999051C18F17E6C00012A0E /* battle_battlemenu_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = battle_battlemenu_style1.tmx; sourceTree = "<group>"; };
+		89B2115A18FAAC3B0019F01C /* map_menu5_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_menu5_style1.tmx; sourceTree = "<group>"; };
+		89B2115C18FAC7180019F01C /* RPGResultsLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGResultsLogic.cpp; path = ../Classes/RPGResultsLogic.cpp; sourceTree = "<group>"; };
+		89B2115D18FAC7180019F01C /* RPGResultsLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGResultsLogic.h; path = ../Classes/RPGResultsLogic.h; sourceTree = "<group>"; };
 		89CB7D7C18E9A47800A5921B /* map_menu1_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_menu1_style1.tmx; sourceTree = "<group>"; };
 		89CB7D7D18E9A47800A5921B /* map_menu2_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_menu2_style1.tmx; sourceTree = "<group>"; };
 		89CB7D7E18E9A47800A5921B /* map_menu3_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_menu3_style1.tmx; sourceTree = "<group>"; };
@@ -2370,10 +2375,12 @@
 				89F5D0D718E7C579009D703C /* RPGMapSceneLayer.h */,
 				89F5D0D818E7C579009D703C /* RPGStartSceneLayer.cpp */,
 				89F5D0D918E7C579009D703C /* RPGStartSceneLayer.h */,
-				8960C18018E7D51C0075EF99 /* RPGConfirmLayer.cpp */,
-				8960C18118E7D51C0075EF99 /* RPGConfirmLayer.h */,
+				8960C18018E7D51C0075EF99 /* RPGDialogLayer.cpp */,
+				8960C18118E7D51C0075EF99 /* RPGDialogLayer.h */,
 				8988A4E118F42EDB004277ED /* RPGComputingResults.cpp */,
 				8988A4E218F42EDB004277ED /* RPGComputingResults.h */,
+				89B2115C18FAC7180019F01C /* RPGResultsLogic.cpp */,
+				89B2115D18FAC7180019F01C /* RPGResultsLogic.h */,
 				F293BB7E15EB831F00256477 /* AppDelegate.cpp */,
 				F293BB7F15EB831F00256477 /* AppDelegate.h */,
 			);
@@ -2400,6 +2407,7 @@
 				89CB7D7D18E9A47800A5921B /* map_menu2_style1.tmx */,
 				89CB7D7E18E9A47800A5921B /* map_menu3_style1.tmx */,
 				9E427D0418EBBA9F00DA4E79 /* map_menu4_style1.tmx */,
+				89B2115A18FAAC3B0019F01C /* map_menu5_style1.tmx */,
 				89F5D14E18E7C5E5009D703C /* db.sys */,
 				89F5D12C18E7C5DD009D703C /* joystick.plist */,
 				89F5D12D18E7C5DD009D703C /* joystick.png */,
@@ -2568,6 +2576,7 @@
 				89E63C7718ED83C900BDD04F /* actor5_2.png in Resources */,
 				89CB7D7F18E9A47800A5921B /* map_menu1_style1.tmx in Resources */,
 				89F5D12A18E7C5CC009D703C /* audio_map_03.mp3 in Resources */,
+				89B2115B18FAAC3B0019F01C /* map_menu5_style1.tmx in Resources */,
 				89E63C7D18ED83C900BDD04F /* actor8_3.png in Resources */,
 				89F5D11A18E7C5C0009D703C /* actor111.png in Resources */,
 				89E63C7B18ED83C900BDD04F /* actor8_1.png in Resources */,
@@ -2764,6 +2773,7 @@
 				298B2A3618D0671400C1920F /* LoadingBarReader.cpp in Sources */,
 				15C1552A1683118600D239F2 /* b2PolygonShape.cpp in Sources */,
 				15C1552B1683118600D239F2 /* b2BlockAllocator.cpp in Sources */,
+				89B2115E18FAC7180019F01C /* RPGResultsLogic.cpp in Sources */,
 				89F5D0DD18E7C579009D703C /* OzgJoystickLayer.cpp in Sources */,
 				15CA8CF618696744000032AB /* lua_cocos2dx_manual.cpp in Sources */,
 				15C1552C1683118600D239F2 /* b2Draw.cpp in Sources */,
@@ -2843,7 +2853,7 @@
 				89EA57E218EB16F100A10956 /* Escaper.cpp in Sources */,
 				ED35C0F318323498002A0750 /* UISlider.cpp in Sources */,
 				46C1009116BF786A00F74D54 /* LuaCocos2d.cpp in Sources */,
-				8960C18218E7D51C0075EF99 /* RPGConfirmLayer.cpp in Sources */,
+				8960C18218E7D51C0075EF99 /* RPGDialogLayer.cpp in Sources */,
 				46C1009216BF786A00F74D54 /* CCLuaObjcBridge.mm in Sources */,
 				46C1009316BF786A00F74D54 /* tolua_fix.c in Sources */,
 				1A40E7DF1727C47E006D4861 /* Animation.cpp in Sources */,
