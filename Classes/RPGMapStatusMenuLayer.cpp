@@ -11,12 +11,6 @@
 #include "RPGMapSceneLayer.h"
 #include "OzgCCUtility.h"
 
-//获取一个player的详细数据
-#define PLAYER_DETAIL_QUERY "select p.*, arms.name_cns as arms_name, armor.name_cns as armor_name from player as p left join items as arms on p.items_id_arms = arms.id left join items as armor on p.items_id_armor = armor.id where p.id = %i"
-
-//查询一个角色的技能
-#define SKILL_QUERY "select * from skill where id in(%s)"
-
 RPGMapStatusMenuLayer::RPGMapStatusMenuLayer()
 {
 
@@ -27,7 +21,7 @@ RPGMapStatusMenuLayer::~RPGMapStatusMenuLayer()
     this->m_stringList->release();
     this->m_skillList->release();
     
-//    CCLog("RPGMapStatusMenuLayer 释放");
+    CCLog("RPGMapStatusMenuLayer 释放");
 }
 
 bool RPGMapStatusMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB *db, float width, float height)
@@ -70,14 +64,25 @@ bool RPGMapStatusMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB
         CppSQLite3Query query = this->m_db->execQuery(PLAYER_QUERY);
         while(!query.eof())
         {
-            CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_0.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+            CCSprite *playerSprite = NULL;
+            if(query.getIntField("hp") <= 0)
+            {
+                //死亡
+                CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_2.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+                playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(10));
+            }
+            else
+            {
+                //正常
+                CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_0.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+                playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(1));
+            }
             
-            CCSprite *playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(1));
             CCMenuItemSprite *player = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGMapStatusMenuLayerTagMainMenuPlayer + query.getIntField("id"));
             if(!player)
             {
                 player = CCMenuItemSprite::create(playerSprite, playerSprite, this, menu_selector(RPGMapStatusMenuLayer::onMenu));
-                player->cocos2d::CCNode::setPosition(ccp(playerX, 560));
+                player->setPosition(ccp(playerX, 560));
                 player->setScale(2);
                 player->setTag(kRPGMapStatusMenuLayerTagMainMenuPlayer + query.getIntField("id"));
                 mainMenu->addChild(player);
@@ -141,9 +146,9 @@ void RPGMapStatusMenuLayer::onMenu(cocos2d::CCObject *pObject)
             break;
     }
     
-    //player status
     if(menuItem->getTag() >= kRPGMapStatusMenuLayerTagMainMenuPlayer && menuItem->getTag() <= kRPGMapStatusMenuLayerTagMainMenuPlayer + 99)
     {
+//        CCLog("点击了上面4个player的其中一个");
         CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGMapMenuLayerTagMainMenu);
         
         CppSQLite3Query query = this->m_db->execQuery(PLAYER_QUERY);
@@ -230,8 +235,9 @@ void RPGMapStatusMenuLayer::setStatusPlayer(int dataId)
                 RPGSkill *skill = RPGSkill::create();
                 skill->m_dataId = skillQuery.getIntField("id");
                 skill->m_name = skillQuery.getStringField("name_cns");
-                skill->m_mp = skillQuery.getIntField("mp");
+                skill->m_MP = skillQuery.getIntField("mp");
                 skill->m_skillAttack = skillQuery.getIntField("skill_attack");
+                skill->m_type = skillQuery.getIntField("type");
                 
                 this->m_skillList->addObject(skill);
                 
@@ -338,7 +344,7 @@ CCTableViewCell* RPGMapStatusMenuLayer::tableCellAtIndex(CCTableView *tableView,
         
         RPGSkill *skillData = (RPGSkill*)this->m_skillList->objectAtIndex(index);
         
-        CCLabelTTF *textLab = CCLabelTTF::create(CCString::createWithFormat("%s (%i)", skillData->m_name.c_str(), skillData->m_mp)->getCString(), "Arial", 20, CCSizeMake(200, 25), kCCTextAlignmentLeft);
+        CCLabelTTF *textLab = CCLabelTTF::create(CCString::createWithFormat("%s (%i)", skillData->m_name.c_str(), skillData->m_MP)->getCString(), "Arial", 20, CCSizeMake(200, 25), kCCTextAlignmentLeft);
         textLab->setPosition(ccp(x, 0));
         cell->addChild(textLab);
         

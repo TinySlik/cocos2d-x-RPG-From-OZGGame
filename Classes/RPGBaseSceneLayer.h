@@ -33,6 +33,12 @@ using namespace CocosDenshion;
 //查询现有道具
 #define ITEMS_QUERY "select * from items where id in(%s) order by id asc"
 
+//获取一个player的详细数据
+#define PLAYER_DETAIL_QUERY "select p.*, arms.name_cns as arms_name, armor.name_cns as armor_name from player as p left join items as arms on p.items_id_arms = arms.id left join items as armor on p.items_id_armor = armor.id where p.id = %i"
+
+//查询一个角色的技能
+#define SKILL_QUERY "select * from skill where id in(%s)"
+
 //技能的属性
 enum RPGSkillAttr
 {

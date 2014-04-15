@@ -25,6 +25,8 @@ public:
     static void deductionsItems(CppSQLite3DB* db, int itemsId); //扣减道具数
     static bool useItems(CppSQLite3DB* db, int playerId, int itemsId); //使用道具，返回成功或失败
     
+    static bool useSkillCure(CppSQLite3DB* db, int srcPlayerId, int targetPlayerId, int srcSkillId); //使用回复技能
+    
 };
 
 #endif /* defined(__OzgGameRPG__RPGResultsLogic__) */

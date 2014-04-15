@@ -82,7 +82,8 @@ public:
     int m_dataId;
     string m_name;
     float m_skillAttack;
-    int m_mp;
+    int m_MP;
+    int m_type;
     
     RPGSkill();
     virtual ~RPGSkill();

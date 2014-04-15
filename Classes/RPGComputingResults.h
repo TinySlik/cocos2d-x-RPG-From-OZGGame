@@ -21,7 +21,7 @@ public:
     
     static int attackResults(float attack, float defense); //一般攻击
     static int skillAttackResults(float playerSkillAttack, float skillAttack, RPGSkillAttr attackAttr, float skillDefense, RPGSkillAttr defenseAttr); //技能攻击
-    static int skillCureResults(float playerSkillAttack, float skillAttack); //治疗
+    static int skillCureResults(float playerSkillAttack, float skillAttack); //技能治疗
     
     static int itemCure(int itemsId); //道具治疗
     

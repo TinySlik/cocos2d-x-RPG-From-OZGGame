@@ -28,7 +28,7 @@ RPGMapMenuLayer::~RPGMapMenuLayer()
     
 //    CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
     
-//    CCLog("RPGMapMenuLayer释放");
+    CCLog("RPGMapMenuLayer释放");
 }
 
 bool RPGMapMenuLayer::init(CCDictionary* stringList, CppSQLite3DB* db, float width, float height)
@@ -280,9 +280,20 @@ void RPGMapMenuLayer::setDefaultInterface()
     CppSQLite3Query query = this->m_db->execQuery(PLAYER_QUERY);
     while(!query.eof())
     {
-        CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_0.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+        CCSprite *playerSprite = NULL;
+        if(query.getIntField("hp") <= 0)
+        {
+            //死亡
+            CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_2.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+            playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(10));
+        }
+        else
+        {
+            //正常
+            CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_0.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+            playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(1));
+        }
         
-        CCSprite *playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(1));
         playerSprite->setPosition(ccp(150, playerY));
         playerSprite->setScale(2);
         playerSprite->setTag(kRPGMapMenuLayerTagDefualtPlayerTex + query.getIntField("id"));

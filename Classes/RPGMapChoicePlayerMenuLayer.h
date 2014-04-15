@@ -22,6 +22,7 @@
 
 #include "cocos2d.h"
 #include "RPGBaseSceneLayer.h"
+#include "RPGBaseSceneLayer.h"
 #include "OzgCCUtility.h"
 
 USING_NS_CC;
@@ -29,7 +30,9 @@ USING_NS_CC;
 enum RPGMapChoicePlayerMenuLayerTag
 {
     kRPGMapChoicePlayerMenuLayerTagMainMenu = 1,
+    kRPGMapChoicePlayerMenuLayerTagMainMenuBack = 4,
     kRPGMapChoicePlayerMenuLayerTagBg = 2,
+    kRPGMapChoicePlayerMenuLayerTagTitleLab = 3,
     kRPGMapChoicePlayerMenuLayerTagMainMenuPlayer = 100
 };
 
@@ -48,8 +51,8 @@ public:
     RPGMapChoicePlayerMenuLayer();
     virtual ~RPGMapChoicePlayerMenuLayer();
     
-    bool init(CppSQLite3DB *db, CCObject* target, SEL_CallFuncO selector, float width, float height);
-    static RPGMapChoicePlayerMenuLayer* create(CppSQLite3DB *db, CCObject* target, SEL_CallFuncO selector, float width, float height);
+    bool init(CppSQLite3DB *db, CCString* titleLab, CCObject* target, SEL_CallFuncO selector, float width, float height);
+    static RPGMapChoicePlayerMenuLayer* create(CppSQLite3DB *db, CCString* titleLab, CCObject* target, SEL_CallFuncO selector, float width, float height);
 };
 
 #endif /* defined(__OzgGameRPG__RPGMapChoicePlayerMenuLayer__) */

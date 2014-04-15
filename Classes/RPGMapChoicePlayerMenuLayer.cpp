@@ -21,7 +21,7 @@ RPGMapChoicePlayerMenuLayer::~RPGMapChoicePlayerMenuLayer()
     CCLog("RPGMapChoicePlayerMenuLayer 释放");
 }
 
-bool RPGMapChoicePlayerMenuLayer::init(CppSQLite3DB *db, CCObject* target, SEL_CallFuncO selector, float width, float height)
+bool RPGMapChoicePlayerMenuLayer::init(CppSQLite3DB *db, CCString* titleLab, CCObject* target, SEL_CallFuncO selector,  float width, float height)
 {
     if(CCLayerColor::initWithColor(ccc4(0, 0, 0, 200), width, height))
     {
@@ -41,6 +41,16 @@ bool RPGMapChoicePlayerMenuLayer::init(CppSQLite3DB *db, CCObject* target, SEL_C
         mainMenu->setPosition(CCPointZero);
         this->addChild(mainMenu);
         
+        CCMenuItemSprite *menuBack = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGMapChoicePlayerMenuLayerTagMainMenuBack);
+        if(!menuBack)
+        {
+            menuBack = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGMapChoicePlayerMenuLayer::onMenu));
+            menuBack->setPosition(ccp(40, 600));
+            menuBack->setTag(kRPGMapChoicePlayerMenuLayerTagMainMenuBack);
+            menuBack->setScale(0.5);
+            mainMenu->addChild(menuBack);
+        }
+        
         this->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - width) / 2, (CCDirector::sharedDirector()->getWinSize().height - height) / 2));
         
         //显示4个角色
@@ -48,9 +58,20 @@ bool RPGMapChoicePlayerMenuLayer::init(CppSQLite3DB *db, CCObject* target, SEL_C
         CppSQLite3Query query = this->m_db->execQuery(PLAYER_QUERY);
         while(!query.eof())
         {
-            CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_0.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+            CCSprite *playerSprite = NULL;
+            if(query.getIntField("hp") <= 0)
+            {
+                //死亡
+                CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_2.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+                playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(10));
+            }
+            else
+            {
+                //正常
+                CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_0.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+                playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(1));
+            }
             
-            CCSprite *playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(1));
             CCMenuItemSprite *player = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGMapChoicePlayerMenuLayerTagMainMenuPlayer + query.getIntField("id"));
             if(!player)
             {
@@ -66,6 +87,8 @@ bool RPGMapChoicePlayerMenuLayer::init(CppSQLite3DB *db, CCObject* target, SEL_C
         }
         query.finalize();
         
+        addLab(this, kRPGMapChoicePlayerMenuLayerTagTitleLab, titleLab, ccp(600, 400));
+        
         CCNotificationCenter::sharedNotificationCenter()->addObserver(this->m_target, selector, "onChoicePlayer", NULL);
         
         return true;
@@ -73,10 +96,10 @@ bool RPGMapChoicePlayerMenuLayer::init(CppSQLite3DB *db, CCObject* target, SEL_C
     return false;
 }
 
-RPGMapChoicePlayerMenuLayer* RPGMapChoicePlayerMenuLayer::create(CppSQLite3DB *db, CCObject* target, SEL_CallFuncO selector, float width, float height)
+RPGMapChoicePlayerMenuLayer* RPGMapChoicePlayerMenuLayer::create(CppSQLite3DB *db, CCString* titleLab, CCObject* target, SEL_CallFuncO selector, float width, float height)
 {
     RPGMapChoicePlayerMenuLayer *obj = new RPGMapChoicePlayerMenuLayer();
-    if(obj && obj->init(db, target, selector, width, height))
+    if(obj && obj->init(db, titleLab, target, selector, width, height))
     {
         obj->autorelease();
         return obj;
@@ -88,4 +111,5 @@ RPGMapChoicePlayerMenuLayer* RPGMapChoicePlayerMenuLayer::create(CppSQLite3DB *d
 void RPGMapChoicePlayerMenuLayer::onMenu(cocos2d::CCObject *pObject)
 {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("onChoicePlayer", pObject);
+    
 }

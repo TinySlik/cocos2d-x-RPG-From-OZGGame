@@ -38,12 +38,16 @@
 	<string>退出</string>
 	<key>menu_skill</key>
 	<string>技能</string>
+	<key>menu_skill_choice</key>
+	<string>对谁使用[%s]技能呢？</string>
+	<key>menu_skill_fail</key>
+	<string>技能使用失败</string>
 	<key>menu_status</key>
 	<string>状态</string>
 	<key>menu_items</key>
 	<string>道具</string>
 	<key>menu_items_choice</key>
-	<string>对谁使用[%s]呢？</string>
+	<string>对谁使用[%s]道具呢？</string>
 	<key>menu_items_fail</key>
 	<string>道具使用失败</string>
 	<key>menu_equip</key>

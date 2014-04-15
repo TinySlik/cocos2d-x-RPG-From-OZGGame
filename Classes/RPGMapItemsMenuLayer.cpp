@@ -248,8 +248,8 @@ void RPGMapItemsMenuLayer::onMenu(cocos2d::CCObject *pObject)
 void RPGMapItemsMenuLayer::onDialog(cocos2d::CCObject *pObject)
 {
     this->getParent()->removeChildByTag(kRPGMapItemsMenuLayerTagDialog, true);
+    this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg, true);
     this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
-    this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerLab, true);
     this->setVisible(true);
 }
 
@@ -272,12 +272,18 @@ void RPGMapItemsMenuLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent e
     //因为动态获取地图的大小会导致了菜单层显示错位，所以定死了
     float width = 960;
     float height = 640;
-    RPGMapChoicePlayerMenuLayer *choicePlayer = RPGMapChoicePlayerMenuLayer::create(this->m_db, this, callfuncO_selector(RPGMapItemsMenuLayer::onChoicePlayer), width, height);
+    
+    //临时背景
+    CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu3_style1.tmx");
+    mainBg->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, CCDirector::sharedDirector()->getWinSize().height / 2));
+    mainBg->setAnchorPoint(ccp(0.5, 0.5));
+    mainBg->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg);
+    this->getParent()->addChild(mainBg);
+    
+    CCString *title = CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_items_choice"))->getCString(), this->m_selectedItems->m_name.c_str());
+    RPGMapChoicePlayerMenuLayer *choicePlayer = RPGMapChoicePlayerMenuLayer::create(this->m_db, title, this, callfuncO_selector(RPGMapItemsMenuLayer::onChoicePlayer), width, height);
     choicePlayer->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer);
     this->getParent()->addChild(choicePlayer);
-    
-    CCString *labText = CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_items_choice"))->getCString(), this->m_selectedItems->m_name.c_str());
-    addLab(this->getParent(), kRPGMapSceneLayerTagChoicePlayerLab, labText, ccp(650, 470));
     
     this->setVisible(false);
 }
@@ -286,25 +292,35 @@ void RPGMapItemsMenuLayer::onChoicePlayer(cocos2d::CCObject *pObject)
 {
     SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
     
-    CCMenuItem *player = (CCMenuItem*)pObject;
-    
-    bool isSuccess = RPGResultsLogic::useItems(this->m_db, player->getTag() - kRPGMapChoicePlayerMenuLayerTagMainMenuPlayer, this->m_selectedItems->m_dataId);
-    if(!isSuccess)
+    CCMenuItem *menuItem = (CCMenuItem*)pObject;
+    if(menuItem->getTag() == kRPGMapChoicePlayerMenuLayerTagMainMenuBack)
     {
-        //道具使用失败
-        CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-        RPGDialogLayer *dialog = RPGDialogLayer::create(((CCString*)this->m_stringList->objectForKey("menu_items_fail"))->getCString(), ((CCString*)this->m_stringList->objectForKey("confirm_exit_ok"))->getCString(), kRPGMapItemsMenuLayerTagDialogOK, winSize.width, winSize.height, this, menu_selector(RPGMapItemsMenuLayer::onDialog));
-        dialog->setTag(kRPGMapItemsMenuLayerTagDialog);
-        this->getParent()->addChild(dialog);
-        
+        //按了退出
+        this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg, true);
+        this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
+        this->setVisible(true);
     }
     else
     {
-        //道具使用成功
-        this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
-        this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerLab, true);
-        this->setVisible(true);
-        
-        this->loadItemsData();
+        bool isSuccess = RPGResultsLogic::useItems(this->m_db, menuItem->getTag() - kRPGMapChoicePlayerMenuLayerTagMainMenuPlayer, this->m_selectedItems->m_dataId);
+        if(!isSuccess)
+        {
+            //道具使用失败
+            CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+            RPGDialogLayer *dialog = RPGDialogLayer::create(((CCString*)this->m_stringList->objectForKey("menu_items_fail"))->getCString(), ((CCString*)this->m_stringList->objectForKey("confirm_exit_ok"))->getCString(), kRPGMapItemsMenuLayerTagDialogOK, winSize.width, winSize.height, this, menu_selector(RPGMapItemsMenuLayer::onDialog));
+            dialog->setTag(kRPGMapItemsMenuLayerTagDialog);
+            this->getParent()->addChild(dialog);
+            
+        }
+        else
+        {
+            //道具使用成功
+            this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg, true);
+            this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
+            this->setVisible(true);
+            
+            this->loadItemsData();
+        }
     }
+    
 }
