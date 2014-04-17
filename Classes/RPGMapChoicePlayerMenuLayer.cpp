@@ -108,6 +108,27 @@ RPGMapChoicePlayerMenuLayer* RPGMapChoicePlayerMenuLayer::create(CppSQLite3DB *d
     return NULL;
 }
 
+void RPGMapChoicePlayerMenuLayer::setHidden(bool isHidden)
+{
+    CCTMXTiledMap *mainBg = (CCTMXTiledMap*)this->getChildByTag(kRPGMapChoicePlayerMenuLayerTagBg);
+    mainBg->setVisible(!isHidden);
+    
+    CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGMapChoicePlayerMenuLayerTagMainMenu);
+    
+    CppSQLite3Query query = this->m_db->execQuery(PLAYER_QUERY);
+    while(!query.eof())
+    {
+        CCMenuItemSprite *player = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGMapChoicePlayerMenuLayerTagMainMenuPlayer + query.getIntField("id"));
+        player->setVisible(!isHidden);
+        query.nextRow();
+    }
+    query.finalize();
+    
+    CCLabelTTF *titleLab = (CCLabelTTF*)this->getChildByTag(kRPGMapChoicePlayerMenuLayerTagTitleLab);
+    titleLab->setVisible(!isHidden);
+    
+}
+
 void RPGMapChoicePlayerMenuLayer::onMenu(cocos2d::CCObject *pObject)
 {
     CCNotificationCenter::sharedNotificationCenter()->postNotification("onChoicePlayer", pObject);

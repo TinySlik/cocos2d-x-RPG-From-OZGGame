@@ -37,7 +37,7 @@ bool RPGMapSkillMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
         this->m_skillList = new CCArray();
         this->m_skillList->init();
         
-        this->m_statusIsDefault = true;
+        this->m_isDefault = true;
         
         this->m_enabledPlayerSkill = true; //默认可以点击技能项
         
@@ -199,7 +199,7 @@ unsigned int RPGMapSkillMenuLayer::numberOfCellsInTableView(CCTableView *tableVi
 void RPGMapSkillMenuLayer::onMenu(cocos2d::CCObject *pObject)
 {
     //第一次显示数据的话则不播放效果音
-    if(!this->m_statusIsDefault)
+    if(!this->m_isDefault)
         SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
     
     CCMenuItem *menuItem = (CCMenuItem*)pObject;
@@ -237,7 +237,7 @@ void RPGMapSkillMenuLayer::onMenu(cocos2d::CCObject *pObject)
         {
             if(menuItem->getTag() == kRPGMapSkillMenuLayerTagMainMenuPlayer + query.getIntField("id"))
             {
-                this->m_statusIsDefault = false;
+                this->m_isDefault = false;
                 
                 int dataId = query.getIntField("id");
                 this->setPlayerSkill(dataId);

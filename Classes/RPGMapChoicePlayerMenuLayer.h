@@ -53,6 +53,9 @@ public:
     
     bool init(CppSQLite3DB *db, CCString* titleLab, CCObject* target, SEL_CallFuncO selector, float width, float height);
     static RPGMapChoicePlayerMenuLayer* create(CppSQLite3DB *db, CCString* titleLab, CCObject* target, SEL_CallFuncO selector, float width, float height);
+    
+    void setHidden(bool isHidden);
+    
 };
 
 #endif /* defined(__OzgGameRPG__RPGMapChoicePlayerMenuLayer__) */

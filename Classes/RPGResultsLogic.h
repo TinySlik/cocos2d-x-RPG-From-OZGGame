@@ -22,6 +22,7 @@ class RPGResultsLogic
 {
     
 public:
+    static void discardItems(CppSQLite3DB* db, int itemsId); //丢弃道具
     static void deductionsItems(CppSQLite3DB* db, int itemsId); //扣减道具数
     static bool useItems(CppSQLite3DB* db, int playerId, int itemsId); //使用道具，返回成功或失败
     

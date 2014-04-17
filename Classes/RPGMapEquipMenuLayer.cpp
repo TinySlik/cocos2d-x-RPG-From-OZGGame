@@ -9,6 +9,7 @@
 #include "RPGMapEquipMenuLayer.h"
 #include "RPGMapMenuLayer.h"
 #include "RPGMapSceneLayer.h"
+#include "OzgCCUtility.h"
 
 RPGMapEquipMenuLayer::RPGMapEquipMenuLayer()
 {
@@ -52,6 +53,43 @@ bool RPGMapEquipMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
         mainBg->setTag(kRPGMapEquipMenuLayerTagBg);
         this->addChild(mainBg);
         
+        //显示上面的4个角色
+        float playerX = 200;
+        CppSQLite3Query query = this->m_db->execQuery(PLAYER_QUERY);
+        while(!query.eof())
+        {
+            CCSprite *playerSprite = NULL;
+            if(query.getIntField("hp") <= 0)
+            {
+                //死亡
+                CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_2.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+                playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(10));
+            }
+            else
+            {
+                //正常
+                CCArray *frames = OzgCCUtility::createSpriteFrames(CCString::createWithFormat("%s_0.png", query.getStringField("tex_prefix"))->getCString(), 3, 4);
+                playerSprite = CCSprite::createWithSpriteFrame((CCSpriteFrame*)frames->objectAtIndex(1));
+            }
+            
+            CCMenuItemSprite *player = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGMapEquipMenuLayerTagMainMenuPlayer + query.getIntField("id"));
+            if(!player)
+            {
+                player = CCMenuItemSprite::create(playerSprite, playerSprite, this, menu_selector(RPGMapEquipMenuLayer::onMenu));
+                player->setPosition(ccp(playerX, 560));
+                player->setScale(2);
+                player->setTag(kRPGMapEquipMenuLayerTagMainMenuPlayer + query.getIntField("id"));
+                mainMenu->addChild(player);
+            }
+            
+            playerX += 200;
+            query.nextRow();
+        }
+        query.finalize();
+        
+        //默认选中第一个
+        this->onMenu(mainMenu->getChildByTag(kRPGMapEquipMenuLayerTagMainMenuPlayer + 1));
+        
         return true;
     }
     return false;
@@ -72,8 +110,11 @@ RPGMapEquipMenuLayer* RPGMapEquipMenuLayer::create(cocos2d::CCDictionary *string
 //private
 void RPGMapEquipMenuLayer::onMenu(cocos2d::CCObject *pObject)
 {
+    //第一次显示数据的话则不播放效果音
+    if(!this->m_isDefault)
+        SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+    
     CCMenuItem *menuItem = (CCMenuItem*)pObject;
-    SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
     
     switch (menuItem->getTag())
     {
@@ -97,5 +138,110 @@ void RPGMapEquipMenuLayer::onMenu(cocos2d::CCObject *pObject)
         default:
             break;
     }
+    
+    if(menuItem->getTag() >= kRPGMapEquipMenuLayerTagMainMenuPlayer && menuItem->getTag() <= kRPGMapEquipMenuLayerTagMainMenuPlayer + 99)
+    {
+//        CCLog("点击了上面4个player的其中一个");
+        CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGMapEquipMenuLayerTagMainMenu);
+        
+        CppSQLite3Query query = this->m_db->execQuery(PLAYER_QUERY);
+        while(!query.eof())
+        {
+            if(menuItem->getTag() == kRPGMapEquipMenuLayerTagMainMenuPlayer + query.getIntField("id"))
+            {
+                this->m_isDefault = false;
+                
+                int dataId = query.getIntField("id");
+                this->setPlayerEquip(dataId);
+                
+                //选中的光标部分
+                CCMenuItemSprite *player = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGMapEquipMenuLayerTagMainMenuPlayer + dataId);
+                
+                CCSprite *handCursor = (CCSprite*)this->getChildByTag(kRPGMapMenuLayerTagHandCursor);
+                if(!handCursor)
+                {
+                    handCursor = CCSprite::createWithSpriteFrameName("gui_hand.png");
+                    handCursor->setScale(0.3);
+                    handCursor->setTag(kRPGMapMenuLayerTagHandCursor);
+                    this->addChild(handCursor);
+                }
+                
+                //光标的位置
+                handCursor->setPosition(ccp(player->getPositionX() + 60, 555));
+                
+                break;
+            }
+            query.nextRow();
+        }
+        query.finalize();
+    }
+    
+}
+
+void RPGMapEquipMenuLayer::setPlayerEquip(int dataId)
+{
+    this->removeAllPlayerLab();
+    
+    CppSQLite3Query query = this->m_db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, dataId)->getCString());
+    while(!query.eof())
+    {
+        //左边
+        addLab(this, kRPGMapEquipMenuLayerTagName, CCString::create(query.getStringField("name_cns")), 18, ccp(270, 443));
+        addLab(this, kRPGMapEquipMenuLayerTagAttack, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_attack"))->getCString(), query.getIntField("attack")), 18, ccp(270, 408));
+        addLab(this, kRPGMapEquipMenuLayerTagDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_defense"))->getCString(), query.getIntField("defense")), 18, ccp(270, 373));
+        addLab(this, kRPGMapEquipMenuLayerTagSpeed, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_speed"))->getCString(), query.getIntField("speed")), 18, ccp(270, 338));
+        addLab(this, kRPGMapEquipMenuLayerTagSkillAttack, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_skill_attack"))->getCString(), query.getIntField("skill_attack")), 18, ccp(270, 303));
+        addLab(this, kRPGMapEquipMenuLayerTagSkillDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_skill_defense"))->getCString(), query.getIntField("skill_defense")), 18, ccp(270, 268));
+        
+        //右边的装备部分
+        addLab(this, kRPGMapEquipMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_arms"))->getCString(), query.getStringField("arms_name")), 26, ccp(600, 405));
+        addLab(this, kRPGMapEquipMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_armor"))->getCString(), query.getStringField("armor_name")), 26, ccp(600, 320));
+        
+        CCControlButton *btnRemoveArms = CCControlButton::create("卸掉", "Arial", 26);
+        btnRemoveArms->setPosition(ccp(700, 405));
+        btnRemoveArms->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
+        btnRemoveArms->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArms);
+        btnRemoveArms->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapEquipMenuLayer::onButton), CCControlEventTouchUpInside);
+        this->addChild(btnRemoveArms);
+        
+        CCControlButton *btnRemoveArmor = CCControlButton::create("卸掉", "Arial", 26);
+        btnRemoveArmor->setPosition(ccp(700, 320));
+        btnRemoveArmor->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
+        btnRemoveArmor->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArmor);
+        btnRemoveArmor->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapEquipMenuLayer::onButton), CCControlEventTouchUpInside);
+        this->addChild(btnRemoveArmor);
+        
+        query.nextRow();
+    }
+    query.finalize();
+        
+}
+
+void RPGMapEquipMenuLayer::removeAllPlayerLab()
+{
+    //左边
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagName))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagName, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagAttack))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagAttack, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagDefense))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagDefense, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagSpeed))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagSpeed, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagSkillAttack))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagSkillAttack, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagSkillDefense))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagSkillDefense, true);
+    
+    //右边的装备部分
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagEquipArms))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagEquipArms, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagEquipArmor))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagEquipArmor, true);
+    
+}
+
+void RPGMapEquipMenuLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent event)
+{
     
 }

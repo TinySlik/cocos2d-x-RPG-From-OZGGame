@@ -46,11 +46,27 @@
 	<string>状态</string>
 	<key>menu_items</key>
 	<string>道具</string>
+	<key>menu_items_discard</key>
+	<string>丢弃[%s]</string>
 	<key>menu_items_choice</key>
 	<string>对谁使用[%s]道具呢？</string>
 	<key>menu_items_fail</key>
 	<string>道具使用失败</string>
 	<key>menu_equip</key>
 	<string>装备</string>
+	<key>menu_equip_attack</key>
+	<string>攻击：%i</string>
+	<key>menu_equip_defense</key>
+	<string>防御：%i</string>
+	<key>menu_equip_speed</key>
+	<string>速度：%i</string>
+	<key>menu_equip_skill_attack</key>
+	<string>魔攻：%i</string>
+	<key>menu_equip_skill_defense</key>
+	<string>魔防：%i</string>
+	<key>menu_equip_arms</key>
+	<string>武器：%s</string>
+	<key>menu_equip_armor</key>
+	<string>防具：%s</string>
 </dict>
 </plist>

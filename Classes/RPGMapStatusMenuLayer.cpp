@@ -36,7 +36,7 @@ bool RPGMapStatusMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB
         this->m_skillList = new CCArray();
         this->m_skillList->init();
         
-        this->m_statusIsDefault = true;
+        this->m_isDefault = true;
         
         CCMenu *mainMenu = CCMenu::create();
         mainMenu->setTag(kRPGMapStatusMenuLayerTagMainMenu);
@@ -118,7 +118,7 @@ RPGMapStatusMenuLayer* RPGMapStatusMenuLayer::create(cocos2d::CCDictionary *stri
 void RPGMapStatusMenuLayer::onMenu(cocos2d::CCObject *pObject)
 {
     //第一次显示数据的话则不播放效果音
-    if(!this->m_statusIsDefault)
+    if(!this->m_isDefault)
         SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
     
     CCMenuItem *menuItem = (CCMenuItem*)pObject;
@@ -156,7 +156,7 @@ void RPGMapStatusMenuLayer::onMenu(cocos2d::CCObject *pObject)
         {
             if(menuItem->getTag() == kRPGMapStatusMenuLayerTagMainMenuPlayer + query.getIntField("id"))
             {
-                this->m_statusIsDefault = false;
+                this->m_isDefault = false;
                 
 //                CCLog("选中了id为%i的角色", query.getIntField("id"));
                 int dataId = query.getIntField("id");
@@ -194,19 +194,19 @@ void RPGMapStatusMenuLayer::setStatusPlayer(int dataId)
     while(!query.eof())
     {
         //左边
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerName, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_name"))->getCString(), query.getStringField("name_cns")), ccp(250, 410));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerLevel, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_level"))->getCString(), query.getIntField("level"), query.getIntField("next_exp")), ccp(243, 370));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerHP, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_hp"))->getCString(), query.getIntField("hp"), query.getIntField("max_hp")), ccp(262, 330));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerMP, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_mp"))->getCString(), query.getIntField("mp"), query.getIntField("max_mp")), ccp(259, 290));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerAttack, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_attack"))->getCString(), query.getIntField("attack")), ccp(249, 250));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_defense"))->getCString(), query.getIntField("defense")), ccp(249, 210));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerSpeed, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_speed"))->getCString(), query.getIntField("speed")), ccp(249, 170));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerSkillAttack, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_skill_attack"))->getCString(), query.getIntField("skill_attack")), ccp(249, 130));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerSkillDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_skill_defense"))->getCString(), query.getIntField("skill_defense")), ccp(249, 90));
+        addLab(this, kRPGMapStatusMenuLayerTagName, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_name"))->getCString(), query.getStringField("name_cns")), ccp(250, 410));
+        addLab(this, kRPGMapStatusMenuLayerTagLevel, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_level"))->getCString(), query.getIntField("level"), query.getIntField("next_exp")), ccp(243, 370));
+        addLab(this, kRPGMapStatusMenuLayerTagHP, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_hp"))->getCString(), query.getIntField("hp"), query.getIntField("max_hp")), ccp(262, 330));
+        addLab(this, kRPGMapStatusMenuLayerTagMP, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_mp"))->getCString(), query.getIntField("mp"), query.getIntField("max_mp")), ccp(259, 290));
+        addLab(this, kRPGMapStatusMenuLayerTagAttack, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_attack"))->getCString(), query.getIntField("attack")), ccp(249, 250));
+        addLab(this, kRPGMapStatusMenuLayerTagDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_defense"))->getCString(), query.getIntField("defense")), ccp(249, 210));
+        addLab(this, kRPGMapStatusMenuLayerTagSpeed, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_speed"))->getCString(), query.getIntField("speed")), ccp(249, 170));
+        addLab(this, kRPGMapStatusMenuLayerTagSkillAttack, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_skill_attack"))->getCString(), query.getIntField("skill_attack")), ccp(249, 130));
+        addLab(this, kRPGMapStatusMenuLayerTagSkillDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_skill_defense"))->getCString(), query.getIntField("skill_defense")), ccp(249, 90));
         
         //右边装备部分
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_arms"))->getCString(), query.getStringField("arms_name")), ccp(570, 410));
-        addLab(this, kRPGMapMenuLayerTagStatusPlayerEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_armor"))->getCString(), query.getStringField("armor_name")), ccp(570, 370));
+        addLab(this, kRPGMapStatusMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_arms"))->getCString(), query.getStringField("arms_name")), ccp(570, 410));
+        addLab(this, kRPGMapStatusMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_armor"))->getCString(), query.getStringField("armor_name")), ccp(570, 370));
         
         //右边技能部分
         
@@ -268,38 +268,38 @@ void RPGMapStatusMenuLayer::setStatusPlayer(int dataId)
 void RPGMapStatusMenuLayer::removeAllPlayerLab()
 {
     //清理各个lab部分
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerName))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerName, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagName))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagName, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerLevel))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerLevel, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagLevel))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagLevel, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerHP))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerHP, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagHP))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagHP, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerMP))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerMP, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagMP))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagMP, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerAttack))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerAttack, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagAttack))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagAttack, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerDefense))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerDefense, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagDefense))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagDefense, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerSpeed))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerSpeed, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagSpeed))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagSpeed, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerSkillAttack))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerSkillAttack, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagSkillAttack))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagSkillAttack, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerSkillDefense))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerSkillDefense, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagSkillDefense))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagSkillDefense, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerEquipArms))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerEquipArms, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagEquipArms))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagEquipArms, true);
 
-    if(this->getChildByTag(kRPGMapMenuLayerTagStatusPlayerEquipArmor))
-        this->removeChildByTag(kRPGMapMenuLayerTagStatusPlayerEquipArmor, true);
+    if(this->getChildByTag(kRPGMapStatusMenuLayerTagEquipArmor))
+        this->removeChildByTag(kRPGMapStatusMenuLayerTagEquipArmor, true);
 }
 
 //CCTableView

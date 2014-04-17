@@ -40,7 +40,7 @@ private:
     
     CCArray* m_skillList;
     
-    bool m_statusIsDefault; //是否为第一次进入状态界面，如果是的话就不播放效果音了
+    bool m_isDefault; //是否为第一次进入技能界面，如果是的话就不播放效果音了
     
     int m_selectedPlayerId; //选中上面的player的id
     bool m_enabledPlayerSkill; //是否允许点击技能项，死亡状态、相关异常状态或MP为0时设置为false

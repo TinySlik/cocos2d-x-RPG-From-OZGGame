@@ -132,13 +132,6 @@ CCTableViewCell* RPGMapItemsMenuLayer::tableCellAtIndex(CCTableView *tableView, 
         itemBtn->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapItemsMenuLayer::onButton), CCControlEventTouchUpInside);
         cell->addChild(itemBtn);
         
-        //如果是非道具类的话，则禁用点击
-        if(itemsData->m_type != 3)
-        {
-            itemBtn->setTitleColorForState(ccc3(144, 144, 144), CCControlStateNormal);
-            itemBtn->setEnabled(false);
-        }
-        
         x += 200;
     }
     
@@ -163,49 +156,22 @@ void RPGMapItemsMenuLayer::loadItemsData()
     //道具数据
     this->m_itemsList->removeAllObjects();
     
-    CppSQLite3Query query = this->m_db->execQuery(SAVEDATA_QUERY);
+    CppSQLite3Query query = this->m_db->execQuery(ITEMS_EXISTING_QUERY);
     while(!query.eof())
     {
-        string idList;
-        
-        JsonBox::Value json;
-        json.loadFromString(query.getStringField("items"));
-        
-        JsonBox::Array items = json.getArray();
-        for (int i = 0; i < (int)items.size(); i++)
-        {
-            JsonBox::Value item = items[i].getObject();
-            
-            RPGExistingItems *itemsData = RPGExistingItems::create();
-            itemsData->m_total = item["total"].getInt();
-            this->m_itemsList->addObject(itemsData);
-            
-            idList.append(CCString::createWithFormat("%i", item["id"].getInt())->getCString());
-            
-            if(i + 1 < (int)items.size())
-                idList.append(", ");
-        }
-        
-        int i = 0;
-        CppSQLite3Query itemsQuery = this->m_db->execQuery(CCString::createWithFormat(ITEMS_QUERY, idList.c_str())->getCString());
-        while(!itemsQuery.eof())
-        {
-            RPGExistingItems *itemsData = (RPGExistingItems*)this->m_itemsList->objectAtIndex(i);
-            itemsData->m_dataId = itemsQuery.getIntField("id");
-            itemsData->m_name = itemsQuery.getStringField("name_cns");
-            itemsData->m_buy = itemsQuery.getIntField("buy");
-            itemsData->m_sell = itemsQuery.getIntField("sell");
-            itemsData->m_type = itemsQuery.getIntField("type");
-            itemsData->m_attack = itemsQuery.getFloatField("attack");
-            itemsData->m_defense = itemsQuery.getFloatField("defense");
-            itemsData->m_speed = itemsQuery.getFloatField("speed");
-            itemsData->m_skillAttack = itemsQuery.getFloatField("skill_attack");
-            itemsData->m_skillDefense = itemsQuery.getFloatField("skill_defense");
-            
-            i++;
-            itemsQuery.nextRow();
-        }
-        itemsQuery.finalize();
+        RPGExistingItems *itemsData = RPGExistingItems::create();
+        itemsData->m_dataId = query.getIntField("id");
+        itemsData->m_name = query.getStringField("name_cns");
+        itemsData->m_buy = query.getIntField("buy");
+        itemsData->m_sell = query.getIntField("sell");
+        itemsData->m_type = query.getIntField("type");
+        itemsData->m_attack = query.getFloatField("attack");
+        itemsData->m_defense = query.getFloatField("defense");
+        itemsData->m_speed = query.getFloatField("speed");
+        itemsData->m_skillAttack = query.getFloatField("skill_attack");
+        itemsData->m_skillDefense = query.getFloatField("skill_defense");
+        itemsData->m_total = query.getIntField("total");
+        this->m_itemsList->addObject(itemsData);
         
         query.nextRow();
     }
@@ -250,6 +216,7 @@ void RPGMapItemsMenuLayer::onDialog(cocos2d::CCObject *pObject)
     this->getParent()->removeChildByTag(kRPGMapItemsMenuLayerTagDialog, true);
     this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg, true);
     this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
+    this->getParent()->removeChildByTag(kRPGMapItemsMenuLayerTagBtnDiscard, true);
     this->setVisible(true);
 }
 
@@ -258,34 +225,65 @@ void RPGMapItemsMenuLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent e
     SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
     
     CCControlButton *itemBtn = (CCControlButton*)pSender;
-    for (int i = 0; i < this->m_itemsList->count(); i++)
+    
+    if(itemBtn->getTag() == kRPGMapItemsMenuLayerTagBtnDiscard)
     {
-        //判断选中道具
-        RPGExistingItems *itemsData = (RPGExistingItems*)this->m_itemsList->objectAtIndex(i);
-        if(itemBtn->getTag() == itemsData->m_dataId)
+//        CCLog("丢弃道具");
+        
+        RPGResultsLogic::discardItems(this->m_db, this->m_selectedItems->m_dataId);
+        
+        this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg, true);
+        this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
+        this->getParent()->removeChildByTag(kRPGMapItemsMenuLayerTagBtnDiscard, true);
+        this->setVisible(true);
+        
+        this->loadItemsData();
+    }
+    else
+    {
+        for (int i = 0; i < this->m_itemsList->count(); i++)
         {
-            this->m_selectedItems = itemsData;
-            break;
+            //判断选中道具
+            RPGExistingItems *itemsData = (RPGExistingItems*)this->m_itemsList->objectAtIndex(i);
+            if(itemBtn->getTag() == itemsData->m_dataId)
+            {
+                this->m_selectedItems = itemsData;
+                break;
+            }
         }
+        
+        //因为动态获取地图的大小会导致了菜单层显示错位，所以定死了
+        float width = 960;
+        float height = 640;
+        
+        //临时背景
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu3_style1.tmx");
+        mainBg->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, CCDirector::sharedDirector()->getWinSize().height / 2));
+        mainBg->setAnchorPoint(ccp(0.5, 0.5));
+        mainBg->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg);
+        this->getParent()->addChild(mainBg);
+        
+        CCString *title = CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_items_choice"))->getCString(), this->m_selectedItems->m_name.c_str());
+        RPGMapChoicePlayerMenuLayer *choicePlayer = RPGMapChoicePlayerMenuLayer::create(this->m_db, title, this, callfuncO_selector(RPGMapItemsMenuLayer::onChoicePlayer), width, height);
+        choicePlayer->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer);
+        this->getParent()->addChild(choicePlayer);
+        
+        if(this->m_selectedItems->m_type != 3)
+        {
+//            CCLog("非道具不可以使用");
+            choicePlayer->setHidden(true);
+        }
+        
+        CCString *btnDiscardText = CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_items_discard"))->getCString(), this->m_selectedItems->m_name.c_str());
+        CCControlButton *btnDiscard = CCControlButton::create(btnDiscardText->getCString(), "Arial", 24);
+        btnDiscard->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, 250));
+        btnDiscard->setTag(kRPGMapItemsMenuLayerTagBtnDiscard);
+        btnDiscard->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapItemsMenuLayer::onButton), CCControlEventTouchUpInside);
+        this->getParent()->addChild(btnDiscard);
+        
+        this->setVisible(false);
     }
     
-    //因为动态获取地图的大小会导致了菜单层显示错位，所以定死了
-    float width = 960;
-    float height = 640;
-    
-    //临时背景
-    CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu3_style1.tmx");
-    mainBg->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, CCDirector::sharedDirector()->getWinSize().height / 2));
-    mainBg->setAnchorPoint(ccp(0.5, 0.5));
-    mainBg->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg);
-    this->getParent()->addChild(mainBg);
-    
-    CCString *title = CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_items_choice"))->getCString(), this->m_selectedItems->m_name.c_str());
-    RPGMapChoicePlayerMenuLayer *choicePlayer = RPGMapChoicePlayerMenuLayer::create(this->m_db, title, this, callfuncO_selector(RPGMapItemsMenuLayer::onChoicePlayer), width, height);
-    choicePlayer->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer);
-    this->getParent()->addChild(choicePlayer);
-    
-    this->setVisible(false);
 }
 
 void RPGMapItemsMenuLayer::onChoicePlayer(cocos2d::CCObject *pObject)
@@ -298,6 +296,7 @@ void RPGMapItemsMenuLayer::onChoicePlayer(cocos2d::CCObject *pObject)
         //按了退出
         this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg, true);
         this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
+        this->getParent()->removeChildByTag(kRPGMapItemsMenuLayerTagBtnDiscard, true);
         this->setVisible(true);
     }
     else
@@ -317,6 +316,7 @@ void RPGMapItemsMenuLayer::onChoicePlayer(cocos2d::CCObject *pObject)
             //道具使用成功
             this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg, true);
             this->getParent()->removeChildByTag(kRPGMapSceneLayerTagChoicePlayerMenuLayer, true);
+            this->getParent()->removeChildByTag(kRPGMapItemsMenuLayerTagBtnDiscard, true);
             this->setVisible(true);
             
             this->loadItemsData();

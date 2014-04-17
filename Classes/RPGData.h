@@ -114,7 +114,7 @@ public:
     
 };
 
-//现有道具，数据库没有这个表
+//现有道具
 class RPGExistingItems : public RPGItems
 {
     

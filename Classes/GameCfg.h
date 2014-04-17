@@ -16,6 +16,6 @@
 #define GAME_TMX_ROLE_HEIGHT 32.0
 #define GAME_PLAYER_MOVESPEED 0.5
 
-#define GAME_INIT_SQL "insert into save_data (map_id, player_to_x, player_to_y, player_direction, items) values(1, 14.5, 9.5, 'down', '[{\"id\": 6, \"total\": 10}, {\"id\": 7, \"total\": 7}, {\"id\": 8, \"total\": 7}]');"
+#define GAME_INIT_SQL "insert into save_data (map_id, player_to_x, player_to_y, player_direction) values(1, 14.5, 9.5, 'down');"
 
 #endif

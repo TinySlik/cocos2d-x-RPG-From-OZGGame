@@ -27,7 +27,8 @@ enum RPGMapItemsMenuLayerTag
     kRPGMapItemsMenuLayerTagBg = 3,
     kRPGMapItemsMenuLayerTagItemListTable = 4,
     kRPGMapItemsMenuLayerTagDialogOK = 5,
-    kRPGMapItemsMenuLayerTagDialog = 86
+    kRPGMapItemsMenuLayerTagDialog = 86,
+    kRPGMapItemsMenuLayerTagBtnDiscard = 85
 };
 
 class RPGMapItemsMenuLayer : public CCLayerColor, CCTableViewDelegate, CCTableViewDataSource

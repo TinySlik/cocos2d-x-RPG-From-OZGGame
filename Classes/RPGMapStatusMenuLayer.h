@@ -25,7 +25,18 @@ enum RPGMapStatusMenuLayerTag
     kRPGMapStatusMenuLayerTagMainMenu = 2,
     kRPGMapStatusMenuLayerTagMainMenuBack = 12,
     kRPGMapStatusMenuLayerTagPlayerSkillTable = 25,
-    kRPGMapStatusMenuLayerTagMainMenuPlayer = 100
+    kRPGMapStatusMenuLayerTagMainMenuPlayer = 100,
+    kRPGMapStatusMenuLayerTagName = 13,
+    kRPGMapStatusMenuLayerTagLevel = 14,
+    kRPGMapStatusMenuLayerTagHP = 15,
+    kRPGMapStatusMenuLayerTagMP = 16,
+    kRPGMapStatusMenuLayerTagAttack = 17,
+    kRPGMapStatusMenuLayerTagDefense = 18,
+    kRPGMapStatusMenuLayerTagSpeed = 19,
+    kRPGMapStatusMenuLayerTagSkillAttack = 20,
+    kRPGMapStatusMenuLayerTagSkillDefense = 21,
+    kRPGMapStatusMenuLayerTagEquipArms = 23,
+    kRPGMapStatusMenuLayerTagEquipArmor = 24,
     
 };
 
@@ -34,7 +45,7 @@ class RPGMapStatusMenuLayer : public CCLayerColor, CCTableViewDelegate, CCTableV
     
 private:
         
-    bool m_statusIsDefault; //是否为第一次进入状态界面，如果是的话就不播放效果音了
+    bool m_isDefault; //是否为第一次进入状态界面，如果是的话就不播放效果音了
     
     CCDictionary* m_stringList;
     CppSQLite3DB* m_db;

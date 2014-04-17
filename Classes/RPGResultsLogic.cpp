@@ -11,45 +11,41 @@
 //执行操作后player的数据更新
 #define PLAYER_UPDATE "update player set %s = %i where id = %i"
 
-//使用道具后现有道具的变化
-#define SAVEDATA_ITEMS_UPDATE "update save_data set items = '%s' where id = 1"
+//丢弃一个道具
+#define ITEMS_DISCARD "delete from items_existing where id = %i"
+
+//扣减一个道具
+#define ITEMS_DEDUCTIONS "update items_existing set total = total - 1 where id = %i"
+
+//查询一个现有道具的数量
+#define ITEMS_GET "select * from items_existing where id = %i"
 
 //查询一个技能的明细
 #define SKILL_DETAIL_QUERY "select * from skill where id = %i"
 
+void RPGResultsLogic::discardItems(CppSQLite3DB *db, int itemsId)
+{
+    db->execDML(CCString::createWithFormat(ITEMS_DISCARD, itemsId)->getCString());
+}
+
 void RPGResultsLogic::deductionsItems(CppSQLite3DB *db, int itemsId)
 {
-    CppSQLite3Query query = db->execQuery(SAVEDATA_QUERY);
+    CCString *sql = NULL;
+    CppSQLite3Query query = db->execQuery(CCString::createWithFormat(ITEMS_GET, itemsId)->getCString());
     while(!query.eof())
     {
-        JsonBox::Value json;
-        json.loadFromString(query.getStringField("items"));
-        
-        JsonBox::Array resultsJsonArr; //输出结果
-        
-        JsonBox::Array items = json.getArray();
-        for (int i = 0; i < (int)items.size(); i++)
-        {
-            JsonBox::Value item = items[i].getObject();
-            
-            //扣减目标id
-            if(item["id"].getInt() == itemsId)
-                item["total"] = item["total"].getInt() - 1;
-            
-            //如果该道具没有用完，则加入输出结果
-            if(item["total"].getInt() > 0)
-                resultsJsonArr.push_back(item);
-        }
-        
-        ostringstream s;
-        ((JsonBox::Value)resultsJsonArr).writeToStream(s);
-        string result = s.str();
-//        CCLog("%s", result.c_str());
-        db->execDML(CCString::createWithFormat(SAVEDATA_ITEMS_UPDATE, result.c_str())->getCString());
+        if(query.getIntField("total") <= 1)
+            sql = CCString::createWithFormat(ITEMS_DISCARD, itemsId);
+        else
+            sql = CCString::createWithFormat(ITEMS_DEDUCTIONS, itemsId);
         
         query.nextRow();
     }
     query.finalize();
+    
+    if(sql)
+        db->execDML(sql->getCString());
+
 }
 
 bool RPGResultsLogic::useItems(CppSQLite3DB* db, int playerId, int itemsId)
