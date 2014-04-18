@@ -19,6 +19,7 @@ RPGMapEquipMenuLayer::RPGMapEquipMenuLayer()
 RPGMapEquipMenuLayer::~RPGMapEquipMenuLayer()
 {
     this->m_stringList->release();
+    this->m_itemsList->release();
     
     CCLog("RPGMapEquipMenuLayer 释放");
 }
@@ -31,6 +32,9 @@ bool RPGMapEquipMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
         this->m_stringList->retain();
         
         this->m_db = db;
+        
+        this->m_itemsList = new CCArray();
+        this->m_itemsList->init();
         
         CCMenu *mainMenu = CCMenu::create();
         mainMenu->setTag(kRPGMapEquipMenuLayerTagMainMenu);
@@ -107,7 +111,103 @@ RPGMapEquipMenuLayer* RPGMapEquipMenuLayer::create(cocos2d::CCDictionary *string
     return NULL;
 }
 
+//CCTableView
+void RPGMapEquipMenuLayer::scrollViewDidScroll(CCScrollView *scrollView)
+{
+    
+}
+
+void RPGMapEquipMenuLayer::scrollViewDidZoom(CCScrollView *scrollView)
+{
+    
+}
+
+void RPGMapEquipMenuLayer::tableCellTouched(CCTableView *tableView, CCTableViewCell *cell)
+{
+    
+}
+
+CCSize RPGMapEquipMenuLayer::cellSizeForTable(CCTableView *tableView)
+{
+    return CCSizeMake(tableView->getContentSize().width, 80);
+}
+
+CCTableViewCell* RPGMapEquipMenuLayer::tableCellAtIndex(CCTableView *tableView, unsigned int idx)
+{
+    CCTableViewCell *cell = tableView->dequeueCell();
+    if (!cell)
+    {
+        cell = new CCTableViewCell();
+        cell->autorelease();
+    }
+    else
+        cell->removeAllChildrenWithCleanup(true);
+    
+    float x = 100;
+    for (int i = 0; i < 4; i++)
+    {
+        int index = idx * 4 + i;
+
+        if(index >= this->m_itemsList->count())
+            break;
+
+        RPGExistingItems *itemsData = (RPGExistingItems*)this->m_itemsList->objectAtIndex(index);
+        
+        CCControlButton *itemBtn = CCControlButton::create(CCString::createWithFormat("%s (%i)", itemsData->m_name.c_str(), itemsData->m_total)->getCString(), "Arial", 22);
+        itemBtn->setPosition(ccp(x, 0));
+        itemBtn->setTag(kRPGMapEquipMenuLayerTagBtnEquipItems + itemsData->m_dataId);
+        itemBtn->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapEquipMenuLayer::onButton), CCControlEventTouchUpInside);
+        cell->addChild(itemBtn);
+        
+        x += 200;
+    }
+    
+    return cell;
+}
+
+unsigned int RPGMapEquipMenuLayer::numberOfCellsInTableView(CCTableView *tableView)
+{
+    int rowItemCount = 4;
+    int size = this->m_itemsList->count();
+    
+    if(size % rowItemCount == 0)
+        return size / rowItemCount;
+    else
+        return size / rowItemCount + 1;
+}
+//CCTableView end
+
 //private
+void RPGMapEquipMenuLayer::loadItemsData()
+{
+    //装备数据
+    this->m_itemsList->removeAllObjects();
+    
+    CppSQLite3Query query = this->m_db->execQuery(EQUIP_EXISTING_QUERY);
+    while(!query.eof())
+    {
+        RPGExistingItems *itemsData = RPGExistingItems::create();
+        itemsData->m_dataId = query.getIntField("id");
+        itemsData->m_name = query.getStringField("name_cns");
+        itemsData->m_buy = query.getIntField("buy");
+        itemsData->m_sell = query.getIntField("sell");
+        itemsData->m_type = query.getIntField("type");
+        itemsData->m_attack = query.getFloatField("attack");
+        itemsData->m_defense = query.getFloatField("defense");
+        itemsData->m_speed = query.getFloatField("speed");
+        itemsData->m_skillAttack = query.getFloatField("skill_attack");
+        itemsData->m_skillDefense = query.getFloatField("skill_defense");
+        itemsData->m_total = query.getIntField("total");
+        this->m_itemsList->addObject(itemsData);
+        
+        query.nextRow();
+    }
+    query.finalize();
+    
+    CCTableView *tableView = (CCTableView*)this->getChildByTag(kRPGMapEquipMenuLayerTagEquipTable);
+    tableView->reloadData();
+}
+
 void RPGMapEquipMenuLayer::onMenu(cocos2d::CCObject *pObject)
 {
     //第一次显示数据的话则不播放效果音
@@ -180,7 +280,9 @@ void RPGMapEquipMenuLayer::onMenu(cocos2d::CCObject *pObject)
 
 void RPGMapEquipMenuLayer::setPlayerEquip(int dataId)
 {
-    this->removeAllPlayerLab();
+    this->removeAllPlayerChildren();
+    
+    this->m_selectedPlayerId = dataId;
     
     CppSQLite3Query query = this->m_db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, dataId)->getCString());
     while(!query.eof())
@@ -194,22 +296,44 @@ void RPGMapEquipMenuLayer::setPlayerEquip(int dataId)
         addLab(this, kRPGMapEquipMenuLayerTagSkillDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_skill_defense"))->getCString(), query.getIntField("skill_defense")), 18, ccp(270, 268));
         
         //右边的装备部分
-        addLab(this, kRPGMapEquipMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_arms"))->getCString(), query.getStringField("arms_name")), 26, ccp(600, 405));
-        addLab(this, kRPGMapEquipMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_armor"))->getCString(), query.getStringField("armor_name")), 26, ccp(600, 320));
+        if(strlen(query.getStringField("arms_name")) > 0)
+        {
+            addLab(this, kRPGMapEquipMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_arms"))->getCString(), query.getStringField("arms_name")), 26, ccp(600, 405));
+            
+            CCControlButton *btnRemoveArms = CCControlButton::create("卸掉", "Arial", 26);
+            btnRemoveArms->setPosition(ccp(700, 405));
+            btnRemoveArms->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
+            btnRemoveArms->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArms);
+            btnRemoveArms->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapEquipMenuLayer::onButton), CCControlEventTouchUpInside);
+            this->addChild(btnRemoveArms);
+        }
+        else
+            addLab(this, kRPGMapEquipMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_arms"))->getCString(), ((CCString*)this->m_stringList->objectForKey("menu_equip_none"))->getCString()), 26, ccp(600, 405));
         
-        CCControlButton *btnRemoveArms = CCControlButton::create("卸掉", "Arial", 26);
-        btnRemoveArms->setPosition(ccp(700, 405));
-        btnRemoveArms->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
-        btnRemoveArms->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArms);
-        btnRemoveArms->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapEquipMenuLayer::onButton), CCControlEventTouchUpInside);
-        this->addChild(btnRemoveArms);
+        if(strlen(query.getStringField("armor_name")) > 0)
+        {
+            addLab(this, kRPGMapEquipMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_armor"))->getCString(), query.getStringField("armor_name")), 26, ccp(600, 320));
+            
+            CCControlButton *btnRemoveArmor = CCControlButton::create("卸掉", "Arial", 26);
+            btnRemoveArmor->setPosition(ccp(700, 320));
+            btnRemoveArmor->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
+            btnRemoveArmor->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArmor);
+            btnRemoveArmor->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapEquipMenuLayer::onButton), CCControlEventTouchUpInside);
+            this->addChild(btnRemoveArmor);
+        }
+        else
+            addLab(this, kRPGMapEquipMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_armor"))->getCString(), ((CCString*)this->m_stringList->objectForKey("menu_equip_none"))->getCString()), 26, ccp(600, 320));
         
-        CCControlButton *btnRemoveArmor = CCControlButton::create("卸掉", "Arial", 26);
-        btnRemoveArmor->setPosition(ccp(700, 320));
-        btnRemoveArmor->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
-        btnRemoveArmor->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArmor);
-        btnRemoveArmor->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGMapEquipMenuLayer::onButton), CCControlEventTouchUpInside);
-        this->addChild(btnRemoveArmor);
+        //下面的装备列表
+        CCTableView *tableView = CCTableView::create(this, CCSizeMake(900, 180));
+        tableView->setDirection(kCCScrollViewDirectionVertical);
+        tableView->setPosition(ccp(80, 30));
+        tableView->setDelegate(this);
+        tableView->setVerticalFillOrder(kCCTableViewFillTopDown);
+        tableView->setTag(kRPGMapEquipMenuLayerTagEquipTable);
+        this->addChild(tableView);
+        
+        this->loadItemsData();
         
         query.nextRow();
     }
@@ -217,7 +341,7 @@ void RPGMapEquipMenuLayer::setPlayerEquip(int dataId)
         
 }
 
-void RPGMapEquipMenuLayer::removeAllPlayerLab()
+void RPGMapEquipMenuLayer::removeAllPlayerChildren()
 {
     //左边
     if(this->getChildByTag(kRPGMapEquipMenuLayerTagName))
@@ -238,10 +362,29 @@ void RPGMapEquipMenuLayer::removeAllPlayerLab()
         this->removeChildByTag(kRPGMapEquipMenuLayerTagEquipArms, true);
     if(this->getChildByTag(kRPGMapEquipMenuLayerTagEquipArmor))
         this->removeChildByTag(kRPGMapEquipMenuLayerTagEquipArmor, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagBtnRemoveArms))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagBtnRemoveArms, true);
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagBtnRemoveArmor))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagBtnRemoveArmor, true);
     
+    //下面的装备列表
+    if(this->getChildByTag(kRPGMapEquipMenuLayerTagEquipTable))
+        this->removeChildByTag(kRPGMapEquipMenuLayerTagEquipTable, true);
 }
 
 void RPGMapEquipMenuLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent event)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
     
+    CCControlButton *itemBtn = (CCControlButton*)pSender;
+    
+    if(itemBtn->getTag() == kRPGMapEquipMenuLayerTagBtnRemoveArms)
+        RPGResultsLogic::removeEquip(this->m_db, this->m_selectedPlayerId, 1);
+    else if(itemBtn->getTag() == kRPGMapEquipMenuLayerTagBtnRemoveArmor)
+        RPGResultsLogic::removeEquip(this->m_db, this->m_selectedPlayerId, 2);
+    else    
+        RPGResultsLogic::equip(this->m_db, this->m_selectedPlayerId, itemBtn->getTag() - kRPGMapEquipMenuLayerTagBtnEquipItems);
+        
+    //刷新数据
+    this->setPlayerEquip(this->m_selectedPlayerId);
 }

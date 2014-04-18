@@ -188,3 +188,132 @@ bool RPGResultsLogic::useSkillCure(CppSQLite3DB *db, int srcPlayerId, int target
     
     return true;
 }
+
+void RPGResultsLogic::removeEquip(CppSQLite3DB *db, int playerId, int type)
+{
+    //武器
+    CCString *playerSql = NULL;
+    CCString *itemsExistingSql = NULL;
+    
+    int itemsId;
+    
+    string itemField;
+    if(type == 1)
+        itemField = "items_id_arms";
+    else if(type == 2)
+        itemField = "items_id_armor";
+    else
+        return;
+    
+    {
+        CppSQLite3Query query = db->execQuery(CCString::createWithFormat("select * from player where id = %i", playerId)->getCString());
+        while(!query.eof())
+        {
+            itemsId = query.getIntField(itemField.c_str());
+            query.nextRow();
+        }
+        query.finalize();
+    }
+    
+    {
+        //player将装备卸下后各个值发生变化
+        
+        CppSQLite3Query query = db->execQuery(CCString::createWithFormat("select * from items where id = %i", itemsId)->getCString());
+        while(!query.eof())
+        {
+            float attack = query.getFloatField("attack");
+            float defense = query.getFloatField("defense");
+            float speed = query.getFloatField("speed");
+            float skillAttack = query.getFloatField("skill_attack");
+            float skillDefense = query.getFloatField("skill_defense");
+            
+            playerSql = CCString::createWithFormat("update player set attack = attack - %f, defense = defense - %f, speed = speed - %f, skill_attack = skill_attack - %f, skill_defense = skill_defense - %f, %s = 0 where id = %i", attack, defense, speed, skillAttack, skillDefense, itemField.c_str(), playerId);
+            
+            query.nextRow();
+        }
+        query.finalize();
+    }
+    
+    {
+        //将卸下的装备放回已有道具处
+        CppSQLite3Query query = db->execQuery(CCString::createWithFormat("select count(id) from items_existing where id = %i", itemsId)->getCString());
+        while(!query.eof())
+        {
+            if(query.getIntField(0) <= 0)
+                itemsExistingSql = CCString::createWithFormat("insert into items_existing (id, total) values(%i, 1)", itemsId);
+            else
+                itemsExistingSql = CCString::createWithFormat("update items_existing set total = total + 1 where id = %i", itemsId);
+            
+            query.nextRow();
+        }
+        query.finalize();
+    }
+    
+    if(playerSql)
+        db->execDML(playerSql->getCString());
+    if(itemsExistingSql)
+        db->execDML(itemsExistingSql->getCString());
+}
+
+void RPGResultsLogic::equip(CppSQLite3DB *db, int playerId, int itemsId)
+{
+    CCString *playerSql = NULL;
+    CCString *itemsExistingSql = NULL;
+    
+    int type;
+    float attack;
+    float defense;
+    float speed;
+    float skillAttack;
+    float skillDefense;
+    
+    {
+        //查询该装备的类型和效果值
+        
+        CppSQLite3Query query = db->execQuery(CCString::createWithFormat("select * from items where id = %i", itemsId)->getCString());
+        while(!query.eof())
+        {
+            attack = query.getFloatField("attack");
+            defense = query.getFloatField("defense");
+            speed = query.getFloatField("speed");
+            skillAttack = query.getFloatField("skill_attack");
+            skillDefense = query.getFloatField("skill_defense");
+            type = query.getIntField("type");
+            
+            query.nextRow();
+        }
+        query.finalize();
+    }
+    
+    string itemField;
+    if(type == 1)
+        itemField = "items_id_arms";
+    else if(type == 2)
+        itemField = "items_id_armor";
+    else
+        return;
+    
+    //player装备了之后各个值发生变化
+    playerSql = CCString::createWithFormat("update player set attack = attack + %f, defense = defense + %f, speed = speed + %f, skill_attack = skill_attack + %f, skill_defense = skill_defense + %f, %s = %i where id = %i", attack, defense, speed, skillAttack, skillDefense, itemField.c_str(), itemsId, playerId);
+    
+    {
+        //扣减装备了的道具
+        CppSQLite3Query query = db->execQuery(CCString::createWithFormat("select total from items_existing where id = %i", itemsId)->getCString());
+        while(!query.eof())
+        {
+            if(query.getIntField(0) <= 1)
+                itemsExistingSql = CCString::createWithFormat("delete from items_existing where id = %i", itemsId);
+            else
+                itemsExistingSql = CCString::createWithFormat("update items_existing set total = total - 1 where id = %i", itemsId);
+            
+            query.nextRow();
+        }
+        query.finalize();
+    }
+    
+    if(playerSql)
+        db->execDML(playerSql->getCString());
+    if(itemsExistingSql)
+        db->execDML(itemsExistingSql->getCString());
+    
+}

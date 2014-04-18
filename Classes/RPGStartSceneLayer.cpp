@@ -138,7 +138,9 @@ void RPGStartSceneLayer::onDialog(cocos2d::CCObject *pObject)
         {
             //kRPGStartSceneLayerTagMenuItemDialogOK
             
-            this->m_db.execDML("delete from save_data;");
+            //清除数据
+            this->m_db.execDML("delete from save_data");
+            this->m_db.execDML("delete from items_existing");
             this->m_db.execDML(GAME_INIT_SQL);
             
             this->goToMapScene();

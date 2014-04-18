@@ -31,7 +31,9 @@ using namespace CocosDenshion;
 #define SAVEDATA_QUERY "select * from save_data where id = 1"
 
 //查询现有道具
-#define ITEMS_EXISTING_QUERY "select i.*, ie.total from items_existing as ie inner join items as i on ie.id = i.id where i.id order by i.id asc"
+#define ITEMS_EXISTING_QUERY "select i.*, ie.total from items_existing as ie inner join items as i on ie.id = i.id order by i.id asc"
+
+#define EQUIP_EXISTING_QUERY "select i.*, ie.total from items_existing as ie inner join items as i on ie.id = i.id where i.type = 1 or i.type = 2 order by i.id asc"
 
 //获取一个player的详细数据
 #define PLAYER_DETAIL_QUERY "select p.*, arms.name_cns as arms_name, armor.name_cns as armor_name from player as p left join items as arms on p.items_id_arms = arms.id left join items as armor on p.items_id_armor = armor.id where p.id = %i"

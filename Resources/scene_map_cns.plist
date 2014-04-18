@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>status_equip_none</key>
+	<string>（无）</string>
 	<key>status_equip_arms</key>
 	<string>武器：%s</string>
 	<key>status_equip_armor</key>
@@ -64,6 +66,8 @@
 	<string>魔攻：%i</string>
 	<key>menu_equip_skill_defense</key>
 	<string>魔防：%i</string>
+	<key>menu_equip_none</key>
+	<string>（无）</string>
 	<key>menu_equip_arms</key>
 	<string>武器：%s</string>
 	<key>menu_equip_armor</key>

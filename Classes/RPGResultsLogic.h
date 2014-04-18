@@ -28,6 +28,9 @@ public:
     
     static bool useSkillCure(CppSQLite3DB* db, int srcPlayerId, int targetPlayerId, int srcSkillId); //使用回复技能
     
+    static void removeEquip(CppSQLite3DB* db, int playerId, int type); //player卸掉一个装备，type为1表示武器，2表示防具
+    static void equip(CppSQLite3DB* db, int playerId, int itemsId); //装备
+    
 };
 
 #endif /* defined(__OzgGameRPG__RPGResultsLogic__) */

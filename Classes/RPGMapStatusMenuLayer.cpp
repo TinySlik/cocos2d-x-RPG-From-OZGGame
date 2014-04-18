@@ -205,8 +205,15 @@ void RPGMapStatusMenuLayer::setStatusPlayer(int dataId)
         addLab(this, kRPGMapStatusMenuLayerTagSkillDefense, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_skill_defense"))->getCString(), query.getIntField("skill_defense")), ccp(249, 90));
         
         //右边装备部分
-        addLab(this, kRPGMapStatusMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_arms"))->getCString(), query.getStringField("arms_name")), ccp(570, 410));
-        addLab(this, kRPGMapStatusMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_armor"))->getCString(), query.getStringField("armor_name")), ccp(570, 370));
+        if(strlen(query.getStringField("arms_name")) > 0)
+            addLab(this, kRPGMapStatusMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_arms"))->getCString(), query.getStringField("arms_name")), ccp(570, 410));
+        else
+            addLab(this, kRPGMapStatusMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_arms"))->getCString(), ((CCString*)this->m_stringList->objectForKey("status_equip_none"))->getCString()), ccp(570, 410));
+        
+        if(strlen(query.getStringField("armor_name")) > 0)
+            addLab(this, kRPGMapStatusMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_armor"))->getCString(), query.getStringField("armor_name")), ccp(570, 370));
+        else
+            addLab(this, kRPGMapStatusMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("status_equip_armor"))->getCString(), ((CCString*)this->m_stringList->objectForKey("status_equip_none"))->getCString()), ccp(570, 370));
         
         //右边技能部分
         
