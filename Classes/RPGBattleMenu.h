@@ -17,6 +17,8 @@ USING_NS_CC;
 enum RPGBattleMenuTag
 {
     kRPGBattleMenuTagBg = 99,
+    kRPGBattleMenuTagSeparate = 78,
+    kRPGBattleMenuTagNameLab = 79,
     kRPGBattleMenuTagAttack = 2,
     kRPGBattleMenuTagSkill = 4,
     kRPGBattleMenuTagItems = 5,

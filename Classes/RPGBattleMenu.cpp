@@ -18,7 +18,17 @@ RPGBattleMenu::~RPGBattleMenu()
     this->m_stringList->release();
     this->m_parentNode->release();
     this->m_playerData->release();
-
+    
+    CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagBg);
+    if(bgLayer)
+        bgLayer->removeFromParentAndCleanup(true);
+    
+    if(this->m_parentNode->getChildByTag(kRPGBattleMenuTagNameLab))
+        this->m_parentNode->removeChildByTag(kRPGBattleMenuTagNameLab, true);
+    
+    if(this->m_parentNode->getChildByTag(kRPGBattleMenuTagSeparate))
+        this->m_parentNode->removeChildByTag(kRPGBattleMenuTagSeparate, true);
+    
     CCLog("RPGBattleMenu 释放");
 }
 
@@ -45,6 +55,18 @@ bool RPGBattleMenu::initWithParentNode(CCDictionary* stringList, CCNode* parentN
             bgLayer->setTag(kRPGBattleMenuTagBg);
             parentNode->addChild(bgLayer);
         }
+        
+        //角色名字
+        addLab(this->m_parentNode, kRPGBattleMenuTagNameLab, CCString::create(playerData->m_name), 20, kCCTextAlignmentCenter, ccp(830, 292));
+        CCLabelTTF *nameLab = (CCLabelTTF*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagNameLab);
+        nameLab->setFontFillColor(ccc3(144, 144, 144));
+        
+        //分割线
+        CCSprite *separate = CCSprite::createWithSpriteFrameName("separate.png");
+        separate->setTag(kRPGBattleMenuTagSeparate);
+        separate->setPosition(ccp(830, 275));
+        separate->setScaleX(0.34);
+        this->m_parentNode->addChild(separate);
         
         CCString *menuAttackStr = (CCString*)this->m_stringList->objectForKey("battle_playermenu_attack");
         this->createMenuItem(830, 250, menuAttackStr, kRPGBattleMenuTagAttack);
@@ -82,6 +104,12 @@ void RPGBattleMenu::showMenu()
     CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagBg);
     bgLayer->setVisible(true);
     
+    CCLabelTTF *nameLab = (CCLabelTTF*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagNameLab);
+    nameLab->setVisible(true);
+    
+    CCSprite *separate = (CCSprite*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagSeparate);
+    separate->setVisible(true);
+    
     CCMenuItem *menuAttack = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagAttack);
     menuAttack->setVisible(true);
     
@@ -99,6 +127,12 @@ void RPGBattleMenu::hideMenu()
 {
     CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagBg);
     bgLayer->setVisible(false);
+    
+    CCLabelTTF *nameLab = (CCLabelTTF*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagNameLab);
+    nameLab->setVisible(false);
+    
+    CCSprite *separate = (CCSprite*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagSeparate);
+    separate->setVisible(false);
     
     CCMenuItem *menuAttack = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagAttack);
     menuAttack->setVisible(false);

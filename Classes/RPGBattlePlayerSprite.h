@@ -17,7 +17,8 @@ using namespace std;
 
 enum RPGBattlePlayerSpriteTag
 {
-    kRPGBattlePlayerSpriteTagCursor = 1
+    kRPGBattlePlayerSpriteTagCursor = 1,
+    kRPGBattlePlayerSpriteTagArm = 2
     
 };
 
@@ -50,8 +51,11 @@ public:
     
     void selected(bool isSelected);
     
-    void animNormal();
-    void animAttack(CCObject* target, CCObject *targetObjData);
+    void animNormal(); //执行通常时的状态
+    void animDeath(); //执行战斗不能的状态
+    void animWin(); //执行胜利的状态
+    
+    void animAttack(CCObject* target, CCObject *targetObjData); //执行一般攻击的动作，target为回调对象
     
 };
 

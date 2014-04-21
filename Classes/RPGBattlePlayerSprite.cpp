@@ -109,7 +109,16 @@ bool RPGBattlePlayerSprite::initWithPlayerData(RPGPlayer* data)
         
         this->m_isSelected = false;
         
-        this->animNormal();
+        if(this->m_data->m_HP > 0)
+        {
+            this->m_data->m_status = kRPGDataStatusNormal;
+            this->animNormal();
+        }
+        else
+        {
+            this->m_data->m_status = kRPGDataStatusDeath;
+            this->animDeath();
+        }
         
         return true;
     }
@@ -158,7 +167,28 @@ void RPGBattlePlayerSprite::animNormal()
 {
     this->stopAllActions();
     
+    if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
+        this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
+    
     CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesNormal, 0.2);
+    CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
+    this->runAction(animate);
+}
+
+void RPGBattlePlayerSprite::animDeath()
+{
+    this->stopAllActions();
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesDeath, 0.2);
+    CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
+    this->runAction(animate);
+}
+
+void RPGBattlePlayerSprite::animWin()
+{
+    this->stopAllActions();
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesWin, 0.2);
     CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
     this->runAction(animate);
 }
@@ -166,13 +196,36 @@ void RPGBattlePlayerSprite::animNormal()
 void RPGBattlePlayerSprite::animAttack(CCObject* target, cocos2d::CCObject *targetObjData)
 {
     this->stopAllActions();
-    
+        
     SimpleAudioEngine::sharedEngine()->playEffect("audio_battle_attack1.wav");
     
     CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesAttack, 0.15);
     
-    //挥动武器的动作跟上面的一起执行
-    //waving
+    //挥动武器的动作
+    CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(CCString::createWithFormat("attack%i.ExportJson", this->m_data->m_dataId)->getCString());
+	CCArmature* arm = CCArmature::create(CCString::createWithFormat("attack%i", this->m_data->m_dataId)->getCString());
+	arm->getAnimation()->play("main_anim");
+	arm->setPosition(CCPointZero);
+    arm->setTag(kRPGBattlePlayerSpriteTagArm);
+    arm->setScale(0.75);
+	this->addChild(arm);
     
-    this->runAction(CCSequence::createWithTwoActions(CCAnimate::create(animation), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackResults), targetObjData)));
+    //对应好arm位置
+    switch (this->m_data->m_dataId)
+    {
+        case 2:
+            arm->setPosition(ccp(arm->getPosition().x - 5, arm->getPosition().y));
+            break;
+        case 3:
+            arm->setPosition(ccp(arm->getPosition().x - 5, arm->getPosition().y));
+            break;
+        case 4:
+            
+            break;
+        default:
+            arm->setPosition(ccp(arm->getPosition().x - 6, arm->getPosition().y + 5));
+            break;
+    }
+    
+    this->runAction(CCSequence::createWithTwoActions(CCAnimate::create(animation), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackResults), (void*)targetObjData)));
 }

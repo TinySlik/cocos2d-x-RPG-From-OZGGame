@@ -14,6 +14,12 @@
 USING_NS_CC;
 using namespace std;
 
+enum RPGDataStatus {
+    kRPGDataStatusNormal = 1, //通常时
+    kRPGDataStatusDeath = 2 //战斗不能
+    
+};
+
 class RPGPlayer : public CCObject
 {
     
@@ -37,7 +43,9 @@ public:
     int m_nextExp;
     string m_texPrefix;
     
-    float m_progress;
+    float m_progress; //进度条，数据库没有这个字段
+    
+    RPGDataStatus m_status; //对象状态，数据库暂时没有这个字段
     
     RPGPlayer();
     virtual ~RPGPlayer();
@@ -66,7 +74,9 @@ public:
     
     int m_tag; //格式为 enum tag + 0到999的无重复数（就算同一个怪物也不能重复）
     
-    float m_progress;
+    float m_progress; //进度条，数据库没有这个字段
+    
+    RPGDataStatus m_status; //对象状态，数据库暂时没有这个字段
     
     RPGMonster();
     virtual ~RPGMonster();

@@ -1,0 +1,106 @@
+{
+  "content_scale": 1.0,
+  "armature_data": [
+    {
+      "strVersion": "1.3.0.1",
+      "version": 1.301,
+      "name": "attack2",
+      "bone_data": [
+        {
+          "name": "arms",
+          "parent": "",
+          "x": 18.115962982177734,
+          "y": 12.211161613464356,
+          "z": 1,
+          "cX": 1.0,
+          "cY": 1.0,
+          "kX": 2.62033749,
+          "kY": -2.62033749,
+          "arrow_x": 85.232368469238281,
+          "arrow_y": -2.8431607006496051E-06,
+          "effectbyskeleton": true,
+          "display_data": [
+            {
+              "name": "role_attack_02.png",
+              "displayType": 0,
+              "skin_data": [
+                {
+                  "x": 21.79085,
+                  "y": 1.56826878,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 3.66284752,
+                  "kY": 2.62033772
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "animation_data": [
+    {
+      "name": "attack2",
+      "mov_data": [
+        {
+          "name": "main_anim",
+          "dr": 31,
+          "lp": false,
+          "to": 0,
+          "drTW": 0,
+          "twE": 0,
+          "sc": 1.0,
+          "mov_bone_data": [
+            {
+              "name": "arms",
+              "dl": 0.0,
+              "frame_data": [
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 2.18166161,
+                  "kY": -2.18166161,
+                  "fi": 0,
+                  "twE": 0,
+                  "tweenFrame": true
+                },
+                {
+                  "dI": 0,
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0,
+                  "cX": 1.0,
+                  "cY": 1.0,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 30,
+                  "twE": 0,
+                  "tweenFrame": true,
+                  "evt": "attack2_end"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "texture_data": [
+    {
+      "name": "role_attack_02",
+      "width": 0.0,
+      "height": 0.0,
+      "pX": 0.5,
+      "pY": 0.5,
+      "plistFile": ""
+    }
+  ],
+  "config_file_path": [
+    "attack20.plist"
+  ]
+}

@@ -27,7 +27,11 @@ enum RPGBattleSceneLayerTag
     kRPGBattleSceneLayerTagPlayerProgress = 300,
     kRPGBattleSceneLayerTagPlayerProgressBg = 400,
     kRPGBattleSceneLayerTagPlayerHP = 500,
-    kRPGBattleSceneLayerTagPlayerMP = 600,
+    kRPGBattleSceneLayerTagPlayerHPSeparate = 600,
+    kRPGBattleSceneLayerTagPlayerMaxHP = 700,
+    kRPGBattleSceneLayerTagPlayerMP = 800,
+    kRPGBattleSceneLayerTagPlayerMPSeparate = 900,
+    kRPGBattleSceneLayerTagPlayerMaxMP = 1000,
     kRPGBattleSceneLayerTagMonster = 10000,
     kRPGBattleSceneLayerTagMonsterNameLab = 20000
     
@@ -62,6 +66,9 @@ private:
     void computingProgress(); //计算战斗画面中的所有战斗对象的进度条
     float computingFloat(float val); //计算浮动值
     
+    bool judgeWin(); //判断是否胜利，true为胜利，false继续战斗
+    bool judgeLose(); //判断是否输了，true为输了，false继续战斗
+    
 public:
     
     RPGBattleSceneLayer();
@@ -88,7 +95,8 @@ public:
     void cancelAllSelected(); //取消全部选中的对象
     
     void attack(CCObject* attackObjData, CCObject* targetObjData); //player或怪物执行攻击
-    void attackResults(CCNode* sender, void* data); //计算攻击后的结果
+    void attackResults(CCNode* sender, void* data); //回调，计算攻击后的结果
+    void attackWithTargetHurtLabEnd(CCNode* sender, void* data); //回调，攻击流程完毕后执行，这个sender是被攻击的对象中显示的伤害值CCLabelTTF
     
 };
 
