@@ -10,7 +10,10 @@
 #include "RPGLoadingSceneLayer.h"
 #include "RPGComputingResults.h"
 
-#define MONSTER_QUERY "select * from monster where map_id = %i order by random() limit 1"
+#define MONSTER_QUERY "select * from monster where map_id = %i order by random() limit 1" //随机出现怪物
+
+#define SAVE_GOLD "update save_data set gold = %i where id = 1" //保存金钱
+#define UPDATE_PLAYER "update player set hp = %i, mp = %i, attack = %f, defense = %f, speed = %f, skill_attack = %f, skill_defense = %f, level = %i, skill = '%s', next_exp = %i, exp = %i where id = %i" //更新player数据，升级时用到
 
 RPGBattleSceneLayer::RPGBattleSceneLayer()
 {
@@ -26,6 +29,7 @@ RPGBattleSceneLayer::~RPGBattleSceneLayer()
         
     CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("monsters.plist");
     
+//    CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
     CCLog("RPGBattleSceneLayer 释放");
 }
 
@@ -102,6 +106,7 @@ bool RPGBattleSceneLayer::init()
             playerData->m_itemsIdArms = query.getIntField("items_id_arms");
             playerData->m_skill = query.getStringField("skill");
             playerData->m_texPrefix = query.getStringField("tex_prefix");
+            playerData->m_exp = query.getIntField("exp");
             playerData->m_progress = 0.0; //computingProgress方法会重新计算这个值
             
             playerData->m_speed = this->computingFloat(playerData->m_speed);
@@ -205,6 +210,7 @@ bool RPGBattleSceneLayer::init()
                 monsterData->m_exp = query.getIntField("exp");
                 monsterData->m_skill = query.getStringField("skill");
                 monsterData->m_tex = query.getStringField("tex");
+                monsterData->m_gold = query.getIntField("gold");
                 monsterData->m_progress = 0.0; //computingProgress方法会重新计算这个值
                 
                 monsterData->m_speed = this->computingFloat(monsterData->m_speed);
@@ -280,6 +286,7 @@ bool RPGBattleSceneLayer::init()
         this->computingProgress();
                 
         this->scheduleUpdate();
+                
         return true;
     }
     return false;
@@ -383,68 +390,113 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
     CCPoint point = pTouch->getLocation();
     
     RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+    RPGBattleMenu *winResultsDialog = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagWinResultsDialog);
     
-    switch (battleMenu->m_selectedMenuTag)
+    if(battleMenu)
     {
-        case kRPGBattleMenuTagAttack:
+        switch (battleMenu->m_selectedMenuTag)
         {
-//            CCLog("攻击");
-            
-            SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
-            
-            //检测选中的player
-            for (int i = 0; i < this->m_playerList->count(); i++)
+            case kRPGBattleMenuTagAttack:
             {
-                RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
-                if(player->boundingBox().containsPoint(point))
+//                CCLog("攻击");
+                
+                SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+                
+                //检测选中的player
+                for (int i = 0; i < this->m_playerList->count(); i++)
                 {
-                    if(player->m_isSelected)
+                    RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+                    if(player->boundingBox().containsPoint(point))
                     {
-                        CCLog("攻击player");
-                        
+                        if(player->m_isSelected)
+                        {
+                            CCLog("攻击player");
+                            
+                            player->selected(false);
+                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
+                            
+                        }
+                        else
+                            player->selected(true);
+                    }
+                    else
                         player->selected(false);
-                        this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
-                        
-                    }
-                    else
-                        player->selected(true);
+                    
                 }
-                else
-                    player->selected(false);
                 
-            }
-            
-            //检测选中的怪物
-            for (int i = 0; i < this->m_monsterList->count(); i++)
-            {
-                RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->m_monsterList->objectAtIndex(i);
-                if(monster->boundingBox().containsPoint(point))
+                //检测选中的怪物
+                for (int i = 0; i < this->m_monsterList->count(); i++)
                 {
-                    if(monster->m_isSelected)
+                    RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->m_monsterList->objectAtIndex(i);
+                    if(monster->boundingBox().containsPoint(point))
                     {
-                        CCLog("攻击怪物");
-                        
-                        RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
-                        RPGPlayer *playerData = battleMenu->m_playerData;
-                        
-                        monster->selected(false);
-                        battleMenu->removeFromParentAndCleanup(true);
-                                                
-                        this->attack(playerData, monster->m_data);
-                        
+                        if(monster->m_isSelected)
+                        {
+                            CCLog("攻击怪物");
+                            
+                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+                            RPGPlayer *playerData = battleMenu->m_playerData;
+                            
+                            monster->selected(false);
+                            battleMenu->removeFromParentAndCleanup(true);
+                            
+                            this->attack(playerData, monster->m_data);
+                            
+                        }
+                        else
+                            monster->selected(true);
                     }
                     else
-                        monster->selected(true);
+                        monster->selected(false);
+                    
                 }
-                else
-                    monster->selected(false);
                 
             }
+                break;
             
+//            default:
+//                break;
         }
-            break;
-//        default:
-//            break;
+    }
+    else if(winResultsDialog)
+    {
+        CCLog("战斗胜利后返回地图界面");
+        
+        //保存获得的金钱到数据库
+        {
+            CCString *sql = NULL;
+            
+            CppSQLite3Query query = this->m_db.execQuery(CCString::create(SAVEDATA_QUERY)->getCString());
+            while(!query.eof())
+            {
+                this->m_totalGold = query.getIntField("gold") + this->m_totalGold;
+                
+                //最大值的处理
+                if(this->m_totalGold > MAX_GOLD)
+                    this->m_totalGold = MAX_GOLD;
+                
+                sql = CCString::createWithFormat(SAVE_GOLD, this->m_totalGold);
+                
+                query.nextRow();
+            }
+            query.finalize();
+            
+            if(sql) this->m_db.execDML(sql->getCString());
+        }
+        
+        //保存player的状态到数据库
+        for (int i = 0; i < this->m_playerDataList->count(); i++)
+        {
+            RPGPlayer *playerData = (RPGPlayer*)this->m_playerDataList->objectAtIndex(i);
+            
+            CCString *sql = CCString::createWithFormat(UPDATE_PLAYER, playerData->m_HP, playerData->m_MP, playerData->m_attack, playerData->m_defense, playerData->m_speed, playerData->m_skillAttack, playerData->m_skillDefense, playerData->m_level, playerData->m_skill.c_str(), playerData->m_nextExp, playerData->m_exp, playerData->m_dataId);
+//            CCLog("%s", sql->getCString());
+            this->m_db.execDML(sql->getCString());
+        }
+        
+        //保存现有道具到数据库
+        
+        this->goToMap();
     }
     
 }
@@ -523,6 +575,18 @@ void RPGBattleSceneLayer::goToMap()
     CCArray *releaseTextures = CCArray::create();
     releaseTextures->addObject(CCString::create("monsters.png"));
     releaseTextures->addObject(CCString::create("battle_bg.png"));
+    releaseTextures->addObject(CCString::create("attack10.png"));
+    releaseTextures->addObject(CCString::create("attack20.png"));
+    releaseTextures->addObject(CCString::create("attack30.png"));
+    releaseTextures->addObject(CCString::create("attack40.png"));
+    
+    for (int i = 0; i < this->m_playerDataList->count(); i++)
+    {
+        RPGPlayer *playerData = (RPGPlayer*)this->m_playerDataList->objectAtIndex(i);
+        releaseTextures->addObject(CCString::createWithFormat("%s_1.png", playerData->m_texPrefix.c_str()));
+        releaseTextures->addObject(CCString::createWithFormat("%s_2.png", playerData->m_texPrefix.c_str()));
+        releaseTextures->addObject(CCString::createWithFormat("%s_3.png", playerData->m_texPrefix.c_str()));
+    }
     
     CCScene *s = RPGLoadingSceneLayer::scene(loadTextures, releaseTextures, "single_map");
     CCTransitionFade *t = CCTransitionFade::create(GAME_SCENE, s);
@@ -681,8 +745,7 @@ void RPGBattleSceneLayer::attackWithTargetHurtLabEnd(cocos2d::CCNode *sender, vo
                 player->animWin();
         }
         
-        //!!!计算获得的经验值和金钱后，显示
-        
+        this->showWinResults();
     }
 }
 
@@ -815,4 +878,126 @@ bool RPGBattleSceneLayer::judgeLose()
 {
     
     return false;
+}
+
+void RPGBattleSceneLayer::showWinResults()
+{
+    CCTMXTiledMap *winResults = CCTMXTiledMap::create("battle_battle_style1.tmx");
+    winResults->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - winResults->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - winResults->getContentSize().height) / 2));
+    winResults->setTag(kRPGBattleSceneLayerTagWinResultsDialog);
+    this->addChild(winResults);
+    
+    //显示title
+    addLab(winResults, 5, CCString::create(((CCString*)this->m_stringList->objectForKey("win_title"))->getCString()), 26, kCCTextAlignmentCenter, ccp(winResults->getContentSize().width / 2, 270));
+    
+    //统计经验值，怪物的总经验值 / 活着的player总数
+    
+    //player
+    int totalPlayer = 0;
+    for (int i = 0; i < this->m_playerList->count(); i++)
+    {
+        RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+        if(player->m_data->m_status != kRPGDataStatusDeath)
+            totalPlayer++;
+    }
+    
+    //经验值和金钱
+    int totalExp = 0;
+    int totalGold = 0;
+    for (int i = 0; i < this->m_monsterDataList->count(); i++)
+    {
+        CCArray *monsters = (CCArray*)this->m_monsterDataList->objectAtIndex(i);
+        for (int j = 0; j < monsters->count(); j++)
+        {
+            RPGMonster *monsterData = (RPGMonster*)monsters->objectAtIndex(j);
+            totalExp += monsterData->m_exp;
+            
+            totalGold += monsterData->m_gold;
+        }
+    }
+    this->m_totalGold = totalGold;
+    
+    //显示获得的金钱
+    addLab(winResults, 6, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("win_gold"))->getCString(), totalGold), 20, kCCTextAlignmentCenter, ccp(winResults->getContentSize().width / 2, 220));
+    
+    //显示各个player获得的经验值
+    float y = 170;
+    int exp = totalExp / totalPlayer;
+    for (int i = 0; i < this->m_playerList->count(); i++)
+    {
+        RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+        
+        if(player->m_data->m_status != kRPGDataStatusDeath)
+        {
+            player->m_data->m_exp += exp; //累加总经验
+            player->m_data->m_nextExp -= exp; //累减下一级经验值
+            if(player->m_data->m_nextExp <= 0)
+            {
+                //升级了
+                player->m_data->m_level++;
+                
+                player->m_data->m_nextExp = player->m_data->m_level * player->m_data->m_exp; //计算下一级经验值
+                
+                //提升能力值
+                
+                switch (player->m_data->m_dataId)
+                {
+                    case 2:
+                        player->m_data->m_maxHP += 12;
+                        player->m_data->m_maxMP += 43;
+                        player->m_data->m_attack += 1;
+                        player->m_data->m_defense += 2;
+                        player->m_data->m_speed += 2;
+                        player->m_data->m_skillAttack += 5;
+                        player->m_data->m_skillDefense += 4;
+                        break;
+                    case 3:
+                        player->m_data->m_maxHP += 8;
+                        player->m_data->m_maxMP += 48;
+                        player->m_data->m_attack += 1;
+                        player->m_data->m_defense += 3;
+                        player->m_data->m_speed += 2;
+                        player->m_data->m_skillAttack += 4;
+                        player->m_data->m_skillDefense += 5;
+                        break;
+                    case 4:
+                        player->m_data->m_maxHP += 23;
+                        player->m_data->m_maxMP += 21;
+                        player->m_data->m_attack += 3;
+                        player->m_data->m_defense += 3;
+                        player->m_data->m_speed += 6;
+                        player->m_data->m_skillAttack += 2;
+                        player->m_data->m_skillDefense += 2;
+                        break;
+                    default:
+                        player->m_data->m_maxHP += 49;
+                        player->m_data->m_maxMP += 8;
+                        player->m_data->m_attack += 6;
+                        player->m_data->m_defense += 4;
+                        player->m_data->m_speed += 3;
+                        player->m_data->m_skillAttack += 1;
+                        player->m_data->m_skillDefense += 1;
+                        break;
+                }
+                
+                //最大值的处理
+                if(player->m_data->m_maxHP > MAX_STATUS1) player->m_data->m_maxHP = MAX_STATUS1;
+                if(player->m_data->m_maxMP > MAX_STATUS2) player->m_data->m_maxMP = MAX_STATUS2;
+                if(player->m_data->m_attack > MAX_STATUS2) player->m_data->m_attack = MAX_STATUS2;
+                if(player->m_data->m_defense > MAX_STATUS2) player->m_data->m_defense = MAX_STATUS2;
+                if(player->m_data->m_speed > MAX_STATUS2) player->m_data->m_speed = MAX_STATUS2;
+                if(player->m_data->m_skillAttack > MAX_STATUS2) player->m_data->m_skillAttack = MAX_STATUS2;
+                if(player->m_data->m_skillDefense > MAX_STATUS2) player->m_data->m_skillDefense = MAX_STATUS2;
+                
+                addLab(winResults, player->m_data->m_dataId, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("win_level_up"))->getCString(), player->m_data->m_name.c_str()), 18, kCCTextAlignmentLeft, ccp(230, y));
+            }
+            else
+                addLab(winResults, player->m_data->m_dataId, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("win_exp"))->getCString(), player->m_data->m_name.c_str(), exp), 18, kCCTextAlignmentLeft, ccp(230, y));
+        }
+        else
+            addLab(winResults, player->m_data->m_dataId, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("win_exp"))->getCString(), player->m_data->m_name.c_str(), 0), 18, kCCTextAlignmentLeft, ccp(230, y));
+        
+        y -= 40;
+    }
+    
 }

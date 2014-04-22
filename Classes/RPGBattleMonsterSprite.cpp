@@ -86,7 +86,7 @@ void RPGBattleMonsterSprite::showHurtResults(cocos2d::CCObject *target, int HPRe
     
     this->m_HPResults = HPResults;
     
-    hurtResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCCallFunc::create(this, callfunc_selector(RPGBattleMonsterSprite::showHurtResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetHurtLabEnd), player), NULL));
+    hurtResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattleMonsterSprite::showHurtResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetHurtLabEnd), player), NULL));
     
 }
 

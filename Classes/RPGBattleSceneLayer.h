@@ -21,6 +21,7 @@ enum RPGBattleSceneLayerTag
     kRPGBattleSceneLayerTagBg = 1,
     kRPGBattleSceneLayerTagMenuBg = 2,
     kRPGBattleSceneLayerTagBattleMenu = 3,
+    kRPGBattleSceneLayerTagWinResultsDialog = 70,
     kRPGBattleSceneLayerTagMsg = 98,
     kRPGBattleSceneLayerTagPlayer = 100,
     kRPGBattleSceneLayerTagPlayerNameLab = 200,
@@ -55,6 +56,8 @@ private:
     
     bool m_enabledTouched; //是否打开了可点击状态（主要可点击player或怪物）
     
+    int m_totalGold; //临时保存战斗胜利后所获得的金钱，用来在胜利后执行goToMap()之前使用的
+    
     //对应的怪物的tag是否存在m_monsterDataList
     bool monsterDataListExistWithTag(int tag);
     
@@ -68,6 +71,8 @@ private:
     
     bool judgeWin(); //判断是否胜利，true为胜利，false继续战斗
     bool judgeLose(); //判断是否输了，true为输了，false继续战斗
+    
+    void showWinResults(); //显示胜利后获得的经验值和金钱，统计升级也在这里执行
     
 public:
     

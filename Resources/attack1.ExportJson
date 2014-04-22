@@ -45,7 +45,7 @@
       "mov_data": [
         {
           "name": "main_anim",
-          "dr": 31,
+          "dr": 21,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -76,12 +76,11 @@
                   "z": 0,
                   "cX": 1.0,
                   "cY": 1.0,
-                  "kX": 4.49408446E-07,
-                  "kY": -4.49408446E-07,
-                  "fi": 30,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
                   "twE": 0,
-                  "tweenFrame": true,
-                  "evt": "attack1_end"
+                  "tweenFrame": true
                 }
               ]
             }

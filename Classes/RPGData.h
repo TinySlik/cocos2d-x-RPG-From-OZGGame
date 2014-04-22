@@ -42,6 +42,7 @@ public:
     string m_skill;
     int m_nextExp;
     string m_texPrefix;
+    int m_exp; //总经验值
     
     float m_progress; //进度条，数据库没有这个字段
     
@@ -71,6 +72,7 @@ public:
     int m_exp;
     string m_skill;
     string m_tex;
+    int m_gold;
     
     int m_tag; //格式为 enum tag + 0到999的无重复数（就算同一个怪物也不能重复）
     

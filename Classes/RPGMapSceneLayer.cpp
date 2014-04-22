@@ -14,6 +14,8 @@
 #include "RPGMapDialogLayer.h"
 #include "RPGLoadingSceneLayer.h"
 
+#define NPC_QUERY "select * from npc where map_id = %i order by id desc" //查询该地图的NPC
+
 RPGMapSceneLayer::RPGMapSceneLayer()
 {
     
@@ -38,16 +40,6 @@ RPGMapSceneLayer::~RPGMapSceneLayer()
     if(this->m_releaseTexture)
     {
         CCTextureCache::sharedTextureCache()->removeTextureForKey("map.png");
-        CCTextureCache::sharedTextureCache()->removeTextureForKey("main.png");
-        
-        //数据库部分，释放npc的纹理
-        CppSQLite3Query query = this->m_db.execQuery("select * from npc order by id desc");
-        while(!query.eof())
-        {
-            CCTextureCache::sharedTextureCache()->removeTextureForKey(query.getStringField("map_texture"));
-            query.nextRow();
-        }
-        query.finalize();
         
         //player部分
         CCTextureCache::sharedTextureCache()->removeTextureForKey("actor4_0.png");
@@ -55,7 +47,17 @@ RPGMapSceneLayer::~RPGMapSceneLayer()
         
     }
     
-//    CCLog("RPGMapSceneLayer释放");
+    //数据库部分，释放npc的纹理
+    CppSQLite3Query query = this->m_db.execQuery(CCString::createWithFormat(NPC_QUERY, this->m_mapData.mapId)->getCString());
+    while(!query.eof())
+    {
+        CCTextureCache::sharedTextureCache()->removeTextureForKey(query.getStringField("map_texture"));
+        query.nextRow();
+    }
+    query.finalize();
+    
+//    CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
+    CCLog("RPGMapSceneLayer 释放");
 }
 
 bool RPGMapSceneLayer::init(float showObjectTime)
@@ -71,7 +73,7 @@ bool RPGMapSceneLayer::init(float showObjectTime)
         this->m_stringList->retain();
         
         //数据库部分，读取进度记录
-        CppSQLite3Query query = this->m_db.execQuery("select m.name as map_name, sd.map_id, m.has_enemy, m.bg_audio, sd.player_to_x, sd.player_to_y, sd.player_direction from save_data as sd inner join map as m on sd.map_id = m.id where sd.id = 1");
+        CppSQLite3Query query = this->m_db.execQuery(SAVEDATA_MAP_QUERY);
         this->m_mapData.mapId = query.getIntField("map_id");
         this->m_mapData.mapName = query.getStringField("map_name");
         this->m_mapData.hasEnemy = query.getIntField("has_enemy") == 1 ? true : false;
@@ -79,6 +81,8 @@ bool RPGMapSceneLayer::init(float showObjectTime)
         this->m_mapData.playerToX = query.getFloatField("player_to_x");
         this->m_mapData.playerToY = query.getFloatField("player_to_y");
         this->m_mapData.playerDirection = query.getStringField("player_direction");
+        this->m_mapData.location = query.getStringField("location_cns");
+        this->m_mapData.gold = query.getIntField("gold");
         query.finalize();
         
         CCTMXTiledMap *bgMap = CCTMXTiledMap::create(this->m_mapData.mapName.c_str());
@@ -103,6 +107,7 @@ bool RPGMapSceneLayer::init(float showObjectTime)
         
         this->scheduleOnce(schedule_selector(RPGMapSceneLayer::startPlay), showObjectTime);
         
+//        CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
         return true;
     }
     return false;
@@ -449,7 +454,7 @@ void RPGMapSceneLayer::startPlay(float delay)
     CCTMXTiledMap *bgMap = (CCTMXTiledMap*)this->getChildByTag(kRPGMapSceneLayerTagBgMap);
     
     //数据库部分，读取npc数据
-    CppSQLite3Query query = this->m_db.execQuery(CCString::createWithFormat("select * from npc where map_id = %i order by id desc", this->m_mapData.mapId)->getCString());
+    CppSQLite3Query query = this->m_db.execQuery(CCString::createWithFormat(NPC_QUERY, this->m_mapData.mapId)->getCString());
     while(!query.eof())
     {
         float x = (stringToNumber<float>(query.getStringField("tmx_x")) + 0.5) * GAME_TMX_ROLE_WIDTH;

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<AnimationProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>D:\root\Temp\OzgCocoStudio\attack4</ProjectDir>
+  <Version>1.3.0.1</Version>
+  <Resources>D:\root\Temp\OzgCocoStudio\attack4\Resources</Resources>
+  <Name>attack4</Name>
+  <JsonFileName>attack4.json</JsonFileName>
+  <JsonFolder>D:\root\Temp\OzgCocoStudio\attack4\Json</JsonFolder>
+  <JsonList />
+  <CanvasSize>
+    <Width>0</Width>
+    <Height>0</Height>
+  </CanvasSize>
+  <filePath>D:\root\Temp\OzgCocoStudio\attack4\attack4.xml.animation</filePath>
+  <ProjectType>AnimationProject</ProjectType>
+  <ResRelativePath />
+  <ResourceFileList>
+    <string>attack40.plist</string>
+  </ResourceFileList>
+  <bBatchImage>true</bBatchImage>
+</AnimationProject>

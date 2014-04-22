@@ -32,6 +32,10 @@
 	<string>取消</string>
 	<key>confirm_exit</key>
 	<string>退出游戏返回到初始界面。</string>
+	<key>menu_gold</key>
+	<string>金钱：</string>
+	<key>menu_map</key>
+	<string>所在位置：</string>
 	<key>menu_back</key>
 	<string>后退</string>
 	<key>menu_close</key>

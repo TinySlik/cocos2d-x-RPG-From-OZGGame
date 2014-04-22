@@ -219,7 +219,7 @@ void RPGMapMenuLayer::createMenuItem(float x, float y, CCString *text, RPGMapMen
     {
         CCLabelTTF *menuItemsLabel = CCLabelTTF::create(OzgCCUtility::generalString(text->getCString()).c_str(), "FZCuYuan-M03S", 25, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     
-        CCMenuItemLabel *menuItems = CCMenuItemLabel::create(menuItemsLabel, this, menu_selector(RPGMapMenuLayer::onMenu));
+        menuItems = CCMenuItemLabel::create(menuItemsLabel, this, menu_selector(RPGMapMenuLayer::onMenu));
         menuItems->setPosition(ccp(x, y));
         menuItems->setTag(tag);
         mainMenu->addChild(menuItems);
@@ -229,7 +229,7 @@ void RPGMapMenuLayer::createMenuItem(float x, float y, CCString *text, RPGMapMen
 
 void RPGMapMenuLayer::setMainMenuDefault()
 {
-    CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGMapMenuLayerTagMainMenu);
+    //显示右边的菜单项
     
     CCString *menuItemsStr = (CCString*)this->m_stringList->objectForKey("menu_items");
     this->createMenuItem(835, 570, menuItemsStr, kRPGMapMenuLayerTagMainMenuItems);
@@ -249,22 +249,27 @@ void RPGMapMenuLayer::setMainMenuDefault()
     CCString *menuExitStr = (CCString*)this->m_stringList->objectForKey("menu_exit");
     this->createMenuItem(835, 220, menuExitStr, kRPGMapMenuLayerTagMainMenuExit);
     
-    CCObject *item = NULL;
-    CCARRAY_FOREACH(mainMenu->getChildren(), item)
+    //分割线
+    CCSprite *separate = CCSprite::createWithSpriteFrameName("separate.png");
+    separate->setTag(kRPGMapMenuLayerTagSeparate);
+    separate->setPosition(ccp(840, 170));
+    separate->setScaleX(0.52);
+    this->addChild(separate);
+    
+    //显示右下角的部分
+    addLab(this, kRPGMapMenuLayerTagGoldLab, CCString::createWithFormat("%s", ((CCString*)this->m_stringList->objectForKey("menu_gold"))->getCString()), 18, kCCTextAlignmentRight, ccp(630, 130));
+    addLab(this, kRPGMapMenuLayerTagMapLab, CCString::createWithFormat("%s", ((CCString*)this->m_stringList->objectForKey("menu_map"))->getCString()), 18, kCCTextAlignmentRight, ccp(630, 90));
+    
+    CppSQLite3Query query = this->m_db->execQuery(CCString::create(SAVEDATA_MAP_QUERY)->getCString());
+    while(!query.eof())
     {
-        CCMenuItem *menuItem = (CCMenuItem*)item;
+        addLab(this, kRPGMapMenuLayerTagGoldLab, CCString::createWithFormat("%i", query.getIntField("gold")), 18, kCCTextAlignmentLeft, ccp(1030, 130));
+        addLab(this, kRPGMapMenuLayerTagMapLab, CCString::createWithFormat("%s", query.getStringField("location_cns")), 18, kCCTextAlignmentLeft, ccp(1030, 90));
         
-        if(menuItem->getTag() == kRPGMapMenuLayerTagMainMenuItems ||
-           menuItem->getTag() == kRPGMapMenuLayerTagMainMenuEquip ||
-           menuItem->getTag() == kRPGMapMenuLayerTagMainMenuSkill ||
-           menuItem->getTag() == kRPGMapMenuLayerTagMainMenuStatus ||
-           menuItem->getTag() == kRPGMapMenuLayerTagMainMenuClose ||
-           menuItem->getTag() == kRPGMapMenuLayerTagMainMenuExit)
-            menuItem->setVisible(true);
-        else
-            menuItem->setVisible(false);
-        
+        query.nextRow();
     }
+    query.finalize();
+    
 }
 
 void RPGMapMenuLayer::setDefaultInterface()

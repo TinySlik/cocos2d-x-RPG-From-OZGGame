@@ -50,6 +50,8 @@ struct RPGMapData
     float playerToX;
     float playerToY;
     string playerDirection;
+    string location;
+    int gold;
 };
 
 class RPGMapSceneLayer : public RPGBaseSceneLayer

@@ -41,6 +41,8 @@ using namespace CocosDenshion;
 //查询一个角色的技能
 #define SKILL_QUERY "select * from skill where id in(%s)"
 
+#define SAVEDATA_MAP_QUERY "select m.name as map_name, m.location_cns, sd.map_id, m.has_enemy, m.bg_audio, sd.player_to_x, sd.player_to_y, sd.player_direction, sd.gold from save_data as sd inner join map as m on sd.map_id = m.id where sd.id = 1" //获取存档和地图数据
+
 //技能的属性
 enum RPGSkillAttr
 {

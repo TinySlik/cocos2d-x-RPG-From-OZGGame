@@ -6,6 +6,14 @@
 	<string>逃跑成功</string>
 	<key>escape_fail</key>
 	<string>逃跑失败</string>
+	<key>win_title</key>
+	<string>战斗结束！</string>
+	<key>win_gold</key>
+	<string>获得金钱：%i</string>
+	<key>win_exp</key>
+	<string>%s 获得经验值：%i</string>
+	<key>win_level_up</key>
+	<string>%s 升级了</string>
 	<key>battle_playermenu_attack</key>
 	<string>攻击</string>
 	<key>battle_playermenu_defense</key>

@@ -1,4 +1,4 @@
-ozg game — 单机版RPG
+ozg game — 单机版RPG（开发中…）
 ================
 
 本游戏主要用于技术的研究和积累
@@ -9,9 +9,9 @@ ozg game — 单机版RPG
 声音文件来自 http://www.66rpg.com/type.php?t=17
 
 
-目前只在iOS平台下进行测试，战斗画面的攻击、技能、道具未完成。
+目前只在iOS平台下进行测试，战斗画面的技能、道具未完成。
 
-每次更新数据库都需要把模拟器里面的数据库删除。
+每次的更新完毕之后，数据结构都可能发生了变化，所以要把旧的数据库删除。
 
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot1.png)
 

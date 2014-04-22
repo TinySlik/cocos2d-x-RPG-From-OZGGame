@@ -4,33 +4,33 @@
     {
       "strVersion": "1.3.0.1",
       "version": 1.301,
-      "name": "attack1",
+      "name": "attack3",
       "bone_data": [
         {
           "name": "arms",
           "parent": "",
-          "x": 14.5,
-          "y": 5.980010986328125,
+          "x": 14.270388603210449,
+          "y": 10.081528663635254,
           "z": 1,
           "cX": 1.0,
           "cY": 1.0,
-          "kX": 2.64634633,
-          "kY": -2.64634633,
-          "arrow_x": 155.70803833007813,
-          "arrow_y": -1.5135661669773981E-05,
+          "kX": 2.58113575,
+          "kY": -2.58113575,
+          "arrow_x": 73.472114562988281,
+          "arrow_y": 3.4560994208732154E-06,
           "effectbyskeleton": true,
           "display_data": [
             {
-              "name": "role_attack_01.png",
+              "name": "role_attack_03.png",
               "displayType": 0,
               "skin_data": [
                 {
-                  "x": 15.59984,
-                  "y": -1.62957907,
+                  "x": 17.4462662,
+                  "y": 0.95342207,
                   "cX": 1.0,
                   "cY": 1.0,
-                  "kX": 3.636839,
-                  "kY": 2.64634633
+                  "kX": 3.70204878,
+                  "kY": 2.58113527
                 }
               ]
             }
@@ -41,11 +41,11 @@
   ],
   "animation_data": [
     {
-      "name": "attack1",
+      "name": "attack3",
       "mov_data": [
         {
           "name": "main_anim",
-          "dr": 31,
+          "dr": 21,
           "lp": false,
           "to": 0,
           "drTW": 0,
@@ -63,8 +63,8 @@
                   "z": 0,
                   "cX": 1.0,
                   "cY": 1.0,
-                  "kX": 2.1816628,
-                  "kY": -2.1816628,
+                  "kX": 2.18166161,
+                  "kY": -2.18166161,
                   "fi": 0,
                   "twE": 0,
                   "tweenFrame": true
@@ -76,12 +76,11 @@
                   "z": 0,
                   "cX": 1.0,
                   "cY": 1.0,
-                  "kX": 4.49408446E-07,
-                  "kY": -4.49408446E-07,
-                  "fi": 30,
+                  "kX": 0.0,
+                  "kY": 0.0,
+                  "fi": 20,
                   "twE": 0,
-                  "tweenFrame": true,
-                  "evt": "attack1_end"
+                  "tweenFrame": true
                 }
               ]
             }
@@ -92,7 +91,7 @@
   ],
   "texture_data": [
     {
-      "name": "role_attack_01",
+      "name": "role_attack_03",
       "width": 0.0,
       "height": 0.0,
       "pX": 0.5,
@@ -101,6 +100,6 @@
     }
   ],
   "config_file_path": [
-    "attack10.plist"
+    "attack30.plist"
   ]
 }
