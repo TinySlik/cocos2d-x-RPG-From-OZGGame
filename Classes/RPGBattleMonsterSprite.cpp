@@ -71,27 +71,27 @@ void RPGBattleMonsterSprite::selected(bool isSelected)
     
 }
 
-void RPGBattleMonsterSprite::showHurtResults(cocos2d::CCObject *target, int HPResults, CCNode* player)
+void RPGBattleMonsterSprite::showEffectResults(cocos2d::CCObject *target, int HPResults, CCNode* player)
 {
-    addLab(this, kRPGBattleMonsterSpriteTagHurtResults, CCString::createWithFormat("%i", HPResults), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
+    addLab(this, kRPGBattleMonsterSpriteTagEffectResults, CCString::createWithFormat("%i", HPResults), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
     
-    CCLabelTTF *hurtResults = (CCLabelTTF*)this->getChildByTag(kRPGBattleMonsterSpriteTagHurtResults);
+    CCLabelTTF *effectResults = (CCLabelTTF*)this->getChildByTag(kRPGBattleMonsterSpriteTagEffectResults);
     
     //增加HP的话则使用绿色
     if(HPResults > 0)
-        hurtResults->setFontFillColor(ccc3(80, 255, 90));
+        effectResults->setFontFillColor(ccc3(80, 255, 90));
     
     CCMoveBy *up = CCMoveBy::create(0.5, ccp(0, 30));
     CCMoveBy *down = CCMoveBy::create(1, ccp(0, -30));
     
     this->m_HPResults = HPResults;
     
-    hurtResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattleMonsterSprite::showHurtResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetHurtLabEnd), player), NULL));
+    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattleMonsterSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetEffectLabEnd), player), NULL));
     
 }
 
 //private
-void RPGBattleMonsterSprite::showHurtResultsEnd()
+void RPGBattleMonsterSprite::showEffectResultsEnd()
 {    
     this->m_data->m_HP += this->m_HPResults;
     

@@ -16,8 +16,8 @@ using namespace std;
 
 enum RPGDataStatus {
     kRPGDataStatusNormal = 1, //通常时
-    kRPGDataStatusDeath = 2 //战斗不能
-    
+    kRPGDataStatusDeath = 2, //战斗不能
+    kRPGDataStatusDying = 3 //临死
 };
 
 class RPGPlayer : public CCObject

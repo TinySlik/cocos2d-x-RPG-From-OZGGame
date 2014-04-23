@@ -22,6 +22,7 @@ enum RPGBattleSceneLayerTag
     kRPGBattleSceneLayerTagMenuBg = 2,
     kRPGBattleSceneLayerTagBattleMenu = 3,
     kRPGBattleSceneLayerTagWinResultsDialog = 70,
+    kRPGBattleSceneLayerTagLoseResultsDialog = 71,
     kRPGBattleSceneLayerTagMsg = 98,
     kRPGBattleSceneLayerTagPlayer = 100,
     kRPGBattleSceneLayerTagPlayerNameLab = 200,
@@ -73,6 +74,7 @@ private:
     bool judgeLose(); //判断是否输了，true为输了，false继续战斗
     
     void showWinResults(); //显示胜利后获得的经验值和金钱，统计升级也在这里执行
+    void showLoseResults(); //显示输了的界面
     
 public:
     
@@ -101,7 +103,7 @@ public:
     
     void attack(CCObject* attackObjData, CCObject* targetObjData); //player或怪物执行攻击
     void attackResults(CCNode* sender, void* data); //回调，计算攻击后的结果
-    void attackWithTargetHurtLabEnd(CCNode* sender, void* data); //回调，攻击流程完毕后执行，这个sender是被攻击的对象中显示的伤害值CCLabelTTF
+    void attackWithTargetEffectLabEnd(CCNode* sender, void* data); //回调，攻击流程完毕后执行，这个sender是被攻击的对象中显示的伤害值CCLabelTTF
     
 };
 

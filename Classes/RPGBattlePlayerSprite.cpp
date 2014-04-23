@@ -170,7 +170,38 @@ void RPGBattlePlayerSprite::animNormal()
     if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
         this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
     
+    //战斗不能
+    if(this->m_data->m_HP <= 0)
+        this->m_data->m_status = kRPGDataStatusDeath;
+    
+    //临死
+    else if(this->m_data->m_HP <= 9)
+        this->m_data->m_status = kRPGDataStatusDying;
+    
+    if(this->m_data->m_status == kRPGDataStatusDeath)
+    {
+        this->animDeath();
+        return;
+    }
+    else if(this->m_data->m_status == kRPGDataStatusDying)
+    {
+        this->animDying();
+        return;
+    }
+    
     CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesNormal, 0.2);
+    CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
+    this->runAction(animate);
+}
+
+void RPGBattlePlayerSprite::animDying()
+{
+    this->stopAllActions();
+    
+    if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
+        this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesDying, 0.2);
     CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
     this->runAction(animate);
 }
@@ -178,6 +209,9 @@ void RPGBattlePlayerSprite::animNormal()
 void RPGBattlePlayerSprite::animDeath()
 {
     this->stopAllActions();
+    
+    if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
+        this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
     
     CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesDeath, 0.2);
     CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
@@ -187,6 +221,9 @@ void RPGBattlePlayerSprite::animDeath()
 void RPGBattlePlayerSprite::animWin()
 {
     this->stopAllActions();
+    
+    if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
+        this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
     
     CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesWin, 0.2);
     CCRepeatForever *animate = CCRepeatForever::create(CCAnimate::create(animation));
@@ -228,4 +265,33 @@ void RPGBattlePlayerSprite::animAttack(CCObject* target, cocos2d::CCObject *targ
     }
     
     this->runAction(CCSequence::createWithTwoActions(CCAnimate::create(animation), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackResults), (void*)targetObjData)));
+}
+
+void RPGBattlePlayerSprite::showEffectResults(cocos2d::CCObject *target, int HPResults, CCNode* player)
+{
+    addLab(this, kRPGBattlePlayerSpriteTagEffectResults, CCString::createWithFormat("%i", HPResults), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
+    
+    CCLabelTTF *effectResults = (CCLabelTTF*)this->getChildByTag(kRPGBattlePlayerSpriteTagEffectResults);
+    
+    //增加HP的话则使用绿色
+    if(HPResults > 0)
+        effectResults->setFontFillColor(ccc3(80, 255, 90));
+    
+    CCMoveBy *up = CCMoveBy::create(0.5, ccp(0, 30));
+    CCMoveBy *down = CCMoveBy::create(1, ccp(0, -30));
+    
+    this->m_HPResults = HPResults;
+    
+    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetEffectLabEnd), player), NULL));
+    
+}
+
+//private
+void RPGBattlePlayerSprite::showEffectResultsEnd()
+{
+    this->m_data->m_HP += this->m_HPResults;
+    
+    if(this->m_data->m_HP < 0)
+        this->m_data->m_HP = 0;
+    
 }

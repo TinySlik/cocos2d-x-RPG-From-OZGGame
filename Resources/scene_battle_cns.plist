@@ -6,6 +6,8 @@
 	<string>逃跑成功</string>
 	<key>escape_fail</key>
 	<string>逃跑失败</string>
+	<key>lose_title</key>
+	<string>我方人员已被全灭！</string>
 	<key>win_title</key>
 	<string>战斗结束！</string>
 	<key>win_gold</key>

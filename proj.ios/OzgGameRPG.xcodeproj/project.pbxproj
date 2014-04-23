@@ -231,6 +231,8 @@
 		890F1B671902E284002F2769 /* attack40.png in Resources */ = {isa = PBXBuildFile; fileRef = 890F1B5B1902E284002F2769 /* attack40.png */; };
 		891DEB7819054276005337E5 /* battle_battle_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 891DEB7719054276005337E5 /* battle_battle_style1.tmx */; };
 		8936C3B518F6D72100AE709E /* select_player_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8936C3B418F6D72100AE709E /* select_player_style1.tmx */; };
+		893D34D41906B01100BFE2C5 /* attack_damage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 893D34D21906B01100BFE2C5 /* attack_damage.plist */; };
+		893D34D51906B01100BFE2C5 /* attack_damage.png in Resources */ = {isa = PBXBuildFile; fileRef = 893D34D31906B01100BFE2C5 /* attack_damage.png */; };
 		895EC07318F05AE600C3814D /* RPGData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 895EC07118F05AE600C3814D /* RPGData.cpp */; };
 		8960C17F18E7D0BD0075EF99 /* alert_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8960C17E18E7D0BD0075EF99 /* alert_style1.tmx */; };
 		8960C18218E7D51C0075EF99 /* RPGDialogLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8960C18018E7D51C0075EF99 /* RPGDialogLayer.cpp */; };
@@ -323,6 +325,7 @@
 		89F5D14D18E7C5DD009D703C /* Window_b_00.png in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D13C18E7C5DD009D703C /* Window_b_00.png */; };
 		89F5D14F18E7C5E5009D703C /* db.sys in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D14E18E7C5E5009D703C /* db.sys */; };
 		89F5D15318E7C70F009D703C /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89F5D15118E7C70F009D703C /* CppSQLite3.cpp */; };
+		9E3E72551907740500631E9A /* audio_battle_lose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E3E72541907740500631E9A /* audio_battle_lose.mp3 */; };
 		9E427D0518EBBA9F00DA4E79 /* map_menu4_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 9E427D0418EBBA9F00DA4E79 /* map_menu4_style1.tmx */; };
 		9E5271DD18F647400018BD94 /* RPGMapStatusMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5271DB18F647400018BD94 /* RPGMapStatusMenuLayer.cpp */; };
 		9E5271E018F647B90018BD94 /* RPGMapItemsMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5271DE18F647B90018BD94 /* RPGMapItemsMenuLayer.cpp */; };
@@ -852,6 +855,8 @@
 		890F1B5B1902E284002F2769 /* attack40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attack40.png; sourceTree = "<group>"; };
 		891DEB7719054276005337E5 /* battle_battle_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = battle_battle_style1.tmx; sourceTree = "<group>"; };
 		8936C3B418F6D72100AE709E /* select_player_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = select_player_style1.tmx; sourceTree = "<group>"; };
+		893D34D21906B01100BFE2C5 /* attack_damage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = attack_damage.plist; sourceTree = "<group>"; };
+		893D34D31906B01100BFE2C5 /* attack_damage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attack_damage.png; sourceTree = "<group>"; };
 		895EC07118F05AE600C3814D /* RPGData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGData.cpp; path = ../Classes/RPGData.cpp; sourceTree = "<group>"; };
 		895EC07218F05AE600C3814D /* RPGData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGData.h; path = ../Classes/RPGData.h; sourceTree = "<group>"; };
 		8960C17E18E7D0BD0075EF99 /* alert_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = alert_style1.tmx; sourceTree = "<group>"; };
@@ -976,6 +981,7 @@
 		89F5D14E18E7C5E5009D703C /* db.sys */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sys; sourceTree = "<group>"; };
 		89F5D15118E7C70F009D703C /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
 		89F5D15218E7C70F009D703C /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
+		9E3E72541907740500631E9A /* audio_battle_lose.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio_battle_lose.mp3; sourceTree = "<group>"; };
 		9E427D0418EBBA9F00DA4E79 /* map_menu4_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_menu4_style1.tmx; sourceTree = "<group>"; };
 		9E5271DB18F647400018BD94 /* RPGMapStatusMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGMapStatusMenuLayer.cpp; path = ../Classes/RPGMapStatusMenuLayer.cpp; sourceTree = "<group>"; };
 		9E5271DC18F647400018BD94 /* RPGMapStatusMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGMapStatusMenuLayer.h; path = ../Classes/RPGMapStatusMenuLayer.h; sourceTree = "<group>"; };
@@ -2416,6 +2422,8 @@
 		F293BC4615EB859D00256477 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				893D34D21906B01100BFE2C5 /* attack_damage.plist */,
+				893D34D31906B01100BFE2C5 /* attack_damage.png */,
 				890F1B501902E284002F2769 /* attack1.ExportJson */,
 				890F1B511902E284002F2769 /* attack2.ExportJson */,
 				890F1B521902E284002F2769 /* attack3.ExportJson */,
@@ -2432,6 +2440,7 @@
 				8988A4DD18F42BDC004277ED /* audio_battle_attack1.wav */,
 				8988A4DE18F42BDC004277ED /* audio_battle_attack2.wav */,
 				8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */,
+				9E3E72541907740500631E9A /* audio_battle_lose.mp3 */,
 				896BAEE318EF04CF006581FD /* audio_battle_end.mp3 */,
 				896BAEE418EF04CF006581FD /* audio_battle_menu.wav */,
 				896BAEE518EF04CF006581FD /* audio_battle_start.wav */,
@@ -2596,6 +2605,7 @@
 				89F5D11B18E7C5C0009D703C /* actor113.png in Resources */,
 				89F5D14C18E7C5DD009D703C /* start_bg.png in Resources */,
 				89F5D12718E7C5CC009D703C /* audio_effect_btn.wav in Resources */,
+				9E3E72551907740500631E9A /* audio_battle_lose.mp3 in Resources */,
 				89E63C7A18ED83C900BDD04F /* actor8_0.png in Resources */,
 				890F1B621902E284002F2769 /* attack20.plist in Resources */,
 				15C156981683138E00D239F2 /* Default-568h@2x.png in Resources */,
@@ -2606,6 +2616,7 @@
 				89F5D14018E7C5DD009D703C /* main.png in Resources */,
 				890F1B611902E284002F2769 /* attack10.png in Resources */,
 				89F5D12618E7C5CC009D703C /* audio_battle.mp3 in Resources */,
+				893D34D51906B01100BFE2C5 /* attack_damage.png in Resources */,
 				89F5D11F18E7C5C0009D703C /* actor120.png in Resources */,
 				89F5D14218E7C5DD009D703C /* map_02.tmx in Resources */,
 				89F5D14D18E7C5DD009D703C /* Window_b_00.png in Resources */,
@@ -2641,6 +2652,7 @@
 				89F5D10F18E7C5C0009D703C /* actor7_4.png in Resources */,
 				9E5C5F6E18EE59BB00A68C36 /* battle_menu_style1.tmx in Resources */,
 				1AC3623516D47C5C000847F2 /* fonts in Resources */,
+				893D34D41906B01100BFE2C5 /* attack_damage.plist in Resources */,
 				89F5D14118E7C5DD009D703C /* map_01.tmx in Resources */,
 				890F1B5C1902E284002F2769 /* attack1.ExportJson in Resources */,
 				89F5D10C18E7C5C0009D703C /* actor7_1.png in Resources */,

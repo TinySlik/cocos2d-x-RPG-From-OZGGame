@@ -615,40 +615,7 @@ void RPGMapSceneLayer::playerMoveEnd()
             CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
             this->unscheduleUpdate();
             
-            //保存进度
             CCTMXTiledMap *bgMap = (CCTMXTiledMap*)this->getChildByTag(kRPGMapSceneLayerTagBgMap);
-            
-            RPGMapRoleSprite *player = (RPGMapRoleSprite*)bgMap->getChildByTag(kRPGMapSceneLayerTagPlayer);
-            float toX = player->getPositionX();
-            float toY = player->getPositionY();
-            toX = toX / GAME_TMX_ROLE_WIDTH;
-            toY = toY / GAME_TMX_ROLE_HEIGHT;
-            
-            string playerDirection;
-            switch (player->m_direction)
-            {
-                case kRPGMapRoleSpriteDirectionDown:
-                    playerDirection = "down";
-                    
-                    break;
-                case kRPGMapRoleSpriteDirectionLeft:
-                    playerDirection = "left";
-                    
-                    break;
-                case kRPGMapRoleSpriteDirectionRight:
-                    playerDirection = "right";
-                    
-                    break;
-                default:
-                    //kRPGMapRoleSpriteDirectionUp
-                    playerDirection = "up";
-                
-                    break;
-            }
-            
-            saveData(&this->m_db, this->m_mapData.mapId, toX, toY, playerDirection);
-            
-            //保存进度结束
             
             CCArray *loadTextures = CCArray::create();
             loadTextures->addObject(CCString::create("monsters.png"));
