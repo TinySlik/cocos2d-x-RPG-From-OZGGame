@@ -238,7 +238,8 @@ void RPGBattlePlayerSprite::animHurt()
         this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
     
     CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesHurt, 0.2);
-    CCSequence *animate = CCSequence::create(CCAnimate::create(animation), CCDelayTime::create(1.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::animNormal)), NULL);
+    
+    CCSequence *animate = CCSequence::create(CCAnimate::create(animation), CCDelayTime::create(1.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::animNormal)), NULL);    
     this->runAction(animate);
 }
 
