@@ -56,7 +56,8 @@ void addLab(CCNode* parentNode, int tag, CCString* text, CCPoint point); //å¢žåŠ
 void addLab(CCNode* parentNode, int tag, CCString* text, float fontSize, CCPoint point);
 void addLab(CCNode* parentNode, int tag, CCString* text, float fontSize, CCTextAlignment textAlignment, CCPoint point);
 
-void saveData(CppSQLite3DB* db, int mapId, float toX, float toY, string playerDirection);
+void saveData(CppSQLite3DB* db, RPGSaveData *saveData);
+RPGSaveData* loadSaveData(CppSQLite3DB* db);
 void savePlayerData(CppSQLite3DB* db, CCArray* playerDataList);
 
 class RPGBaseSceneLayer : public CCLayer

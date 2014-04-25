@@ -230,6 +230,18 @@ void RPGBattlePlayerSprite::animWin()
     this->runAction(animate);
 }
 
+void RPGBattlePlayerSprite::animHurt()
+{
+    this->stopAllActions();
+    
+    if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
+        this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesHurt, 0.2);
+    CCSequence *animate = CCSequence::create(CCAnimate::create(animation), CCDelayTime::create(1.0), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::animNormal)), NULL);
+    this->runAction(animate);
+}
+
 void RPGBattlePlayerSprite::animAttack(CCObject* target, cocos2d::CCObject *targetObjData)
 {
     this->stopAllActions();
@@ -267,8 +279,10 @@ void RPGBattlePlayerSprite::animAttack(CCObject* target, cocos2d::CCObject *targ
     this->runAction(CCSequence::createWithTwoActions(CCAnimate::create(animation), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackResults), (void*)targetObjData)));
 }
 
-void RPGBattlePlayerSprite::showEffectResults(cocos2d::CCObject *target, int HPResults, CCNode* player)
+void RPGBattlePlayerSprite::showEffectResults(cocos2d::CCObject *target, int HPResults, CCNode* srcAttackObj)
 {
+    //srcAttackObj为发起攻击的Sprite对象
+    
     addLab(this, kRPGBattlePlayerSpriteTagEffectResults, CCString::createWithFormat("%i", HPResults), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
     
     CCLabelTTF *effectResults = (CCLabelTTF*)this->getChildByTag(kRPGBattlePlayerSpriteTagEffectResults);
@@ -282,7 +296,7 @@ void RPGBattlePlayerSprite::showEffectResults(cocos2d::CCObject *target, int HPR
     
     this->m_HPResults = HPResults;
     
-    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetEffectLabEnd), player), NULL));
+    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetEffectLabEnd), srcAttackObj), NULL));
     
 }
 

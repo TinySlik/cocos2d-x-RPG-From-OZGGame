@@ -140,4 +140,23 @@ public:
     static RPGExistingItems* create();
 };
 
+//存档
+class RPGSaveData : public CCObject
+{
+    
+public:
+    
+    int m_dataId;
+    int m_mapId;
+    float m_playerToX;
+    float m_playerToY;
+    string m_playerDirection;
+    int m_gold;
+    
+    RPGSaveData();
+    virtual ~RPGSaveData();
+    
+    static RPGSaveData* create();
+};
+
 #endif /* defined(__OzgGameRPG__RPGData__) */

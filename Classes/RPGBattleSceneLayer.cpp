@@ -359,7 +359,12 @@ void RPGBattleSceneLayer::update(float delta)
         for (int j = 0; j < monsters->count(); j++)
         {
             RPGMonster *monsterData = (RPGMonster*)monsters->objectAtIndex(j);
-//            RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->getChildByTag(monsterData->m_tag);
+            
+            //对于已被打倒的怪物，则跳过进度条的处理
+            if(monsterData->m_status == kRPGDataStatusDeath)
+                continue;
+            
+            RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->getChildByTag(monsterData->m_tag);
             
             monsterData->m_progress += progressSpeed;
             
@@ -369,6 +374,29 @@ void RPGBattleSceneLayer::update(float delta)
             if(monsterData->m_progress >= 100)
             {
                 CCLog("怪物攻击");
+                
+                //计算攻击哪个player
+                
+                //先确定哪个player不在战斗不能状态
+                vector<int> playerIdList;
+                for (int i = 0; i < this->m_playerList->count(); i++)
+                {
+                    RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+                    
+                    if(player->m_data->m_status != kRPGDataStatusDeath)
+                        playerIdList.push_back(player->m_data->m_dataId);
+                }
+                
+                int randIndex = 0;
+                if(playerIdList.size() > 1)
+                    randIndex = OzgCCUtility::rangeRand(0, (int)playerIdList.size() - 1);
+                
+                int tagetPlayerId = playerIdList[randIndex];
+                
+                //计算攻击哪个player 完毕
+                
+                RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + tagetPlayerId);
+                monster->animAttack(this, targetPlayer->m_data);
                 
                 this->unscheduleUpdate();
                 return;
@@ -474,24 +502,20 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
         
         //保存获得的金钱到数据库
         {
-            CCString *sql = NULL;
+            this->m_totalGold = CCUserDefault::sharedUserDefault()->getIntegerForKey("gold") + this->m_totalGold;
             
-            CppSQLite3Query query = this->m_db.execQuery(CCString::create(SAVEDATA_QUERY)->getCString());
-            while(!query.eof())
-            {
-                this->m_totalGold = query.getIntField("gold") + this->m_totalGold;
-                
-                //最大值的处理
-                if(this->m_totalGold > MAX_GOLD)
-                    this->m_totalGold = MAX_GOLD;
-                
-                sql = CCString::createWithFormat(SAVE_GOLD, this->m_totalGold);
-                
-                query.nextRow();
-            }
-            query.finalize();
+            //最大值的处理
+            if(this->m_totalGold > MAX_GOLD)
+                this->m_totalGold = MAX_GOLD;
             
-            if(sql) this->m_db.execDML(sql->getCString());
+            RPGSaveData *saveDataObj = RPGSaveData::create();
+            saveDataObj->m_mapId = CCUserDefault::sharedUserDefault()->getIntegerForKey("map_id");
+            saveDataObj->m_playerToX = CCUserDefault::sharedUserDefault()->getFloatForKey("player_to_x");
+            saveDataObj->m_playerToY = CCUserDefault::sharedUserDefault()->getFloatForKey("player_to_y");
+            saveDataObj->m_playerDirection = CCUserDefault::sharedUserDefault()->getStringForKey("player_direction");
+            saveDataObj->m_gold = this->m_totalGold;
+            
+            saveData(&this->m_db, saveDataObj);
         }
         
         //保存player的状态到数据库
@@ -532,9 +556,10 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
             CCTextureCache::sharedTextureCache()->removeTextureForKey(CCString::createWithFormat("%s_3.png", playerData->m_texPrefix.c_str())->getCString());
         }
         
-        CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
+//        CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
         
-        SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
+        if(SimpleAudioEngine::sharedEngine()->isBackgroundMusicPlaying())
+            SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
         SimpleAudioEngine::sharedEngine()->playBackgroundMusic("audio_start.mp3", true);
         CCScene *s = RPGStartSceneLayer::scene();
         CCTransitionFade *t = CCTransitionFade::create(GAME_SCENE, s);
@@ -683,6 +708,8 @@ void RPGBattleSceneLayer::attack(cocos2d::CCObject *attackObjData, cocos2d::CCOb
 
 void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
 {
+    //sender为发起攻击的Sprite对象，data为被攻击的对象
+    
     SimpleAudioEngine::sharedEngine()->playEffect("audio_battle_attack2.wav");
     
 //    CCLog("计算伤害值");
@@ -706,18 +733,27 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
         {
             //player攻击player
             RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)data)->m_dataId);
+            targetPlayer->animHurt();
             
             particleSysPoint = targetPlayer->getPosition();
             
             int HPResults = RPGComputingResults::attackResults(((RPGBattlePlayerSprite*)sender)->m_data->m_attack, ((RPGPlayer*)data)->m_defense);
             targetPlayer->showEffectResults(this, -HPResults, sender);
+            
         }
         
     }
     else if(dynamic_cast<RPGBattleMonsterSprite*>(sender) != NULL)
     {
         //怪物攻击player
-//        int hurtHP = RPGComputingResults::attackResults(((RPGBattleMonsterSprite*)data)->m_attack, ((RPGPlayer*)sender)->m_defense);
+        
+        RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)data)->m_dataId);
+        targetPlayer->animHurt();
+        
+        particleSysPoint = targetPlayer->getPosition();
+        
+        int HPResults = RPGComputingResults::attackResults(((RPGBattleMonsterSprite*)sender)->m_data->m_attack, ((RPGPlayer*)data)->m_defense);
+        targetPlayer->showEffectResults(this, -HPResults, sender);
         
     }
     
@@ -731,6 +767,8 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
 
 void RPGBattleSceneLayer::attackWithTargetEffectLabEnd(cocos2d::CCNode *sender, void* data)
 {
+    //data为发起攻击的Sprite对象
+    
     CCLog("攻击流程完毕");
     
     if(dynamic_cast<RPGBattlePlayerSprite*>(sender->getParent()) != NULL)
@@ -750,15 +788,24 @@ void RPGBattleSceneLayer::attackWithTargetEffectLabEnd(cocos2d::CCNode *sender, 
         CCLabelTTF *targetPlayerHP = (CCLabelTTF*)this->getChildByTag(kRPGBattleSceneLayerTagPlayerHP + targetPlayer->m_data->m_dataId);
         targetPlayerHP->setString(CCString::createWithFormat("%i", targetPlayer->m_data->m_HP)->getCString());
         
-        //发起攻击的player还原通常时状态，并重新计算进度条
-        RPGBattlePlayerSprite *srcPlayer = (RPGBattlePlayerSprite*)data;
-        
-        if(srcPlayer->m_data->m_status != kRPGDataStatusDeath)
-            srcPlayer->animNormal();
-        
-        srcPlayer->m_data->m_progress = 0;
-        CCProgressTimer *battleProgress = (CCProgressTimer*)this->getChildByTag(kRPGBattleSceneLayerTagPlayerProgress + srcPlayer->m_data->m_dataId);
-        battleProgress->setPercentage(srcPlayer->m_data->m_progress);
+        if(dynamic_cast<RPGBattlePlayerSprite*>((CCObject*)data) != NULL)
+        {
+            //发起攻击的player还原通常时状态，并重新计算进度条
+            RPGBattlePlayerSprite *srcPlayer = (RPGBattlePlayerSprite*)data;
+            
+            if(srcPlayer->m_data->m_status != kRPGDataStatusDeath)
+                srcPlayer->animNormal();
+            
+            srcPlayer->m_data->m_progress = 0;
+            CCProgressTimer *battleProgress = (CCProgressTimer*)this->getChildByTag(kRPGBattleSceneLayerTagPlayerProgress + srcPlayer->m_data->m_dataId);
+            battleProgress->setPercentage(srcPlayer->m_data->m_progress);
+        }
+        else if(dynamic_cast<RPGBattleMonsterSprite*>((CCObject*)data) != NULL)
+        {
+            //发起攻击的怪物重新计算进度条
+            RPGBattleMonsterSprite *srcMonster = (RPGBattleMonsterSprite*)data;
+            srcMonster->m_data->m_progress = 0;
+        }
                 
         //判断是否胜利了
         if(!this->judgeLose())
@@ -767,7 +814,7 @@ void RPGBattleSceneLayer::attackWithTargetEffectLabEnd(cocos2d::CCNode *sender, 
         {
 //            CCLog("输了");
             SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
-            SimpleAudioEngine::sharedEngine()->playBackgroundMusic("audio_battle_lose.mp3", true);
+            SimpleAudioEngine::sharedEngine()->playBackgroundMusic("audio_battle_lose.mp3", false);
             
             this->showLoseResults();
         }
@@ -936,17 +983,17 @@ void RPGBattleSceneLayer::computingProgress()
     }
     
     //monster
-//    for (int i = 0; i < this->m_monsterDataList->count(); i++)
-//    {
-//        CCArray *monsters = (CCArray*)this->m_monsterDataList->objectAtIndex(i);
-//        for (int j = 0; j < monsters->count(); j++)
-//        {
-//            RPGMonster *monsterData = (RPGMonster*)monsters->objectAtIndex(j);
-//            
-//            float val = monsterData->m_speed / this->m_speedTotal * 100.0;
-//            monsterData->m_progress = val;
-//        }
-//    }
+    for (int i = 0; i < this->m_monsterDataList->count(); i++)
+    {
+        CCArray *monsters = (CCArray*)this->m_monsterDataList->objectAtIndex(i);
+        for (int j = 0; j < monsters->count(); j++)
+        {
+            RPGMonster *monsterData = (RPGMonster*)monsters->objectAtIndex(j);
+            
+            float val = monsterData->m_speed / this->m_speedTotal * 100.0;
+            monsterData->m_progress = val;
+        }
+    }
     
 }
 
@@ -1122,6 +1169,8 @@ void RPGBattleSceneLayer::showLoseResults()
     loseResults->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - loseResults->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - loseResults->getContentSize().height) / 2));
     loseResults->setTag(kRPGBattleSceneLayerTagLoseResultsDialog);
     this->addChild(loseResults);
+    
+    this->enabledTouched(true);
     
     //显示title
     addLab(loseResults, 5, CCString::create(((CCString*)this->m_stringList->objectForKey("lose_title"))->getCString()), 28, kCCTextAlignmentCenter, ccp(loseResults->getContentSize().width / 2, loseResults->getContentSize().height / 2));

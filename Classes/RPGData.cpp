@@ -130,3 +130,27 @@ RPGExistingItems* RPGExistingItems::create()
 }
 
 //RPGExistingItems end
+
+RPGSaveData::RPGSaveData()
+{
+    
+}
+
+RPGSaveData::~RPGSaveData()
+{
+    CCLog("RPGSaveData 释放");
+}
+
+RPGSaveData* RPGSaveData::create()
+{
+    RPGSaveData *obj = new RPGSaveData();
+    if(obj)
+    {
+        obj->autorelease();
+        return obj;
+    }
+    CC_SAFE_DELETE(obj);
+    return NULL;
+}
+
+//RPGSaveData

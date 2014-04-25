@@ -590,7 +590,15 @@ void RPGMapSceneLayer::playerMoveEnd()
             float toY = stringToNumber<float>(playerToY->getCString()) + 0.5;
             
             //保存数据
-            saveData(&this->m_db, stringToNumber<int>(mapId->getCString()), toX, toY, playerDirection->getCString());
+            
+            RPGSaveData *saveDataObj = RPGSaveData::create();
+            saveDataObj->m_mapId = stringToNumber<int>(mapId->getCString());
+            saveDataObj->m_playerToX = toX;
+            saveDataObj->m_playerToY = toY;
+            saveDataObj->m_playerDirection = playerDirection->getCString();
+            saveDataObj->m_gold = this->m_mapData.gold;
+            
+            saveData(&this->m_db, saveDataObj);
             
             CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
             this->unscheduleUpdate();
@@ -638,7 +646,30 @@ void RPGMapSceneLayer::playerMoveEnd()
             SimpleAudioEngine::sharedEngine()->playEffect("audio_battle_start.wav");
             
 //            CCLog("%i", this->m_saveData.mapId);
+            
+            RPGMapRoleSprite *player = (RPGMapRoleSprite*)bgMap->getChildByTag(kRPGMapSceneLayerTagPlayer);
+            
             CCUserDefault::sharedUserDefault()->setIntegerForKey("map_id", this->m_mapData.mapId);
+            CCUserDefault::sharedUserDefault()->setFloatForKey("player_to_x", player->getPosition().x / GAME_TMX_ROLE_WIDTH);
+            CCUserDefault::sharedUserDefault()->setFloatForKey("player_to_y", player->getPosition().y / GAME_TMX_ROLE_HEIGHT);
+            CCUserDefault::sharedUserDefault()->setIntegerForKey("gold", this->m_mapData.gold);            
+            switch (player->m_direction)
+            {
+                case kRPGMapRoleSpriteDirectionUp:
+                    CCUserDefault::sharedUserDefault()->setStringForKey("player_direction", "up");
+                    break;
+                case kRPGMapRoleSpriteDirectionDown:
+                    CCUserDefault::sharedUserDefault()->setStringForKey("player_direction", "down");
+                    break;
+                case kRPGMapRoleSpriteDirectionLeft:
+                    CCUserDefault::sharedUserDefault()->setStringForKey("player_direction", "left");
+                    break;
+                case kRPGMapRoleSpriteDirectionRight:
+                    CCUserDefault::sharedUserDefault()->setStringForKey("player_direction", "right");
+                    break;
+                default:
+                    break;
+            }
             
             CCScene *s = RPGLoadingSceneLayer::scene(loadTextures, releaseTextures, "single_battle");
             CCTransitionFade *t = CCTransitionFade::create(GAME_SCENE, s);
