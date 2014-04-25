@@ -90,6 +90,19 @@ void RPGBattleMonsterSprite::showEffectResults(cocos2d::CCObject *target, int HP
     
 }
 
+void RPGBattleMonsterSprite::animAttack(CCObject* target, CCObject *targetObjData)
+{
+    this->stopAllActions();
+    
+    SimpleAudioEngine::sharedEngine()->playEffect("audio_battle_attack1.wav");
+    
+    CCActionInterval *tint = CCTintBy::create(0.3, -255, -255, -255);
+    CCActionInterval *tintBack = tint->reverse();
+    
+    this->runAction(CCSequence::createWithTwoActions(CCSequence::createWithTwoActions(tint, tintBack), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackResults), (void*)targetObjData)));
+    
+}
+
 //private
 void RPGBattleMonsterSprite::showEffectResultsEnd()
 {    
