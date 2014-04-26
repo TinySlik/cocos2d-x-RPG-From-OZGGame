@@ -104,6 +104,18 @@ public:
     static RPGSkill* create();
 };
 
+//这个用于在战斗的选择技能列表、地图的技能菜单用到
+class RPGSkillBtnData : public RPGSkill
+{
+    
+public:
+    
+    bool m_enabled; //是否可点击
+    
+    static RPGSkillBtnData* create();
+    
+};
+
 class RPGItems : public CCObject
 {
     

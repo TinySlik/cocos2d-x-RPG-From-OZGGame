@@ -280,6 +280,11 @@ void RPGBattlePlayerSprite::animAttack(CCObject* target, cocos2d::CCObject *targ
     this->runAction(CCSequence::createWithTwoActions(CCAnimate::create(animation), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackResults), (void*)targetObjData)));
 }
 
+void RPGBattlePlayerSprite::animSkill(cocos2d::CCObject *target, cocos2d::CCObject *targetObjData)
+{
+    CCLog("使用技能");
+}
+
 void RPGBattlePlayerSprite::showEffectResults(cocos2d::CCObject *target, int HPResults, CCNode* srcAttackObj)
 {
     //srcAttackObj为发起攻击的Sprite对象

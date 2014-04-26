@@ -29,21 +29,28 @@ RPGBattleMenu::~RPGBattleMenu()
     if(this->m_parentNode->getChildByTag(kRPGBattleMenuTagSeparate))
         this->m_parentNode->removeChildByTag(kRPGBattleMenuTagSeparate, true);
     
+    this->m_selectDialogListData->release();
+    
     CCLog("RPGBattleMenu 释放");
 }
 
-bool RPGBattleMenu::initWithParentNode(CCDictionary* stringList, CCNode* parentNode, RPGPlayer* playerData)
+bool RPGBattleMenu::initWithParentNode(CCDictionary* stringList, CppSQLite3DB* db, CCNode* parentNode, RPGPlayer* playerData)
 {
     if(CCMenu::init())
     {
         this->m_stringList = stringList;
         this->m_stringList->retain();
         
+        this->m_db = db;
+        
         this->m_parentNode = parentNode;
         this->m_parentNode->retain();
         
         this->m_playerData = playerData;
         this->m_playerData->retain();
+        
+        this->m_selectDialogListData = new CCArray();
+        this->m_selectDialogListData->init();
         
         this->setPosition(CCPointZero);
         
@@ -87,10 +94,10 @@ bool RPGBattleMenu::initWithParentNode(CCDictionary* stringList, CCNode* parentN
     return false;
 }
 
-RPGBattleMenu* RPGBattleMenu::createWithParentNode(CCDictionary* stringList, CCNode* parentNode, RPGPlayer* playerData)
+RPGBattleMenu* RPGBattleMenu::createWithParentNode(CCDictionary* stringList, CppSQLite3DB* db, CCNode* parentNode, RPGPlayer* playerData)
 {
     RPGBattleMenu *obj = new RPGBattleMenu();
-    if(obj && obj->initWithParentNode(stringList, parentNode, playerData))
+    if(obj && obj->initWithParentNode(stringList, db, parentNode, playerData))
     {
         obj->autorelease();
         return obj;
@@ -169,12 +176,100 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
 {
     CCMenuItem *menuItem = (CCMenuItem*)pObject;
     SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
-    
+
     switch (menuItem->getTag())
     {
         case kRPGBattleMenuTagSkill:
         {
             CCLog("技能");
+            
+            this->hideMenu();
+            
+            this->m_selectedMenuTag = kRPGBattleMenuTagSkill;
+            
+            CCMenuItemSprite *menuCancel = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGBattleMenu::onMenu));
+            menuCancel->setPosition(ccp(75, 660));
+            menuCancel->setTag(kRPGBattleMenuTagCancel);
+            menuCancel->setScale(0.75);
+            this->addChild(menuCancel);
+            
+            CCTMXTiledMap *selectLayer = CCTMXTiledMap::create("battle_select_style1.tmx");
+            selectLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - selectLayer->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - selectLayer->getContentSize().height) / 2));
+            selectLayer->setTag(kRPGBattleSceneLayerTagSkillSelectDialog);
+            
+            ((RPGBattleSceneLayer*)this->m_parentNode)->addChild(selectLayer);            
+            ((RPGBattleSceneLayer*)this->m_parentNode)->enabledTouched(true);
+            
+            //显示title和分隔线
+            addLab(selectLayer, 199, (CCString*)this->m_stringList->objectForKey("skill_title"), 25, ccp(310, 285));
+            CCLabelTTF *titleLab = (CCLabelTTF*)selectLayer->getChildByTag(199);
+            titleLab->setFontFillColor(ccc3(144, 144, 144));
+            
+            CCSprite *separate = CCSprite::createWithSpriteFrameName("separate.png");
+            separate->setPosition(ccp(selectLayer->getContentSize().width / 2, 260));
+            separate->setScaleX(0.65);
+            separate->setTag(198);
+            selectLayer->addChild(separate);
+            
+            //加载技能数据
+            CCTableView *tableView = (CCTableView*)selectLayer->getChildByTag(197);
+            if(!tableView)
+            {
+                tableView = CCTableView::create(this, ccp(selectLayer->getContentSize().width, selectLayer->getContentSize().height - 80));
+                tableView->setDirection(kCCScrollViewDirectionVertical);
+                tableView->setPosition(CCSizeZero);
+                tableView->setDelegate(this);
+                tableView->setVerticalFillOrder(kCCTableViewFillTopDown);
+                tableView->setTag(197);
+                selectLayer->addChild(tableView);
+            }
+            this->m_selectDialogListData->removeAllObjects();
+            
+            string wq = "";
+            JsonBox::Value json;
+            json.loadFromString(this->m_playerData->m_skill.c_str());
+            JsonBox::Array jsonArr = json.getArray();
+            for (int i = 0; i < jsonArr.size(); i++)
+            {
+                char* str = (char*)malloc(10 * sizeof(char));
+                OzgCCUtility::itoa(jsonArr[i].getInt(), str);
+                wq.append(str);
+                
+                if(i + 1 < jsonArr.size())
+                    wq.append(", ");
+                
+                free(str);
+            }
+            if((int)wq.length() > 0)
+            {
+                CppSQLite3Query query = this->m_db->execQuery(CCString::createWithFormat(SKILL_QUERY, wq.c_str())->getCString());
+                while(!query.eof())
+                {
+                    RPGSkillBtnData *skill = RPGSkillBtnData::create();
+                    skill->m_dataId = query.getIntField("id");
+                    skill->m_name = query.getStringField("name_cns");
+                    skill->m_MP = query.getIntField("mp");
+                    skill->m_skillAttack = query.getIntField("skill_attack");
+                    skill->m_type = query.getIntField("type");
+                    skill->m_attr = query.getIntField("attr");
+                    skill->m_enabled = true;
+                    
+                    //不能使用技能的情况
+                    if(this->m_playerData->m_MP <= 0 || this->m_playerData->m_HP <= 0)
+                        skill->m_enabled = false;
+                    else if(this->m_playerData->m_MP < skill->m_MP)
+                        skill->m_enabled = false;
+                    else if(skill->m_type != 2)
+                        skill->m_enabled = false;
+                    
+                    this->m_selectDialogListData->addObject(skill);
+                    
+                    query.nextRow();
+                }
+                query.finalize();
+            }
+            tableView->reloadData();
+            //加载技能数据 end
             
         }
             break;
@@ -182,6 +277,72 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
         {
             CCLog("道具");
             
+            this->hideMenu();
+            
+            this->m_selectedMenuTag = kRPGBattleMenuTagItems;
+            
+            CCMenuItemSprite *menuCancel = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGBattleMenu::onMenu));
+            menuCancel->setPosition(ccp(75, 660));
+            menuCancel->setTag(kRPGBattleMenuTagCancel);
+            menuCancel->setScale(0.75);
+            this->addChild(menuCancel);
+            
+            CCTMXTiledMap *selectLayer = CCTMXTiledMap::create("battle_select_style1.tmx");
+            selectLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - selectLayer->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - selectLayer->getContentSize().height) / 2));
+            selectLayer->setTag(kRPGBattleSceneLayerTagItemsSelectDialog);
+            
+            ((RPGBattleSceneLayer*)this->m_parentNode)->addChild(selectLayer);
+            ((RPGBattleSceneLayer*)this->m_parentNode)->enabledTouched(true);
+            
+            //显示title和分隔线
+            addLab(selectLayer, 199, (CCString*)this->m_stringList->objectForKey("items_title"), 25, ccp(310, 285));
+            CCLabelTTF *titleLab = (CCLabelTTF*)selectLayer->getChildByTag(199);
+            titleLab->setFontFillColor(ccc3(144, 144, 144));
+            
+            CCSprite *separate = CCSprite::createWithSpriteFrameName("separate.png");
+            separate->setPosition(ccp(selectLayer->getContentSize().width / 2, 260));
+            separate->setScaleX(0.65);
+            separate->setTag(198);
+            selectLayer->addChild(separate);
+            
+            //加载道具数据
+            CCTableView *tableView = (CCTableView*)selectLayer->getChildByTag(197);
+            if(!tableView)
+            {
+                tableView = CCTableView::create(this, ccp(selectLayer->getContentSize().width, selectLayer->getContentSize().height - 80));
+                tableView->setDirection(kCCScrollViewDirectionVertical);
+                tableView->setPosition(CCSizeZero);
+                tableView->setDelegate(this);
+                tableView->setVerticalFillOrder(kCCTableViewFillTopDown);
+                tableView->setTag(197);
+                selectLayer->addChild(tableView);
+            }
+            this->m_selectDialogListData->removeAllObjects();
+            
+            CppSQLite3Query query = this->m_db->execQuery(CCString::createWithFormat(ITEMS_EXISTING_QUERY_TYPE, 3)->getCString());
+            while(!query.eof())
+            {
+                RPGExistingItems *itemsData = RPGExistingItems::create();
+                itemsData->m_dataId = query.getIntField("id");
+                itemsData->m_name = query.getStringField("name_cns");
+                itemsData->m_buy = query.getIntField("buy");
+                itemsData->m_sell = query.getIntField("sell");
+                itemsData->m_type = query.getIntField("type");
+                itemsData->m_attack = query.getFloatField("attack");
+                itemsData->m_defense = query.getFloatField("defense");
+                itemsData->m_speed = query.getFloatField("speed");
+                itemsData->m_skillAttack = query.getFloatField("skill_attack");
+                itemsData->m_skillDefense = query.getFloatField("skill_defense");
+                itemsData->m_total = query.getIntField("total");
+                this->m_selectDialogListData->addObject(itemsData);
+                
+                query.nextRow();
+            }
+            query.finalize();
+            
+            tableView->reloadData();
+            
+            //加载道具数据 end
         }
             break;
         case kRPGBattleMenuTagEscape:
@@ -218,7 +379,7 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             break;
         case kRPGBattleMenuTagCancel:
         {
-            CCLog("取消");
+//            CCLog("取消");
             this->showMenu();
             
             CCMenuItem *menuCancel = (CCMenuItem*)this->getChildByTag(kRPGBattleMenuTagCancel);
@@ -227,11 +388,31 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             switch (this->m_selectedMenuTag)
             {
                 case kRPGBattleMenuTagAttack:
+                    CCLog("取消攻击");
                     ((RPGBattleSceneLayer*)this->m_parentNode)->enabledTouched(false);
                     ((RPGBattleSceneLayer*)this->m_parentNode)->cancelAllSelected();
                     
                     break;
+                case kRPGBattleMenuTagSkill:
+                    CCLog("取消技能列表");
                     
+                    if(((RPGBattleSceneLayer*)this->m_parentNode)->getChildByTag(kRPGBattleSceneLayerTagSkillSelectDialog))
+                        ((RPGBattleSceneLayer*)this->m_parentNode)->removeChildByTag(kRPGBattleSceneLayerTagSkillSelectDialog, true);
+                    
+                    ((RPGBattleSceneLayer*)this->m_parentNode)->enabledTouched(false);
+                    ((RPGBattleSceneLayer*)this->m_parentNode)->cancelAllSelected();
+                    
+                    break;
+                case kRPGBattleMenuTagItems:
+                    CCLog("取消道具列表");
+                    
+                    if(((RPGBattleSceneLayer*)this->m_parentNode)->getChildByTag(kRPGBattleSceneLayerTagItemsSelectDialog))
+                        ((RPGBattleSceneLayer*)this->m_parentNode)->removeChildByTag(kRPGBattleSceneLayerTagItemsSelectDialog, true);
+                    
+                    ((RPGBattleSceneLayer*)this->m_parentNode)->enabledTouched(false);
+                    ((RPGBattleSceneLayer*)this->m_parentNode)->cancelAllSelected();
+                    
+                    break;
 //                default:
 //                    break;
             }
@@ -258,3 +439,76 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
     }
     
 }
+
+void RPGBattleMenu::onButton(cocos2d::CCObject *pSender, CCControlEvent event)
+{
+
+    CCLog("aaaa");
+}
+
+//CCTableView
+void RPGBattleMenu::scrollViewDidScroll(CCScrollView *scrollView)
+{
+    
+}
+
+void RPGBattleMenu::scrollViewDidZoom(CCScrollView *scrollView)
+{
+    
+}
+
+void RPGBattleMenu::tableCellTouched(CCTableView *tableView, CCTableViewCell *cell)
+{
+    
+}
+
+CCSize RPGBattleMenu::cellSizeForTable(CCTableView *tableView)
+{
+    return CCSizeMake(tableView->getContentSize().width, 50);
+}
+
+CCTableViewCell* RPGBattleMenu::tableCellAtIndex(CCTableView *tableView, unsigned int idx)
+{
+    CCTableViewCell *cell = tableView->dequeueCell();
+    if (!cell)
+    {
+        cell = new CCTableViewCell();
+        cell->autorelease();
+    }
+    else
+        cell->removeAllChildrenWithCleanup(true);
+    
+    if(dynamic_cast<RPGSkillBtnData*>(this->m_selectDialogListData->objectAtIndex(idx)) != NULL)
+    {
+        //点击了技能项
+        RPGSkillBtnData *itemsData = (RPGSkillBtnData*)this->m_selectDialogListData->objectAtIndex(idx);
+        
+        CCControlButton *itemBtn = CCControlButton::create(CCString::createWithFormat("%s (%i)", itemsData->m_name.c_str(), itemsData->m_MP)->getCString(), "Arial", 22);
+        itemBtn->setPosition(ccp(tableView->getContentSize().width / 2, 0));
+        itemBtn->setTag(itemsData->m_dataId);
+        itemBtn->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGBattleMenu::onButton), CCControlEventTouchUpInside);
+        cell->addChild(itemBtn);
+        
+    }
+    else if(dynamic_cast<RPGExistingItems*>(this->m_selectDialogListData->objectAtIndex(idx)) != NULL)
+    {
+        //点击了道具项
+        
+        RPGExistingItems *itemsData = (RPGExistingItems*)this->m_selectDialogListData->objectAtIndex(idx);
+        
+        CCControlButton *itemBtn = CCControlButton::create(CCString::createWithFormat("%s (%i)", itemsData->m_name.c_str(), itemsData->m_total)->getCString(), "Arial", 22);
+        itemBtn->setPosition(ccp(tableView->getContentSize().width / 2, 0));
+        itemBtn->setTag(itemsData->m_dataId);
+        itemBtn->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGBattleMenu::onButton), CCControlEventTouchUpInside);
+        cell->addChild(itemBtn);
+        
+    }
+    
+    return cell;
+}
+
+unsigned int RPGBattleMenu::numberOfCellsInTableView(CCTableView *tableView)
+{
+    return this->m_selectDialogListData->count();
+}
+//CCTableView end

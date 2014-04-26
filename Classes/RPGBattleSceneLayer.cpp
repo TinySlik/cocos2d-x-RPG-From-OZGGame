@@ -307,7 +307,8 @@ CCScene* RPGBattleSceneLayer::scene()
 
 void RPGBattleSceneLayer::update(float delta)
 {
-    float progressSpeed = 0.5;
+    float progressSpeed = 5; //test
+//    float progressSpeed = 0.5;
     
     //更新player进度条
     for (int i = 0; i < this->m_playerDataList->count(); i++)
@@ -342,7 +343,7 @@ void RPGBattleSceneLayer::update(float delta)
             if(battleMenu)
                 battleMenu->removeFromParentAndCleanup(true);
             
-            battleMenu = RPGBattleMenu::createWithParentNode(this->m_stringList, this, playerData);
+            battleMenu = RPGBattleMenu::createWithParentNode(this->m_stringList, &this->m_db, this, playerData);
             battleMenu->setTag(kRPGBattleSceneLayerTagBattleMenu);
             this->addChild(battleMenu);
             
@@ -434,14 +435,14 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
             {
 //                CCLog("攻击");
                 
-                SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
-                
                 //检测选中的player
                 for (int i = 0; i < this->m_playerList->count(); i++)
                 {
                     RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
                     if(player->boundingBox().containsPoint(point))
                     {
+                        SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+                        
                         if(player->m_isSelected)
                         {
                             CCLog("攻击player");
@@ -468,6 +469,8 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
                     RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->m_monsterList->objectAtIndex(i);
                     if(monster->boundingBox().containsPoint(point))
                     {
+                        SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+                        
                         if(monster->m_isSelected)
                         {
                             CCLog("攻击怪物");
@@ -492,6 +495,16 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
             }
                 break;
             
+            case kRPGBattleMenuTagSkill:
+                
+                CCLog("a");
+                break;
+            
+            case kRPGBattleMenuTagItems:
+                
+                CCLog("b");
+                break;
+                
 //            default:
 //                break;
         }
@@ -1043,7 +1056,7 @@ bool RPGBattleSceneLayer::judgeLose()
 
 void RPGBattleSceneLayer::showWinResults()
 {
-    CCTMXTiledMap *winResults = CCTMXTiledMap::create("battle_battle_style1.tmx");
+    CCTMXTiledMap *winResults = CCTMXTiledMap::create("battle_select_style1.tmx");
     winResults->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - winResults->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - winResults->getContentSize().height) / 2));
     winResults->setTag(kRPGBattleSceneLayerTagWinResultsDialog);
     this->addChild(winResults);
@@ -1165,7 +1178,7 @@ void RPGBattleSceneLayer::showWinResults()
 
 void RPGBattleSceneLayer::showLoseResults()
 {
-    CCTMXTiledMap *loseResults = CCTMXTiledMap::create("battle_battle_style1.tmx");
+    CCTMXTiledMap *loseResults = CCTMXTiledMap::create("battle_select_style1.tmx");
     loseResults->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - loseResults->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - loseResults->getContentSize().height) / 2));
     loseResults->setTag(kRPGBattleSceneLayerTagLoseResultsDialog);
     this->addChild(loseResults);

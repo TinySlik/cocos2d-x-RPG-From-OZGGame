@@ -23,6 +23,8 @@ enum RPGBattleSceneLayerTag
     kRPGBattleSceneLayerTagBattleMenu = 3,
     kRPGBattleSceneLayerTagWinResultsDialog = 70,
     kRPGBattleSceneLayerTagLoseResultsDialog = 71,
+    kRPGBattleSceneLayerTagSkillSelectDialog = 72,
+    kRPGBattleSceneLayerTagItemsSelectDialog = 73,
     kRPGBattleSceneLayerTagMsg = 98,
     kRPGBattleSceneLayerTagPlayer = 100,
     kRPGBattleSceneLayerTagPlayerNameLab = 200,

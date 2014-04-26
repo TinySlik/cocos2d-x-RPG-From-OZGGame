@@ -83,6 +83,20 @@ RPGSkill* RPGSkill::create()
 
 //RPGSkill end
 
+RPGSkillBtnData* RPGSkillBtnData::create()
+{
+    RPGSkillBtnData *obj = new RPGSkillBtnData();
+    if(obj)
+    {
+        obj->autorelease();
+        return obj;
+    }
+    CC_SAFE_DELETE(obj);
+    return NULL;
+}
+
+//RPGSkillBtnData end
+
 RPGItems::RPGItems()
 {
     

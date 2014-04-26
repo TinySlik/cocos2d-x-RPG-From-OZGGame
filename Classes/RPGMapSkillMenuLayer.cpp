@@ -12,31 +12,6 @@
 #include "RPGMapChoicePlayerMenuLayer.h"
 #include "OzgCCUtility.h"
 
-//RPGSkillBtnData
-class RPGSkillBtnData : public RPGSkill
-{
-    
-public:
-    
-    bool m_enabled; //是否可点击
-    
-    static RPGSkillBtnData* create();
-    
-};
-
-RPGSkillBtnData* RPGSkillBtnData::create()
-{
-    RPGSkillBtnData *obj = new RPGSkillBtnData();
-    if(obj)
-    {
-        obj->autorelease();
-        return obj;
-    }
-    CC_SAFE_DELETE(obj);
-    return NULL;
-}
-//RPGSkillBtnData end
-
 RPGMapSkillMenuLayer::RPGMapSkillMenuLayer()
 {
     

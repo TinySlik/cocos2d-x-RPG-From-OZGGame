@@ -33,6 +33,9 @@ using namespace CocosDenshion;
 //查询现有道具
 #define ITEMS_EXISTING_QUERY "select i.*, ie.total from items_existing as ie inner join items as i on ie.id = i.id order by i.id asc"
 
+//按type查询现有道具
+#define ITEMS_EXISTING_QUERY_TYPE "select i.*, ie.total from items_existing as ie inner join items as i on ie.id = i.id where i.type = %i order by i.id asc"
+
 #define EQUIP_EXISTING_QUERY "select i.*, ie.total from items_existing as ie inner join items as i on ie.id = i.id where i.type = 1 or i.type = 2 order by i.id asc"
 
 //获取一个player的详细数据

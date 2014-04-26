@@ -64,6 +64,8 @@ public:
     
     void animAttack(CCObject* target, CCObject *targetObjData); //执行一般攻击的动作，target为回调对象，targetObjData为攻击的对象
     
+    void animSkill(CCObject* target, CCObject *targetObjData); //执行技能，target为回调对象，targetObjData为目标对象
+    
     void showEffectResults(CCObject* target, int HPResults, CCNode* srcAttackObj); //显示效果值，target为回调对象，攻击的话HPResults传入的是负值，回复的话为正值
     
 };
