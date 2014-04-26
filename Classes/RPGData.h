@@ -96,6 +96,7 @@ public:
     float m_skillAttack;
     int m_MP;
     int m_type;
+    int m_attr;
     
     RPGSkill();
     virtual ~RPGSkill();

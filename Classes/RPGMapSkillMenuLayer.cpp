@@ -12,6 +12,31 @@
 #include "RPGMapChoicePlayerMenuLayer.h"
 #include "OzgCCUtility.h"
 
+//RPGSkillBtnData
+class RPGSkillBtnData : public RPGSkill
+{
+    
+public:
+    
+    bool m_enabled; //是否可点击
+    
+    static RPGSkillBtnData* create();
+    
+};
+
+RPGSkillBtnData* RPGSkillBtnData::create()
+{
+    RPGSkillBtnData *obj = new RPGSkillBtnData();
+    if(obj)
+    {
+        obj->autorelease();
+        return obj;
+    }
+    CC_SAFE_DELETE(obj);
+    return NULL;
+}
+//RPGSkillBtnData end
+
 RPGMapSkillMenuLayer::RPGMapSkillMenuLayer()
 {
     
@@ -38,8 +63,6 @@ bool RPGMapSkillMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
         this->m_skillList->init();
         
         this->m_isDefault = true;
-        
-        this->m_enabledPlayerSkill = true; //默认可以点击技能项
         
         CCMenu *mainMenu = CCMenu::create();
         mainMenu->setTag(kRPGMapSkillMenuLayerTagMainMenu);
@@ -156,7 +179,7 @@ CCTableViewCell* RPGMapSkillMenuLayer::tableCellAtIndex(CCTableView *tableView, 
         if(index >= this->m_skillList->count())
             break;
         
-        RPGSkill *skillData = (RPGSkill*)this->m_skillList->objectAtIndex(index);
+        RPGSkillBtnData *skillData = (RPGSkillBtnData*)this->m_skillList->objectAtIndex(index);
         
         CCControlButton *skillBtn = CCControlButton::create(CCString::createWithFormat("%s (%i)", skillData->m_name.c_str(), skillData->m_MP)->getCString(), "Arial", 22);
         skillBtn->setPosition(ccp(x, 0));
@@ -165,13 +188,7 @@ CCTableViewCell* RPGMapSkillMenuLayer::tableCellAtIndex(CCTableView *tableView, 
         cell->addChild(skillBtn);
         
         //如果是非回复类技能的话，则禁用点击
-        if(skillData->m_type != 2)
-        {
-            skillBtn->setTitleColorForState(ccc3(144, 144, 144), CCControlStateNormal);
-            skillBtn->setEnabled(false);
-        }
-        //MP不够的话，禁用点击
-        else if(!this->m_enabledPlayerSkill)
+        if(!skillData->m_enabled)
         {
             skillBtn->setTitleColorForState(ccc3(144, 144, 144), CCControlStateNormal);
             skillBtn->setEnabled(false);
@@ -285,9 +302,6 @@ void RPGMapSkillMenuLayer::setPlayerSkill(int dataId)
     {
         this->m_selectedPlayerId = query.getIntField("id");
         
-        if(query.getFloatField("mp") <= 0 || query.getFloatField("hp") <= 0)
-            this->m_enabledPlayerSkill = false;
-        
         //数据处理部分
         this->m_skillList->removeAllObjects();
         
@@ -311,12 +325,22 @@ void RPGMapSkillMenuLayer::setPlayerSkill(int dataId)
             CppSQLite3Query skillQuery = this->m_db->execQuery(CCString::createWithFormat(SKILL_QUERY, wq.c_str())->getCString());
             while(!skillQuery.eof())
             {
-                RPGSkill *skill = RPGSkill::create();
+                RPGSkillBtnData *skill = RPGSkillBtnData::create();
                 skill->m_dataId = skillQuery.getIntField("id");
                 skill->m_name = skillQuery.getStringField("name_cns");
                 skill->m_MP = skillQuery.getIntField("mp");
                 skill->m_skillAttack = skillQuery.getIntField("skill_attack");
                 skill->m_type = skillQuery.getIntField("type");
+                skill->m_attr = skillQuery.getIntField("attr");
+                skill->m_enabled = true;
+                
+                //不能使用技能的情况
+                if(query.getFloatField("mp") <= 0 || query.getFloatField("hp") <= 0)
+                    skill->m_enabled = false;
+                else if(query.getFloatField("mp") < skill->m_MP)
+                    skill->m_enabled = false;
+                else if(skill->m_type != 2)
+                    skill->m_enabled = false;
                 
                 this->m_skillList->addObject(skill);
                 
@@ -341,7 +365,7 @@ void RPGMapSkillMenuLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent e
     for (int i = 0; i < this->m_skillList->count(); i++)
     {
         //判断选中道具
-        RPGSkill *skillData = (RPGSkill*)this->m_skillList->objectAtIndex(i);
+        RPGSkillBtnData *skillData = (RPGSkillBtnData*)this->m_skillList->objectAtIndex(i);
         if(skillBtn->getTag() == skillData->m_dataId)
         {
             this->m_selectedSkill = skillData;

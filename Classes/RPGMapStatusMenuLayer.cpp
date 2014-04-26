@@ -245,6 +245,7 @@ void RPGMapStatusMenuLayer::setStatusPlayer(int dataId)
                 skill->m_MP = skillQuery.getIntField("mp");
                 skill->m_skillAttack = skillQuery.getIntField("skill_attack");
                 skill->m_type = skillQuery.getIntField("type");
+                skill->m_attr = skillQuery.getIntField("attr");
                 
                 this->m_skillList->addObject(skill);
                 

@@ -164,6 +164,7 @@ bool RPGResultsLogic::useSkillCure(CppSQLite3DB *db, int srcPlayerId, int target
         srcSkillData->m_MP = srcSkillQuery.getIntField("mp");
         srcSkillData->m_name = srcSkillQuery.getStringField("name_cns");
         srcSkillData->m_skillAttack = srcSkillQuery.getFloatField("skill_attack");
+        srcSkillData->m_attr = srcSkillQuery.getFloatField("attr");
         
         srcSkillQuery.nextRow();
     }
