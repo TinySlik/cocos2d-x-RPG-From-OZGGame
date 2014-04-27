@@ -216,6 +216,7 @@
 		46C1009316BF786A00F74D54 /* tolua_fix.c in Sources */ = {isa = PBXBuildFile; fileRef = 46C1008A16BF786A00F74D54 /* tolua_fix.c */; };
 		46C59AD317641FF300F43DC3 /* AudioEngine.lua in Resources */ = {isa = PBXBuildFile; fileRef = 46C59AD117641FF300F43DC3 /* AudioEngine.lua */; };
 		46C59AD417641FF300F43DC3 /* CCBReaderLoad.lua in Resources */ = {isa = PBXBuildFile; fileRef = 46C59AD217641FF300F43DC3 /* CCBReaderLoad.lua */; };
+		8905D0C1190CC5E70031F27E /* use_item.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8905D0C0190CC5E70031F27E /* use_item.plist */; };
 		8909857018F253DE0021AE26 /* battle_msg_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */; };
 		890F1B5C1902E284002F2769 /* attack1.ExportJson in Resources */ = {isa = PBXBuildFile; fileRef = 890F1B501902E284002F2769 /* attack1.ExportJson */; };
 		890F1B5D1902E284002F2769 /* attack2.ExportJson in Resources */ = {isa = PBXBuildFile; fileRef = 890F1B511902E284002F2769 /* attack2.ExportJson */; };
@@ -842,6 +843,7 @@
 		46C1008B16BF786A00F74D54 /* tolua_fix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tolua_fix.h; sourceTree = "<group>"; };
 		46C59AD117641FF300F43DC3 /* AudioEngine.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AudioEngine.lua; sourceTree = "<group>"; };
 		46C59AD217641FF300F43DC3 /* CCBReaderLoad.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CCBReaderLoad.lua; sourceTree = "<group>"; };
+		8905D0C0190CC5E70031F27E /* use_item.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = use_item.plist; sourceTree = "<group>"; };
 		8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = battle_msg_style1.tmx; sourceTree = "<group>"; };
 		890F1B501902E284002F2769 /* attack1.ExportJson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = attack1.ExportJson; sourceTree = "<group>"; };
 		890F1B511902E284002F2769 /* attack2.ExportJson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = attack2.ExportJson; sourceTree = "<group>"; };
@@ -2426,6 +2428,7 @@
 		F293BC4615EB859D00256477 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8905D0C0190CC5E70031F27E /* use_item.plist */,
 				89D2A12A190B431F00EDD50B /* skill_cure.plist */,
 				89D2A12B190B431F00EDD50B /* skill_fire.plist */,
 				893D34D21906B01100BFE2C5 /* attack_damage.plist */,
@@ -2658,6 +2661,7 @@
 				15C1569E1683138E00D239F2 /* Icon-144.png in Resources */,
 				89F5D10F18E7C5C0009D703C /* actor7_4.png in Resources */,
 				9E5C5F6E18EE59BB00A68C36 /* battle_menu_style1.tmx in Resources */,
+				8905D0C1190CC5E70031F27E /* use_item.plist in Resources */,
 				1AC3623516D47C5C000847F2 /* fonts in Resources */,
 				893D34D41906B01100BFE2C5 /* attack_damage.plist in Resources */,
 				89F5D14118E7C5DD009D703C /* map_01.tmx in Resources */,

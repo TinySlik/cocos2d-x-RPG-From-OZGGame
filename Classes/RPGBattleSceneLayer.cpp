@@ -10,11 +10,13 @@
 #include "RPGLoadingSceneLayer.h"
 #include "RPGComputingResults.h"
 #include "RPGStartSceneLayer.h"
+#include "RPGResultsLogic.h"
 
 #define MONSTER_QUERY "select * from monster where map_id = %i order by random() limit 1" //随机出现怪物
 
 #define SAVE_GOLD "update save_data set gold = %i where id = 1" //保存金钱
 #define UPDATE_PLAYER "update player set hp = %i, mp = %i, attack = %f, defense = %f, speed = %f, skill_attack = %f, skill_defense = %f, level = %i, skill = '%s', next_exp = %i, exp = %i where id = %i" //更新player数据，升级时用到
+#define UPDATE_EXISTING_ITEMS "update items_existing set total = %i where id = %i" //更新已有道具
 
 RPGBattleSceneLayer::RPGBattleSceneLayer()
 {
@@ -27,7 +29,8 @@ RPGBattleSceneLayer::~RPGBattleSceneLayer()
     this->m_monsterDataList->release();
     this->m_playerList->release();
     this->m_monsterList->release();
-        
+    this->m_existingItems->release();
+    
     CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("monsters.plist");
     
 //    CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
@@ -76,6 +79,32 @@ bool RPGBattleSceneLayer::init()
         this->m_monsterList->init();
         
         this->m_speedTotal = 0; //速度总值的初始化
+        
+        //加载已有道具
+        this->m_existingItems = new CCArray();
+        this->m_existingItems->init();
+        
+        CppSQLite3Query itemsQuery = this->m_db.execQuery(CCString::createWithFormat(ITEMS_EXISTING_QUERY_TYPE, 3)->getCString());
+        while(!itemsQuery.eof())
+        {
+            RPGExistingItems *itemsData = RPGExistingItems::create();
+            itemsData->m_dataId = itemsQuery.getIntField("id");
+            itemsData->m_name = itemsQuery.getStringField("name_cns");
+            itemsData->m_buy = itemsQuery.getIntField("buy");
+            itemsData->m_sell = itemsQuery.getIntField("sell");
+            itemsData->m_type = itemsQuery.getIntField("type");
+            itemsData->m_attack = itemsQuery.getFloatField("attack");
+            itemsData->m_defense = itemsQuery.getFloatField("defense");
+            itemsData->m_speed = itemsQuery.getFloatField("speed");
+            itemsData->m_skillAttack = itemsQuery.getFloatField("skill_attack");
+            itemsData->m_skillDefense = itemsQuery.getFloatField("skill_defense");
+            itemsData->m_total = itemsQuery.getIntField("total");
+            this->m_existingItems->addObject(itemsData);
+            
+            itemsQuery.nextRow();
+        }
+        itemsQuery.finalize();
+        //加载已有道具 end
         
         //player
         float playerY = 620;
@@ -207,6 +236,8 @@ bool RPGBattleSceneLayer::init()
                 monsterData->m_name = query.getStringField("name_cns");
                 monsterData->m_maxHP = query.getIntField("max_hp");
                 monsterData->m_HP = query.getIntField("max_hp"); //跟上面的一样
+                monsterData->m_maxMP = query.getIntField("max_mp");
+                monsterData->m_MP = query.getIntField("max_mp"); //跟上面的一样
                 monsterData->m_attack = query.getFloatField("attack");
                 monsterData->m_defense = query.getFloatField("defense");
                 monsterData->m_speed = query.getFloatField("speed");
@@ -448,12 +479,12 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
                             CCLog("攻击player");
                             
                             RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
-                            RPGPlayer *playerData = battleMenu->m_playerData;
+                            RPGPlayer *srcPlayerData = battleMenu->m_playerData;
                             
                             player->selected(false);
                             this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
                             
-                            this->attack(playerData, player->m_data);
+                            this->attack(srcPlayerData, player->m_data);
                         }
                         else
                             player->selected(true);
@@ -476,12 +507,12 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
                             CCLog("攻击怪物");
                             
                             RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
-                            RPGPlayer *playerData = battleMenu->m_playerData;
+                            RPGPlayer *srcPlayerData = battleMenu->m_playerData;
                             
                             monster->selected(false);
-                            battleMenu->removeFromParentAndCleanup(true);
+                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
                             
-                            this->attack(playerData, monster->m_data);
+                            this->attack(srcPlayerData, monster->m_data);
                             
                         }
                         else
@@ -496,13 +527,129 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
                 break;
             
             case kRPGBattleMenuTagSkill:
+            {
+                CCLog("技能");
                 
-                CCLog("a");
+                //检测选中的player
+                for (int i = 0; i < this->m_playerList->count(); i++)
+                {
+                    RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+                    if(player->boundingBox().containsPoint(point))
+                    {
+                        SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+                        
+                        if(player->m_isSelected)
+                        {
+                            CCLog("对player使用技能");
+                            
+//                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+//                            RPGPlayer *playerData = battleMenu->m_playerData;
+//                            
+//                            player->selected(false);
+//                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
+//                            
+//                            this->attack(playerData, player->m_data);
+                        }
+                        else
+                            player->selected(true);
+                    }
+                    else
+                        player->selected(false);
+                    
+                }
+                
+                //检测选中的怪物
+                for (int i = 0; i < this->m_monsterList->count(); i++)
+                {
+                    RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->m_monsterList->objectAtIndex(i);
+                    if(monster->boundingBox().containsPoint(point))
+                    {
+                        SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+                        
+                        if(monster->m_isSelected)
+                        {
+                            CCLog("对怪物使用技能");
+                            
+//                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+//                            RPGPlayer *playerData = battleMenu->m_playerData;
+//                            
+//                            monster->selected(false);
+//                            battleMenu->removeFromParentAndCleanup(true);
+//                            
+//                            this->attack(playerData, monster->m_data);
+                            
+                        }
+                        else
+                            monster->selected(true);
+                    }
+                    else
+                        monster->selected(false);
+                    
+                }
+                
+            }
                 break;
             
             case kRPGBattleMenuTagItems:
+            {
+                CCLog("道具");
                 
-                CCLog("b");
+                //检测选中的player
+                for (int i = 0; i < this->m_playerList->count(); i++)
+                {
+                    RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+                    if(player->boundingBox().containsPoint(point))
+                    {
+                        SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+                        
+                        if(player->m_isSelected)
+                        {
+                            CCLog("对player使用道具");
+                            
+                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+                            RPGPlayer *srcPlayerData = battleMenu->m_playerData;
+                            
+                            player->selected(false);
+                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
+                            
+                            this->useItem(srcPlayerData, player->m_data);
+                        }
+                        else
+                            player->selected(true);
+                    }
+                    else
+                        player->selected(false);
+                    
+                }
+                
+                //检测选中的怪物
+                for (int i = 0; i < this->m_monsterList->count(); i++)
+                {
+                    RPGBattleMonsterSprite *monster = (RPGBattleMonsterSprite*)this->m_monsterList->objectAtIndex(i);
+                    if(monster->boundingBox().containsPoint(point))
+                    {
+                        SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+                        
+                        if(monster->m_isSelected)
+                        {
+                            CCLog("对怪物使用道具");
+                            
+                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+                            RPGPlayer *srcPlayerData = battleMenu->m_playerData;
+                            
+                            monster->selected(false);
+                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
+                            
+                            this->useItem(srcPlayerData, monster->m_data);
+                        }
+                        else
+                            monster->selected(true);
+                    }
+                    else
+                        monster->selected(false);
+                    
+                }
+            }
                 break;
                 
 //            default:
@@ -542,6 +689,11 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
         }
         
         //保存现有道具到数据库
+        for (int i = 0; i < this->m_existingItems->count(); i++)
+        {
+            RPGExistingItems *itemsData = (RPGExistingItems*)this->m_existingItems->objectAtIndex(i);
+            this->m_db.execDML(CCString::createWithFormat(UPDATE_EXISTING_ITEMS, itemsData->m_total, itemsData->m_dataId)->getCString());
+        }
         
         this->goToMap();
     }
@@ -712,10 +864,10 @@ void RPGBattleSceneLayer::attack(cocos2d::CCObject *attackObjData, cocos2d::CCOb
         RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)attackObjData)->m_dataId);
         player->animAttack(this, targetObjData);
     }
-    else if(dynamic_cast<RPGMonster*>(attackObjData) != NULL)
-    {
-        
-    }
+//    else if(dynamic_cast<RPGMonster*>(attackObjData) != NULL)
+//    {
+//        
+//    }
     
 }
 
@@ -739,8 +891,8 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
             RPGBattleMonsterSprite *targetMonster = (RPGBattleMonsterSprite*)this->getChildByTag(((RPGMonster*)data)->m_tag);
             particleSysPoint = targetMonster->getPosition();
             
-            int HPResults = RPGComputingResults::attackResults(((RPGBattlePlayerSprite*)sender)->m_data->m_attack, ((RPGMonster*)data)->m_defense);
-            targetMonster->showEffectResults(this, -HPResults, sender);
+            int results = RPGComputingResults::attackResults(((RPGBattlePlayerSprite*)sender)->m_data->m_attack, ((RPGMonster*)data)->m_defense);
+            targetMonster->showEffectResults(this, -results, sender);
         }
         else if(dynamic_cast<RPGPlayer*>((CCObject*)data) != NULL)
         {
@@ -750,8 +902,8 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
             
             particleSysPoint = targetPlayer->getPosition();
             
-            int HPResults = RPGComputingResults::attackResults(((RPGBattlePlayerSprite*)sender)->m_data->m_attack, ((RPGPlayer*)data)->m_defense);
-            targetPlayer->showEffectResults(this, -HPResults, sender);
+            int results = RPGComputingResults::attackResults(((RPGBattlePlayerSprite*)sender)->m_data->m_attack, ((RPGPlayer*)data)->m_defense);
+            targetPlayer->showEffectResults(this, -results, sender);
             
         }
         
@@ -778,7 +930,49 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
     
 }
 
-void RPGBattleSceneLayer::attackWithTargetEffectLabEnd(cocos2d::CCNode *sender, void* data)
+void RPGBattleSceneLayer::useItem(cocos2d::CCObject *useItemObjData, cocos2d::CCObject *targetObjData)
+{
+    RPGBattlePlayerSprite *srcPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)useItemObjData)->m_dataId);
+    srcPlayer->animUseItem(this, targetObjData);
+    
+}
+
+void RPGBattleSceneLayer::useItemResults(cocos2d::CCNode *sender, void *data)
+{
+    CCPoint particleSysPoint;
+    
+    if(dynamic_cast<RPGBattlePlayerSprite*>(sender) != NULL)
+    {
+        if(dynamic_cast<RPGMonster*>((CCObject*)data) != NULL)
+        {
+            //对怪物使用道具
+            
+            RPGBattleMonsterSprite *targetMonster = (RPGBattleMonsterSprite*)this->getChildByTag(((RPGMonster*)data)->m_tag);
+            particleSysPoint = targetMonster->getPosition();
+            
+            int results = RPGResultsLogic::battleUseItems(this->m_existingItems, (RPGMonster*)data, CCUserDefault::sharedUserDefault()->getIntegerForKey(GAME_BATTLE_SELECTED_ID));
+            targetMonster->showEffectResults(this, results, sender);
+        }
+        else if(dynamic_cast<RPGPlayer*>((CCObject*)data) != NULL)
+        {
+            //player攻击player
+            RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)data)->m_dataId);
+            particleSysPoint = targetPlayer->getPosition();
+            
+            int results = RPGResultsLogic::battleUseItems(this->m_existingItems, (RPGPlayer*)data, CCUserDefault::sharedUserDefault()->getIntegerForKey(GAME_BATTLE_SELECTED_ID));
+            targetPlayer->showEffectResults(this, results, sender);
+        }
+        
+    }
+    
+    //显示使用道具后的粒子效果
+    CCParticleSystemQuad *particleSys = CCParticleSystemQuad::create("use_item.plist");
+    particleSys->setAutoRemoveOnFinish(true);
+    particleSys->setPosition(particleSysPoint);
+    this->addChild(particleSys);
+}
+
+void RPGBattleSceneLayer::actionWithTargetEffectLabEnd(cocos2d::CCNode *sender, void* data)
 {
     //data为发起攻击的Sprite对象
     
@@ -793,6 +987,12 @@ void RPGBattleSceneLayer::attackWithTargetEffectLabEnd(cocos2d::CCNode *sender, 
             //player战斗不能
             targetPlayer->m_data->m_status = kRPGDataStatusDeath;
             targetPlayer->animDeath();
+        }
+        else
+        {
+            //player复活
+            targetPlayer->m_data->m_status = kRPGDataStatusNormal;
+            targetPlayer->animNormal();
         }
         
         sender->removeFromParentAndCleanup(true);
@@ -819,7 +1019,7 @@ void RPGBattleSceneLayer::attackWithTargetEffectLabEnd(cocos2d::CCNode *sender, 
             RPGBattleMonsterSprite *srcMonster = (RPGBattleMonsterSprite*)data;
             srcMonster->m_data->m_progress = 0;
         }
-                
+        
         //判断是否胜利了
         if(!this->judgeLose())
             this->scheduleUpdate();
@@ -892,7 +1092,7 @@ void RPGBattleSceneLayer::attackWithTargetEffectLabEnd(cocos2d::CCNode *sender, 
         player->m_data->m_progress = 0;
         CCProgressTimer *battleProgress = (CCProgressTimer*)this->getChildByTag(kRPGBattleSceneLayerTagPlayerProgress + player->m_data->m_dataId);
         battleProgress->setPercentage(player->m_data->m_progress);
-    
+        
         //判断是否胜利了
         if(!this->judgeWin())
             this->scheduleUpdate();

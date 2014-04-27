@@ -28,7 +28,7 @@ class RPGBattlePlayerSprite : public CCSprite
     
 private:
     
-    int m_HPResults; //临时保存HP效果值
+    int m_results; //临时保存HP效果值
     
     CCArray* m_spriteFramesNormal; //通常
     CCArray* m_spriteFramesHurt; //受到攻击
@@ -66,7 +66,9 @@ public:
     
     void animSkill(CCObject* target, CCObject *targetObjData); //执行技能，target为回调对象，targetObjData为目标对象
     
-    void showEffectResults(CCObject* target, int HPResults, CCNode* srcAttackObj); //显示效果值，target为回调对象，攻击的话HPResults传入的是负值，回复的话为正值
+    void animUseItem(CCObject* target, CCObject *targetObjData); //执行使用道具，target为回调对象，targetObjData为目标对象
+    
+    void showEffectResults(CCObject* target, int results, CCNode* srcAttackObj); //显示效果值，target为回调对象，攻击的话results传入的是负值，回复的话为正值
     
 };
 

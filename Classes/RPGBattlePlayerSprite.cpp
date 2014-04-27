@@ -285,33 +285,61 @@ void RPGBattlePlayerSprite::animSkill(cocos2d::CCObject *target, cocos2d::CCObje
     CCLog("使用技能");
 }
 
-void RPGBattlePlayerSprite::showEffectResults(cocos2d::CCObject *target, int HPResults, CCNode* srcAttackObj)
+void RPGBattlePlayerSprite::animUseItem(cocos2d::CCObject *target, cocos2d::CCObject *targetObjData)
+{
+    this->stopAllActions();
+    
+    if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
+        this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesUseItem, 0.2);
+    
+    CCSequence *animate = CCSequence::create(CCAnimate::create(animation), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::animNormal)), NULL);
+    this->runAction(CCSequence::createWithTwoActions(animate, CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::useItemResults), (void*)targetObjData)));
+}
+
+void RPGBattlePlayerSprite::showEffectResults(cocos2d::CCObject *target, int results, CCNode* srcAttackObj)
 {
     //srcAttackObj为发起攻击的Sprite对象
     
-    addLab(this, kRPGBattlePlayerSpriteTagEffectResults, CCString::createWithFormat("%i", HPResults), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
+    addLab(this, kRPGBattlePlayerSpriteTagEffectResults, CCString::createWithFormat("%i", results), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
     
     CCLabelTTF *effectResults = (CCLabelTTF*)this->getChildByTag(kRPGBattlePlayerSpriteTagEffectResults);
     
     //增加HP的话则使用绿色
-    if(HPResults > 0)
+    if(results > 0)
         effectResults->setFontFillColor(ccc3(80, 255, 90));
     
     CCMoveBy *up = CCMoveBy::create(0.5, ccp(0, 30));
     CCMoveBy *down = CCMoveBy::create(1, ccp(0, -30));
     
-    this->m_HPResults = HPResults;
+    this->m_results = results;
     
-    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetEffectLabEnd), srcAttackObj), NULL));
+    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattlePlayerSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::actionWithTargetEffectLabEnd), srcAttackObj), NULL));
     
 }
 
 //private
 void RPGBattlePlayerSprite::showEffectResultsEnd()
 {
-    this->m_data->m_HP += this->m_HPResults;
+    if(strcmp(CCUserDefault::sharedUserDefault()->getStringForKey(GAME_BATTLE_FIELD, "").c_str(), "mp") == 0)
+    {
+        this->m_data->m_MP += this->m_results;
+        
+        if(this->m_data->m_MP < 0)
+            this->m_data->m_MP = 0;
+        else if(this->m_data->m_MP > this->m_data->m_maxMP)
+            this->m_data->m_MP = this->m_data->m_maxMP;
+    }
+    else
+    {
+        this->m_data->m_HP += this->m_results;
+        
+        if(this->m_data->m_HP < 0)
+            this->m_data->m_HP = 0;
+        else if(this->m_data->m_HP > this->m_data->m_maxHP)
+            this->m_data->m_HP = this->m_data->m_maxHP;
+    }
     
-    if(this->m_data->m_HP < 0)
-        this->m_data->m_HP = 0;
-    
+    CCUserDefault::sharedUserDefault()->setStringForKey(GAME_BATTLE_FIELD, "");
 }

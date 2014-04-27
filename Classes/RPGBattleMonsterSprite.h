@@ -28,7 +28,7 @@ class RPGBattleMonsterSprite : public CCSprite
     
 private:
     
-    int m_HPResults; //临时保存HP效果值
+    int m_results; //临时保存HP效果值
     
     void showEffectResultsEnd(); //showEffectResults执行完毕后执行，然后再执行showEffectResults参数中的回调
         
@@ -45,7 +45,7 @@ public:
     
     void selected(bool isSelected);
     
-    void showEffectResults(CCObject* target, int HPResults, CCNode* player); //显示效果值，target为回调对象，攻击的话HPResults传入的是负值，回复的话为正值
+    void showEffectResults(CCObject* target, int results, CCNode* player); //显示效果值，target为回调对象，攻击的话results传入的是负值，回复的话为正值
     
     void animAttack(CCObject* target, CCObject *targetObjData); //执行一般攻击或技能攻击的动作，target为回调对象，targetObjData为攻击的对象
     

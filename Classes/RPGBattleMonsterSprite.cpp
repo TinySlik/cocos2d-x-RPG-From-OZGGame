@@ -71,22 +71,22 @@ void RPGBattleMonsterSprite::selected(bool isSelected)
     
 }
 
-void RPGBattleMonsterSprite::showEffectResults(cocos2d::CCObject *target, int HPResults, CCNode* player)
+void RPGBattleMonsterSprite::showEffectResults(cocos2d::CCObject *target, int results, CCNode* player)
 {
-    addLab(this, kRPGBattleMonsterSpriteTagEffectResults, CCString::createWithFormat("%i", HPResults), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
+    addLab(this, kRPGBattleMonsterSpriteTagEffectResults, CCString::createWithFormat("%i", results), 24, kCCTextAlignmentCenter, ccp(this->getContentSize().width / 2, this->getContentSize().height / 2));
     
     CCLabelTTF *effectResults = (CCLabelTTF*)this->getChildByTag(kRPGBattleMonsterSpriteTagEffectResults);
     
     //增加HP的话则使用绿色
-    if(HPResults > 0)
+    if(results > 0)
         effectResults->setFontFillColor(ccc3(80, 255, 90));
     
     CCMoveBy *up = CCMoveBy::create(0.5, ccp(0, 30));
     CCMoveBy *down = CCMoveBy::create(1, ccp(0, -30));
     
-    this->m_HPResults = HPResults;
+    this->m_results = results;
     
-    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattleMonsterSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::attackWithTargetEffectLabEnd), player), NULL));
+    effectResults->runAction(CCSequence::create(CCEaseExponentialOut::create(up), CCEaseBounceOut::create(down), CCDelayTime::create(0.5), CCCallFunc::create(this, callfunc_selector(RPGBattleMonsterSprite::showEffectResultsEnd)), CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::actionWithTargetEffectLabEnd), player), NULL));
     
 }
 
@@ -106,9 +106,25 @@ void RPGBattleMonsterSprite::animAttack(CCObject* target, CCObject *targetObjDat
 //private
 void RPGBattleMonsterSprite::showEffectResultsEnd()
 {    
-    this->m_data->m_HP += this->m_HPResults;
+    if(strcmp(CCUserDefault::sharedUserDefault()->getStringForKey(GAME_BATTLE_FIELD, "").c_str(), "mp") == 0)
+    {
+        this->m_data->m_MP += this->m_results;
+        
+        if(this->m_data->m_MP < 0)
+            this->m_data->m_MP = 0;
+        else if(this->m_data->m_MP > this->m_data->m_maxMP)
+            this->m_data->m_MP = this->m_data->m_maxMP;
+    }
+    else
+    {
+        this->m_data->m_HP += this->m_results;
+        
+        if(this->m_data->m_HP < 0)
+            this->m_data->m_HP = 0;
+        else if(this->m_data->m_HP > this->m_data->m_maxHP)
+            this->m_data->m_HP = this->m_data->m_maxHP;
+    }
     
-    if(this->m_data->m_HP < 0)
-        this->m_data->m_HP = 0;
+    CCUserDefault::sharedUserDefault()->setStringForKey(GAME_BATTLE_FIELD, "");
     
 }

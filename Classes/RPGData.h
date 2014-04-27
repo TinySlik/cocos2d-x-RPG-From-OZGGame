@@ -64,6 +64,8 @@ public:
     string m_name;
     int m_maxHP;
     int m_HP; //数据库里面没有这个字段
+    int m_maxMP;
+    int m_MP; //数据库里面没有这个字段
     float m_attack;
     float m_defense;
     float m_speed;

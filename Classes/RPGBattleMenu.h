@@ -24,7 +24,9 @@ enum RPGBattleMenuTag
     kRPGBattleMenuTagItems = 5,
     kRPGBattleMenuTagEscape = 6,
     kRPGBattleMenuTagCancel = 7,
+    kRPGBattleMenuTagCancel2 = 9, //这个选择了一个技能或道具后，到了选择目标对象的一步，使用到的取消按钮
     kRPGBattleMenuTagSelect = 8
+    
 };
 
 class RPGBattleMenu : public CCMenu, CCTableViewDelegate, CCTableViewDataSource
@@ -36,7 +38,7 @@ private:
     
     CCDictionary* m_stringList;
     
-    CCArray* m_selectDialogListData; //技能数据或道具数据
+    CCArray* m_tableItems; //技能数据或道具数据，需要在RPGBattleSceneLayer里面将数据加载进来
     
     void createMenuItem(float x, float y, CCString *text, RPGBattleMenuTag tag);
     void onMenu(CCObject *pObject);
@@ -48,7 +50,7 @@ public:
     RPGPlayer* m_playerData;
     
     int m_selectedMenuTag; //选中了哪个项(攻击、技能、道具)
-    
+        
     RPGBattleMenu();
     virtual ~RPGBattleMenu();
     bool initWithParentNode(CCDictionary* stringList, CppSQLite3DB* db, CCNode* parentNode, RPGPlayer* playerData);

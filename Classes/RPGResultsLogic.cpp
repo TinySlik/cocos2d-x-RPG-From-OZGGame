@@ -97,13 +97,12 @@ bool RPGResultsLogic::useItems(CppSQLite3DB* db, int playerId, int itemsId)
     CppSQLite3Query query = db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, playerId)->getCString());
     while(!query.eof())
     {
-        //死亡状态下不能直接恢复hp的道具
         if(query.getIntField("hp") <= 0 && itemsId != 8)
-            return false;
+            return false; //死亡状态下不能直接恢复hp的道具
         else if(query.getIntField("hp") <= 0 && itemsId == 8)
             results = 1; //复活后是1HP
         else if(query.getIntField("hp") > 0 && itemsId == 8)
-            return false; //活着的人不能使用复活药
+            return false; //活着的时候不能使用复活药
         else
         {
             //恢复HP或MP
@@ -132,6 +131,74 @@ bool RPGResultsLogic::useItems(CppSQLite3DB* db, int playerId, int itemsId)
     
     CCLog("对player%d 使用了一个道具%d", playerId, itemsId);
     return true;
+}
+
+int RPGResultsLogic::battleUseItems(CCArray* existingItems, cocos2d::CCObject *targetData, int itemsId)
+{
+    /*
+     6 草药
+     7 党参
+     8 复活药
+     
+     */
+    
+    //道具的效果值
+    int results = 0;
+    
+    if(dynamic_cast<RPGPlayer*>(targetData) != NULL)
+    {
+        if(((RPGPlayer*)targetData)->m_status == kRPGDataStatusDeath && itemsId != 8)
+            return 0; //死亡状态下不能直接恢复hp的道具
+        else if(((RPGPlayer*)targetData)->m_status == kRPGDataStatusDeath && itemsId == 8)
+            results = 1; //复活后是1HP
+        else if(((RPGPlayer*)targetData)->m_status != kRPGDataStatusDeath && itemsId == 8)
+            return 0; //活着的时候不能使用复活药
+        else
+        {
+            //恢复HP或MP
+            results = RPGComputingResults::itemCure(itemsId);
+            if(itemsId == 7)
+                CCUserDefault::sharedUserDefault()->setStringForKey(GAME_BATTLE_FIELD, "mp");
+            
+        }
+        
+    }
+    else if(dynamic_cast<RPGMonster*>(targetData) != NULL)
+    {
+        //以下的复活部分是不会触发的
+        
+        if(((RPGMonster*)targetData)->m_status == kRPGDataStatusDeath && itemsId != 8)
+            return 0; //死亡状态下不能直接恢复hp的道具
+        else if(((RPGMonster*)targetData)->m_status == kRPGDataStatusDeath && itemsId == 8)
+            results = 1; //复活后是1HP
+        else if(((RPGMonster*)targetData)->m_status != kRPGDataStatusDeath && itemsId == 8)
+            return 0; //活着的时候不能使用复活药
+        else
+        {
+            //恢复HP或MP
+            results = RPGComputingResults::itemCure(itemsId);
+            if(itemsId == 7)
+                CCUserDefault::sharedUserDefault()->setStringForKey(GAME_BATTLE_FIELD, "mp");
+            
+        }
+        
+    }
+    
+    //扣减一个已有道具，没有了就在已有existingItems中删除
+    CCArray* noneExistingItems = CCArray::create();
+    for (int i = 0; i < existingItems->count(); i++)
+    {
+        RPGExistingItems *itemsData = (RPGExistingItems*)existingItems->objectAtIndex(i);
+        
+        itemsData->m_total--;
+        
+        if(itemsData->m_total <= 0)
+            noneExistingItems->addObject(itemsData); //该道具用完了之后就加入删除列表
+    }
+    //删除用完了的道具
+    existingItems->removeObjectsInArray(noneExistingItems);
+    
+    return results;
 }
 
 bool RPGResultsLogic::useSkillCure(CppSQLite3DB *db, int srcPlayerId, int targetPlayerId, int srcSkillId)
