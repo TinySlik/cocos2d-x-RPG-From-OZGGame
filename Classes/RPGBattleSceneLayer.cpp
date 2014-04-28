@@ -965,6 +965,8 @@ void RPGBattleSceneLayer::useItemResults(cocos2d::CCNode *sender, void *data)
         
     }
     
+    SimpleAudioEngine::sharedEngine()->playEffect("audio_use_items.wav", false);
+    
     //显示使用道具后的粒子效果
     CCParticleSystemQuad *particleSys = CCParticleSystemQuad::create("use_item.plist");
     particleSys->setAutoRemoveOnFinish(true);

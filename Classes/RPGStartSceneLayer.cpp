@@ -90,14 +90,14 @@ CCScene* RPGStartSceneLayer::scene()
 
 void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
-    
     CCMenuItem *menuItem = (CCMenuItem*)pObject;
     
     switch (menuItem->getTag())
     {
         case kRPGStartSceneLayerTagMenuItemDelete:
         {
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+            
             CCSize winSize = CCDirector::sharedDirector()->getWinSize();
             
             RPGDialogLayer *dialog = RPGDialogLayer::create(((CCString*)this->m_stringList->objectForKey("confirm_delete"))->getCString(), ((CCString*)this->m_stringList->objectForKey("confirm_ok"))->getCString(), kRPGStartSceneLayerTagDialogOK, ((CCString*)this->m_stringList->objectForKey("confirm_cancel"))->getCString(), kRPGStartSceneLayerTagDialogCancel, winSize.width, winSize.height, this, menu_selector(RPGStartSceneLayer::onDialog));
@@ -111,6 +111,8 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
         default:
         {
             //kRPGStartSceneLayerTagMenuItemStart
+            
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_start_btn.wav");
             this->goToMapScene();
         }
             break;

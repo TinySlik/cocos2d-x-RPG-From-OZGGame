@@ -289,7 +289,6 @@
 		89F5D0E618E7C579009D703C /* RPGMapSceneLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89F5D0D618E7C579009D703C /* RPGMapSceneLayer.cpp */; };
 		89F5D0E718E7C579009D703C /* RPGStartSceneLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89F5D0D818E7C579009D703C /* RPGStartSceneLayer.cpp */; };
 		89F5D0E918E7C59D009D703C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F5D0E818E7C59D009D703C /* libsqlite3.dylib */; };
-		89F5D0EB18E7C5B4009D703C /* 方正粗圆简体.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D0EA18E7C5B4009D703C /* 方正粗圆简体.ttf */; };
 		89F5D10618E7C5C0009D703C /* actor4_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D0EC18E7C5C0009D703C /* actor4_0.png */; };
 		89F5D10718E7C5C0009D703C /* actor4_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D0ED18E7C5C0009D703C /* actor4_1.png */; };
 		89F5D10818E7C5C0009D703C /* actor4_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D0EE18E7C5C0009D703C /* actor4_2.png */; };
@@ -328,6 +327,9 @@
 		89F5D14D18E7C5DD009D703C /* Window_b_00.png in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D13C18E7C5DD009D703C /* Window_b_00.png */; };
 		89F5D14F18E7C5E5009D703C /* db.sys in Resources */ = {isa = PBXBuildFile; fileRef = 89F5D14E18E7C5E5009D703C /* db.sys */; };
 		89F5D15318E7C70F009D703C /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89F5D15118E7C70F009D703C /* CppSQLite3.cpp */; };
+		89FD46CB190EA54300EF34C6 /* audio_skill_fire.wav in Resources */ = {isa = PBXBuildFile; fileRef = 89FD46C8190EA54300EF34C6 /* audio_skill_fire.wav */; };
+		89FD46CC190EA54300EF34C6 /* audio_start_btn.wav in Resources */ = {isa = PBXBuildFile; fileRef = 89FD46C9190EA54300EF34C6 /* audio_start_btn.wav */; };
+		89FD46CD190EA54300EF34C6 /* audio_use_items.wav in Resources */ = {isa = PBXBuildFile; fileRef = 89FD46CA190EA54300EF34C6 /* audio_use_items.wav */; };
 		9E3E72551907740500631E9A /* audio_battle_lose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E3E72541907740500631E9A /* audio_battle_lose.mp3 */; };
 		9E427D0518EBBA9F00DA4E79 /* map_menu4_style1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 9E427D0418EBBA9F00DA4E79 /* map_menu4_style1.tmx */; };
 		9E5271DD18F647400018BD94 /* RPGMapStatusMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E5271DB18F647400018BD94 /* RPGMapStatusMenuLayer.cpp */; };
@@ -947,7 +949,6 @@
 		89F5D0D818E7C579009D703C /* RPGStartSceneLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGStartSceneLayer.cpp; path = ../Classes/RPGStartSceneLayer.cpp; sourceTree = "<group>"; };
 		89F5D0D918E7C579009D703C /* RPGStartSceneLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPGStartSceneLayer.h; path = ../Classes/RPGStartSceneLayer.h; sourceTree = "<group>"; };
 		89F5D0E818E7C59D009D703C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		89F5D0EA18E7C5B4009D703C /* 方正粗圆简体.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "方正粗圆简体.ttf"; sourceTree = "<group>"; };
 		89F5D0EC18E7C5C0009D703C /* actor4_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = actor4_0.png; sourceTree = "<group>"; };
 		89F5D0ED18E7C5C0009D703C /* actor4_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = actor4_1.png; sourceTree = "<group>"; };
 		89F5D0EE18E7C5C0009D703C /* actor4_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = actor4_2.png; sourceTree = "<group>"; };
@@ -987,6 +988,9 @@
 		89F5D14E18E7C5E5009D703C /* db.sys */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sys; sourceTree = "<group>"; };
 		89F5D15118E7C70F009D703C /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
 		89F5D15218E7C70F009D703C /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
+		89FD46C8190EA54300EF34C6 /* audio_skill_fire.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_skill_fire.wav; sourceTree = "<group>"; };
+		89FD46C9190EA54300EF34C6 /* audio_start_btn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_start_btn.wav; sourceTree = "<group>"; };
+		89FD46CA190EA54300EF34C6 /* audio_use_items.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_use_items.wav; sourceTree = "<group>"; };
 		9E3E72541907740500631E9A /* audio_battle_lose.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio_battle_lose.mp3; sourceTree = "<group>"; };
 		9E427D0418EBBA9F00DA4E79 /* map_menu4_style1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map_menu4_style1.tmx; sourceTree = "<group>"; };
 		9E5271DB18F647400018BD94 /* RPGMapStatusMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RPGMapStatusMenuLayer.cpp; path = ../Classes/RPGMapStatusMenuLayer.cpp; sourceTree = "<group>"; };
@@ -2446,9 +2450,12 @@
 				890F1B5A1902E284002F2769 /* attack40.plist */,
 				890F1B5B1902E284002F2769 /* attack40.png */,
 				8936C3B418F6D72100AE709E /* select_player_style1.tmx */,
+				8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */,
 				8988A4DD18F42BDC004277ED /* audio_battle_attack1.wav */,
 				8988A4DE18F42BDC004277ED /* audio_battle_attack2.wav */,
-				8909856F18F253DE0021AE26 /* battle_msg_style1.tmx */,
+				89FD46C8190EA54300EF34C6 /* audio_skill_fire.wav */,
+				89FD46C9190EA54300EF34C6 /* audio_start_btn.wav */,
+				89FD46CA190EA54300EF34C6 /* audio_use_items.wav */,
 				9E3E72541907740500631E9A /* audio_battle_lose.mp3 */,
 				896BAEE318EF04CF006581FD /* audio_battle_end.mp3 */,
 				896BAEE418EF04CF006581FD /* audio_battle_menu.wav */,
@@ -2513,7 +2520,6 @@
 				89F5D10318E7C5C0009D703C /* actor115.png */,
 				89F5D10418E7C5C0009D703C /* actor117.png */,
 				89F5D10518E7C5C0009D703C /* actor120.png */,
-				89F5D0EA18E7C5B4009D703C /* 方正粗圆简体.ttf */,
 				1AC3622916D47C5C000847F2 /* fonts */,
 				15C156911683138E00D239F2 /* Default-568h@2x.png */,
 				15C156921683138E00D239F2 /* Default.png */,
@@ -2636,6 +2642,7 @@
 				89CB7D8018E9A47800A5921B /* map_menu2_style1.tmx in Resources */,
 				89E63C7E18ED83C900BDD04F /* actor8_4.png in Resources */,
 				89E63C7C18ED83C900BDD04F /* actor8_2.png in Resources */,
+				89FD46CD190EA54300EF34C6 /* audio_use_items.wav in Resources */,
 				89F5D12B18E7C5CC009D703C /* audio_start.mp3 in Resources */,
 				89D2A12C190B431F00EDD50B /* skill_cure.plist in Resources */,
 				15C1569A1683138E00D239F2 /* Default@2x.png in Resources */,
@@ -2653,8 +2660,8 @@
 				890F1B661902E284002F2769 /* attack40.plist in Resources */,
 				8988A4DF18F42BDC004277ED /* audio_battle_attack1.wav in Resources */,
 				15C1569D1683138E00D239F2 /* Icon-114.png in Resources */,
-				89F5D0EB18E7C5B4009D703C /* 方正粗圆简体.ttf in Resources */,
 				89EA57C118EAF2CB00A10956 /* battle_bg.png in Resources */,
+				89FD46CB190EA54300EF34C6 /* audio_skill_fire.wav in Resources */,
 				890F1B671902E284002F2769 /* attack40.png in Resources */,
 				89F5D13D18E7C5DD009D703C /* joystick.plist in Resources */,
 				89E63C7518ED83C900BDD04F /* actor5_0.png in Resources */,
@@ -2688,6 +2695,7 @@
 				46C59AD417641FF300F43DC3 /* CCBReaderLoad.lua in Resources */,
 				89F5D10D18E7C5C0009D703C /* actor7_2.png in Resources */,
 				89EA57BF18EAF1EC00A10956 /* monsters.png in Resources */,
+				89FD46CC190EA54300EF34C6 /* audio_start_btn.wav in Resources */,
 				89F5D10618E7C5C0009D703C /* actor4_0.png in Resources */,
 				89F5D10A18E7C5C0009D703C /* actor4_4.png in Resources */,
 			);
