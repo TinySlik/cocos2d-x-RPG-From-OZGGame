@@ -8,6 +8,17 @@
 
 #include "RPGData.h"
 
+RPGBaseRole::RPGBaseRole()
+{
+    
+}
+
+RPGBaseRole::~RPGBaseRole()
+{
+    CCLog("RPGBaseRole 释放");
+}
+//RPGBaseRole end
+
 RPGPlayer::RPGPlayer()
 {
 

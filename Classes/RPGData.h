@@ -20,7 +20,7 @@ enum RPGDataStatus {
     kRPGDataStatusDying = 3 //临死
 };
 
-class RPGPlayer : public CCObject
+class RPGBaseRole : public CCObject
 {
     
 public:
@@ -28,25 +28,40 @@ public:
     int m_dataId;
     string m_name;
     int m_maxHP;
-    int m_HP;
+    int m_HP; //子类是怪物的话，数据库里面没有这个字段
     int m_maxMP;
-    int m_MP;
+    int m_MP; //子类是怪物的话，数据库里面没有这个字段
     float m_attack;
     float m_defense;
     float m_speed;
     float m_skillAttack;
     float m_skillDefense;
-    int m_itemsIdArms;
-    int m_itemsIdArmor;
-    int m_level;
+    
     string m_skill;
-    int m_nextExp;
-    string m_texPrefix;
-    int m_exp; //总经验值
     
     float m_progress; //进度条，数据库没有这个字段
     
     RPGDataStatus m_status; //对象状态，数据库暂时没有这个字段
+    
+    int m_exp; //子类是RPGPlayer的话，这个字段就是总经验值，怪物的话就是获得的经验值
+    
+    RPGBaseRole();
+    virtual ~RPGBaseRole();
+    //没有create方法
+    
+};
+
+class RPGPlayer : public RPGBaseRole
+{
+    
+public:
+    
+    int m_itemsIdArms;
+    int m_itemsIdArmor;
+    int m_level;
+    
+    int m_nextExp;
+    string m_texPrefix;
     
     RPGPlayer();
     virtual ~RPGPlayer();
@@ -55,32 +70,15 @@ public:
     
 };
 
-class RPGMonster : public CCObject
+class RPGMonster : public RPGBaseRole
 {
     
 public:
     
-    int m_dataId;
-    string m_name;
-    int m_maxHP;
-    int m_HP; //数据库里面没有这个字段
-    int m_maxMP;
-    int m_MP; //数据库里面没有这个字段
-    float m_attack;
-    float m_defense;
-    float m_speed;
-    float m_skillAttack;
-    float m_skillDefense;
-    int m_exp;
-    string m_skill;
     string m_tex;
     int m_gold;
     
     int m_tag; //格式为 enum tag + 0到999的无重复数（就算同一个怪物也不能重复）
-    
-    float m_progress; //进度条，数据库没有这个字段
-    
-    RPGDataStatus m_status; //对象状态，数据库暂时没有这个字段
     
     RPGMonster();
     virtual ~RPGMonster();
