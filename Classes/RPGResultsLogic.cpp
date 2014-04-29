@@ -133,6 +133,83 @@ bool RPGResultsLogic::useItems(CppSQLite3DB* db, int playerId, int itemsId)
     return true;
 }
 
+bool RPGResultsLogic::useSkillCure(CppSQLite3DB *db, int srcPlayerId, int targetPlayerId, int srcSkillId)
+{
+    RPGPlayer *srcPlayerData;
+    RPGSkill *srcSkillData;
+    
+    RPGPlayer *targetPlayerData;
+    
+    //查询使用技能的player
+    CppSQLite3Query srcPlayerQuery = db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, srcPlayerId)->getCString());
+    while(!srcPlayerQuery.eof())
+    {
+        srcPlayerData = RPGPlayer::create();
+        srcPlayerData->m_dataId = srcPlayerQuery.getIntField("id");
+        srcPlayerData->m_maxMP = srcPlayerQuery.getIntField("max_mp");
+        srcPlayerData->m_MP = srcPlayerQuery.getIntField("mp");
+        srcPlayerData->m_skillAttack = srcPlayerQuery.getFloatField("skill_attack");
+        
+        srcPlayerQuery.nextRow();
+    }
+    srcPlayerQuery.finalize();
+    
+    //查询使用的技能
+    CppSQLite3Query srcSkillQuery = db->execQuery(CCString::createWithFormat(SKILL_DETAIL_QUERY, srcSkillId)->getCString());
+    while(!srcSkillQuery.eof())
+    {
+        srcSkillData = RPGSkill::create();
+        srcSkillData->m_dataId = srcSkillQuery.getIntField("id");
+        srcSkillData->m_MP = srcSkillQuery.getIntField("mp");
+        srcSkillData->m_name = srcSkillQuery.getStringField("name_cns");
+        srcSkillData->m_skillAttack = srcSkillQuery.getFloatField("skill_attack");
+        srcSkillData->m_attr = srcSkillQuery.getFloatField("attr");
+        
+        srcSkillQuery.nextRow();
+    }
+    srcSkillQuery.finalize();
+    
+    //查询目标player
+    CppSQLite3Query targetPlayerQuery = db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, targetPlayerId)->getCString());
+    while(!targetPlayerQuery.eof())
+    {
+        targetPlayerData = RPGPlayer::create();
+        targetPlayerData->m_dataId = targetPlayerQuery.getIntField("id");
+        targetPlayerData->m_maxHP = targetPlayerQuery.getIntField("max_hp");
+        targetPlayerData->m_HP = targetPlayerQuery.getIntField("hp");
+        
+        targetPlayerQuery.nextRow();
+    }
+    targetPlayerQuery.finalize();
+    
+    //执行逻辑
+    if(srcPlayerData && srcSkillData && targetPlayerData)
+    {
+        //计算player时候技能后的效果值
+        int targetResults = RPGComputingResults::skillCureResults(srcPlayerData->m_skillAttack, srcSkillData->m_skillAttack);
+        targetPlayerData->m_HP += targetResults;
+        
+        CCLog("player %i 回复了 %i HP", targetPlayerId, targetResults);
+        
+        //超过HP最大值
+        if(targetPlayerData->m_HP > targetPlayerData->m_maxHP)
+            targetPlayerData->m_HP = targetPlayerData->m_maxHP;
+        db->execDML(CCString::createWithFormat(PLAYER_UPDATE, "hp", targetPlayerData->m_HP, targetPlayerData->m_dataId)->getCString());
+        
+        //扣减使用者的MP
+        srcPlayerData->m_MP -= srcSkillData->m_MP;
+        if(srcPlayerData->m_MP < 0)
+            srcPlayerData->m_MP = 0;
+        
+        CCLog("player %i 消耗了 %i MP", srcPlayerId, srcSkillData->m_MP);
+        
+        db->execDML(CCString::createWithFormat(PLAYER_UPDATE, "mp", srcPlayerData->m_MP, srcPlayerData->m_dataId)->getCString());
+        
+    }
+    
+    return true;
+}
+
 int RPGResultsLogic::battleUseItems(CCArray* existingItems, RPGBaseRole *targetData, int itemsId)
 {
     /*
@@ -201,81 +278,48 @@ int RPGResultsLogic::battleUseItems(CCArray* existingItems, RPGBaseRole *targetD
     return results;
 }
 
-bool RPGResultsLogic::useSkillCure(CppSQLite3DB *db, int srcPlayerId, int targetPlayerId, int srcSkillId)
+int RPGResultsLogic::battleSkill(CppSQLite3DB* db, RPGBaseRole* srcObjData, int skillId, RPGBaseRole* targetObjData)
 {
-    RPGPlayer *srcPlayerData;
-    RPGSkill *srcSkillData;
+    RPGSkill *skill = NULL;
     
-    RPGPlayer *targetPlayerData;
-    
-    //查询使用技能的player
-    CppSQLite3Query srcPlayerQuery = db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, srcPlayerId)->getCString());
-    while(!srcPlayerQuery.eof())
-    {
-        srcPlayerData = RPGPlayer::create();
-        srcPlayerData->m_dataId = srcPlayerQuery.getIntField("id");
-        srcPlayerData->m_maxMP = srcPlayerQuery.getIntField("max_mp");
-        srcPlayerData->m_MP = srcPlayerQuery.getIntField("mp");
-        srcPlayerData->m_skillAttack = srcPlayerQuery.getFloatField("skill_attack");
-        
-        srcPlayerQuery.nextRow();
-    }
-    srcPlayerQuery.finalize();
-    
-    //查询使用的技能
-    CppSQLite3Query srcSkillQuery = db->execQuery(CCString::createWithFormat(SKILL_DETAIL_QUERY, srcSkillId)->getCString());
+    CppSQLite3Query srcSkillQuery = db->execQuery(CCString::createWithFormat(SKILL_DETAIL_QUERY, skillId)->getCString());
     while(!srcSkillQuery.eof())
     {
-        srcSkillData = RPGSkill::create();
-        srcSkillData->m_dataId = srcSkillQuery.getIntField("id");
-        srcSkillData->m_MP = srcSkillQuery.getIntField("mp");
-        srcSkillData->m_name = srcSkillQuery.getStringField("name_cns");
-        srcSkillData->m_skillAttack = srcSkillQuery.getFloatField("skill_attack");
-        srcSkillData->m_attr = srcSkillQuery.getFloatField("attr");
+        skill = RPGSkill::create();
+        skill->m_dataId = srcSkillQuery.getIntField("id");
+        skill->m_MP = srcSkillQuery.getIntField("mp");
+        skill->m_name = srcSkillQuery.getStringField("name_cns");
+        skill->m_skillAttack = srcSkillQuery.getFloatField("skill_attack");
+        skill->m_attr = srcSkillQuery.getFloatField("attr");
         
         srcSkillQuery.nextRow();
     }
     srcSkillQuery.finalize();
     
-    //查询目标player
-    CppSQLite3Query targetPlayerQuery = db->execQuery(CCString::createWithFormat(PLAYER_DETAIL_QUERY, targetPlayerId)->getCString());
-    while(!targetPlayerQuery.eof())
+    if(skill)
     {
-        targetPlayerData = RPGPlayer::create();
-        targetPlayerData->m_dataId = targetPlayerQuery.getIntField("id");
-        targetPlayerData->m_maxHP = targetPlayerQuery.getIntField("max_hp");
-        targetPlayerData->m_HP = targetPlayerQuery.getIntField("hp");
+        //扣减MP
+        srcObjData->m_MP -= skill->m_MP;
+        if(srcObjData->m_MP < 0)
+            srcObjData->m_MP = 0;
         
-        targetPlayerQuery.nextRow();
+        switch (skill->m_dataId)
+        {
+            case 2:
+                //回复
+                return RPGComputingResults::skillCureResults(srcObjData->m_skillAttack, skill->m_skillAttack);
+                break;
+                
+            default:
+            {
+                //火焰
+                int val = RPGComputingResults::skillAttackResults(srcObjData->m_skillAttack, skill->m_skillAttack, (RPGSkillAttr)skill->m_attr, targetObjData->m_skillDefense, kRPGSkillAttrNormal); //后面的参数暂定为普通属性
+                return -val;
+            }
+                break;
+        }
     }
-    targetPlayerQuery.finalize();
-    
-    //执行逻辑
-    if(srcPlayerData && srcSkillData && targetPlayerData)
-    {
-        //计算player时候技能后的效果值
-        int targetResults = RPGComputingResults::skillCureResults(srcPlayerData->m_skillAttack, srcSkillData->m_skillAttack);
-        targetPlayerData->m_HP += targetResults;
-        
-        CCLog("player %i 回复了 %i HP", targetPlayerId, targetResults);
-        
-        //超过HP最大值
-        if(targetPlayerData->m_HP > targetPlayerData->m_maxHP)
-            targetPlayerData->m_HP = targetPlayerData->m_maxHP;        
-        db->execDML(CCString::createWithFormat(PLAYER_UPDATE, "hp", targetPlayerData->m_HP, targetPlayerData->m_dataId)->getCString());
-        
-        //扣减使用者的MP
-        srcPlayerData->m_MP -= srcSkillData->m_MP;
-        if(srcPlayerData->m_MP < 0)
-            srcPlayerData->m_MP = 0;
-        
-        CCLog("player %i 消耗了 %i MP", srcPlayerId, srcSkillData->m_MP);
-        
-        db->execDML(CCString::createWithFormat(PLAYER_UPDATE, "mp", srcPlayerData->m_MP, srcPlayerData->m_dataId)->getCString());
-        
-    }
-    
-    return true;
+    return 0;
 }
 
 void RPGResultsLogic::removeEquip(CppSQLite3DB *db, int playerId, int type)

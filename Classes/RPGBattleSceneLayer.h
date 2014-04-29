@@ -109,6 +109,10 @@ public:
     void attack(RPGBaseRole* attackObjData, RPGBaseRole* targetObjData); //player或怪物执行攻击
     void attackResults(CCNode* sender, void* data); //回调，计算攻击后的结果
     
+    //技能
+    void skill(RPGBaseRole* attackObjData, RPGBaseRole* targetObjData); //player或怪物执行技能
+    void skillResults(CCNode* sender, void* data); //回调，计算攻击后的结果
+    
     //道具
     void useItem(RPGBaseRole* useItemObjData, RPGBaseRole* targetObjData); //player执行使用道具
     void useItemResults(CCNode* sender, void* data); //回调，计算使用道具后的结果

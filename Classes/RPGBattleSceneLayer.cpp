@@ -338,8 +338,7 @@ CCScene* RPGBattleSceneLayer::scene()
 
 void RPGBattleSceneLayer::update(float delta)
 {
-    float progressSpeed = 5; //test
-//    float progressSpeed = 0.5;
+    float progressSpeed = 1.0;
     
     //更新player进度条
     for (int i = 0; i < this->m_playerDataList->count(); i++)
@@ -542,13 +541,13 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
                         {
                             CCLog("对player使用技能");
                             
-//                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
-//                            RPGPlayer *playerData = battleMenu->m_playerData;
-//                            
-//                            player->selected(false);
-//                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
-//                            
-//                            this->attack(playerData, player->m_data);
+                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+                            RPGPlayer *playerData = battleMenu->m_playerData;
+
+                            player->selected(false);
+                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
+
+                            this->skill(playerData, player->m_data);
                         }
                         else
                             player->selected(true);
@@ -570,14 +569,13 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
                         {
                             CCLog("对怪物使用技能");
                             
-//                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
-//                            RPGPlayer *playerData = battleMenu->m_playerData;
-//                            
-//                            monster->selected(false);
-//                            battleMenu->removeFromParentAndCleanup(true);
-//                            
-//                            this->attack(playerData, monster->m_data);
+                            RPGBattleMenu *battleMenu = (RPGBattleMenu*)this->getChildByTag(kRPGBattleSceneLayerTagBattleMenu);
+                            RPGPlayer *playerData = battleMenu->m_playerData;
+
+                            monster->selected(false);
+                            this->removeChildByTag(kRPGBattleSceneLayerTagBattleMenu, true);
                             
+                            this->skill(playerData, monster->m_data);
                         }
                         else
                             monster->selected(true);
@@ -930,6 +928,72 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
     
 }
 
+void RPGBattleSceneLayer::skill(RPGBaseRole *attackObjData, RPGBaseRole *targetObjData)
+{
+    //发起攻击的对象
+    if(dynamic_cast<RPGPlayer*>(attackObjData) != NULL)
+    {
+        RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)attackObjData)->m_dataId);
+        player->animSkill(this, targetObjData);
+    }
+}
+
+void RPGBattleSceneLayer::skillResults(cocos2d::CCNode *sender, void *data)
+{
+    //sender为发起技能的Sprite对象，data为被使用技能的对象
+    
+    CCPoint particleSysPoint;
+    
+    if(dynamic_cast<RPGBattlePlayerSprite*>(sender) != NULL)
+    {
+        if(dynamic_cast<RPGMonster*>((RPGBaseRole*)data) != NULL)
+        {
+            //对怪物使用技能
+            
+            RPGBattleMonsterSprite *targetMonster = (RPGBattleMonsterSprite*)this->getChildByTag(((RPGMonster*)data)->m_tag);
+            particleSysPoint = targetMonster->getPosition();
+            
+            int results = RPGResultsLogic::battleSkill(&this->m_db, ((RPGBattlePlayerSprite*)sender)->m_data, CCUserDefault::sharedUserDefault()->getIntegerForKey(GAME_BATTLE_SELECTED_ID), (RPGMonster*)data);            
+            targetMonster->showEffectResults(this, results, sender);
+        }
+        else if(dynamic_cast<RPGPlayer*>((RPGBaseRole*)data) != NULL)
+        {
+            //对player使用技能
+            RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)data)->m_dataId);
+            particleSysPoint = targetPlayer->getPosition();
+            
+            int results = RPGResultsLogic::battleSkill(&this->m_db, ((RPGBattlePlayerSprite*)sender)->m_data, CCUserDefault::sharedUserDefault()->getIntegerForKey(GAME_BATTLE_SELECTED_ID), (RPGPlayer*)data);
+            targetPlayer->showEffectResults(this, results, sender);
+        }
+        
+        //更新下面显示的MP值
+        CCLabelTTF *mpLab = (CCLabelTTF*)this->getChildByTag(kRPGBattleSceneLayerTagPlayerMP + ((RPGBattlePlayerSprite*)sender)->m_data->m_dataId);
+        mpLab->setString(CCString::createWithFormat("%i", ((RPGBattlePlayerSprite*)sender)->m_data->m_MP)->getCString());
+    }
+    
+    //对应技能的声音和粒子效果
+    CCParticleSystemQuad *particleSys = NULL;
+    switch (CCUserDefault::sharedUserDefault()->getIntegerForKey(GAME_BATTLE_SELECTED_ID))
+    {
+        case 2:
+            //回复
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_skill_cure.wav", false);
+            particleSys = CCParticleSystemQuad::create("skill_cure.plist");
+            break;
+            
+        default:
+            //火焰
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_skill_fire.wav", false);
+            particleSys = CCParticleSystemQuad::create("skill_fire.plist");
+            break;
+    }
+    //显示使用技能后的粒子效果
+    particleSys->setAutoRemoveOnFinish(true);
+    particleSys->setPosition(particleSysPoint);
+    particleSys->setScale(0.5);
+    this->addChild(particleSys);
+}
+
 void RPGBattleSceneLayer::useItem(RPGBaseRole *useItemObjData, RPGBaseRole *targetObjData)
 {
     RPGBattlePlayerSprite *srcPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)useItemObjData)->m_dataId);
@@ -955,7 +1019,7 @@ void RPGBattleSceneLayer::useItemResults(cocos2d::CCNode *sender, void *data)
         }
         else if(dynamic_cast<RPGPlayer*>((RPGBaseRole*)data) != NULL)
         {
-            //player攻击player
+            //对player使用道具
             RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)data)->m_dataId);
             particleSysPoint = targetPlayer->getPosition();
             

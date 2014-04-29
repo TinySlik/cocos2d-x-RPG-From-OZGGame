@@ -24,9 +24,9 @@ int RPGComputingResults::attackResults(float attack, float defense)
     return results;
 }
 
-int RPGComputingResults::skillAttackResults(float playerSkillAttack, float skillAttack, RPGSkillAttr attackAttr, float skillDefense, RPGSkillAttr defenseAttr)
+int RPGComputingResults::skillAttackResults(float srcSkillAttack, float skillAttack, RPGSkillAttr srcAttackAttr, float targetSkillDefense, RPGSkillAttr targetDefenseAttr)
 {
-    int results = RPGComputingResults::attackResults(playerSkillAttack, skillDefense);
+    int results = RPGComputingResults::attackResults(srcSkillAttack, targetSkillDefense);
     
     skillAttack = skillAttack / 0.25;
     skillAttack = OzgCCUtility::randomFloat(skillAttack - (skillAttack * 0.05), skillAttack + (skillAttack * 0.05));
@@ -34,26 +34,26 @@ int RPGComputingResults::skillAttackResults(float playerSkillAttack, float skill
     
     //下面是属性处理
     //火克冰
-    if(attackAttr == kRPGSkillAttrFire && defenseAttr == kRPGSkillAttrIce)
+    if(srcAttackAttr == kRPGSkillAttrFire && targetDefenseAttr == kRPGSkillAttrIce)
         results = results + (results * 0.5);
-    else if(attackAttr == kRPGSkillAttrIce && defenseAttr == kRPGSkillAttrFire)
+    else if(srcAttackAttr == kRPGSkillAttrIce && targetDefenseAttr == kRPGSkillAttrFire)
         results = results - (results * 0.5);
     
     //无属性克制除自己属性以外的所有属性
-    else if(attackAttr == kRPGSkillAttrNone && defenseAttr != kRPGSkillAttrNone)
+    else if(srcAttackAttr == kRPGSkillAttrNone && targetDefenseAttr != kRPGSkillAttrNone)
         results = results + (results * 0.5);
-    else if(attackAttr != kRPGSkillAttrNone && defenseAttr == kRPGSkillAttrNone)
+    else if(srcAttackAttr != kRPGSkillAttrNone && targetDefenseAttr == kRPGSkillAttrNone)
         results = results - (results * 0.5);
     
     return results;
 }
 
-int RPGComputingResults::skillCureResults(float playerSkillAttack, float skillAttack)
+int RPGComputingResults::skillCureResults(float srcSkillAttack, float skillAttack)
 {
     //不需要浮动值
-    playerSkillAttack = playerSkillAttack / 0.5;
+    srcSkillAttack = srcSkillAttack / 0.5;
     skillAttack = skillAttack / 0.25;
-    int results = (int)(playerSkillAttack + skillAttack);
+    int results = (int)(srcSkillAttack + skillAttack);
     return results;
 }
 

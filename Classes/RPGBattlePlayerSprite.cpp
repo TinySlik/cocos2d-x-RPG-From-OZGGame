@@ -282,7 +282,15 @@ void RPGBattlePlayerSprite::animAttack(CCObject* target, cocos2d::CCObject *targ
 
 void RPGBattlePlayerSprite::animSkill(cocos2d::CCObject *target, cocos2d::CCObject *targetObjData)
 {
-    CCLog("使用技能");
+    this->stopAllActions();
+    
+    if(this->getChildByTag(kRPGBattlePlayerSpriteTagArm))
+        this->removeChildByTag(kRPGBattlePlayerSpriteTagArm, true);
+    
+    CCAnimation *animation = CCAnimation::createWithSpriteFrames(this->m_spriteFramesChanting, 0.2);
+    
+    CCSequence *animate = CCSequence::create(CCAnimate::create(animation), CCAnimate::create(animation), CCDelayTime::create(0.25), NULL);
+    this->runAction(CCSequence::createWithTwoActions(animate, CCCallFuncND::create(target, callfuncND_selector(RPGBattleSceneLayer::skillResults), (void*)targetObjData)));
 }
 
 void RPGBattlePlayerSprite::animUseItem(cocos2d::CCObject *target, cocos2d::CCObject *targetObjData)
