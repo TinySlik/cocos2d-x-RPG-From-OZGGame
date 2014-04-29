@@ -133,7 +133,7 @@ bool RPGResultsLogic::useItems(CppSQLite3DB* db, int playerId, int itemsId)
     return true;
 }
 
-int RPGResultsLogic::battleUseItems(CCArray* existingItems, cocos2d::CCObject *targetData, int itemsId)
+int RPGResultsLogic::battleUseItems(CCArray* existingItems, RPGBaseRole *targetData, int itemsId)
 {
     /*
      6 草药

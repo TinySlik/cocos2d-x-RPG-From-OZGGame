@@ -856,7 +856,7 @@ void RPGBattleSceneLayer::cancelAllSelected()
     
 }
 
-void RPGBattleSceneLayer::attack(cocos2d::CCObject *attackObjData, cocos2d::CCObject *targetObjData)
+void RPGBattleSceneLayer::attack(RPGBaseRole *attackObjData, RPGBaseRole *targetObjData)
 {
     //发起攻击的对象
     if(dynamic_cast<RPGPlayer*>(attackObjData) != NULL)
@@ -884,7 +884,7 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
     //判断发起攻击的对象是player还是怪物
     if(dynamic_cast<RPGBattlePlayerSprite*>(sender) != NULL)
     {
-        if(dynamic_cast<RPGMonster*>((CCObject*)data) != NULL)
+        if(dynamic_cast<RPGMonster*>((RPGBaseRole*)data) != NULL)
         {
             //player攻击怪物
             
@@ -894,7 +894,7 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
             int results = RPGComputingResults::attackResults(((RPGBattlePlayerSprite*)sender)->m_data->m_attack, ((RPGMonster*)data)->m_defense);
             targetMonster->showEffectResults(this, -results, sender);
         }
-        else if(dynamic_cast<RPGPlayer*>((CCObject*)data) != NULL)
+        else if(dynamic_cast<RPGPlayer*>((RPGBaseRole*)data) != NULL)
         {
             //player攻击player
             RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)data)->m_dataId);
@@ -930,7 +930,7 @@ void RPGBattleSceneLayer::attackResults(cocos2d::CCNode *sender, void *data)
     
 }
 
-void RPGBattleSceneLayer::useItem(cocos2d::CCObject *useItemObjData, cocos2d::CCObject *targetObjData)
+void RPGBattleSceneLayer::useItem(RPGBaseRole *useItemObjData, RPGBaseRole *targetObjData)
 {
     RPGBattlePlayerSprite *srcPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)useItemObjData)->m_dataId);
     srcPlayer->animUseItem(this, targetObjData);
@@ -943,7 +943,7 @@ void RPGBattleSceneLayer::useItemResults(cocos2d::CCNode *sender, void *data)
     
     if(dynamic_cast<RPGBattlePlayerSprite*>(sender) != NULL)
     {
-        if(dynamic_cast<RPGMonster*>((CCObject*)data) != NULL)
+        if(dynamic_cast<RPGMonster*>((RPGBaseRole*)data) != NULL)
         {
             //对怪物使用道具
             
@@ -953,7 +953,7 @@ void RPGBattleSceneLayer::useItemResults(cocos2d::CCNode *sender, void *data)
             int results = RPGResultsLogic::battleUseItems(this->m_existingItems, (RPGMonster*)data, CCUserDefault::sharedUserDefault()->getIntegerForKey(GAME_BATTLE_SELECTED_ID));
             targetMonster->showEffectResults(this, results, sender);
         }
-        else if(dynamic_cast<RPGPlayer*>((CCObject*)data) != NULL)
+        else if(dynamic_cast<RPGPlayer*>((RPGBaseRole*)data) != NULL)
         {
             //player攻击player
             RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + ((RPGPlayer*)data)->m_dataId);

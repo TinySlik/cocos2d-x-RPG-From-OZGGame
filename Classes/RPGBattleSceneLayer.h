@@ -106,11 +106,11 @@ public:
     void cancelAllSelected(); //取消全部选中的对象
     
     //攻击
-    void attack(CCObject* attackObjData, CCObject* targetObjData); //player或怪物执行攻击
+    void attack(RPGBaseRole* attackObjData, RPGBaseRole* targetObjData); //player或怪物执行攻击
     void attackResults(CCNode* sender, void* data); //回调，计算攻击后的结果
     
     //道具
-    void useItem(CCObject* useItemObjData, CCObject* targetObjData); //player执行使用道具
+    void useItem(RPGBaseRole* useItemObjData, RPGBaseRole* targetObjData); //player执行使用道具
     void useItemResults(CCNode* sender, void* data); //回调，计算使用道具后的结果
     
     void actionWithTargetEffectLabEnd(CCNode* sender, void* data); //回调，攻击、技能、道具流程完毕后执行，这个sender是目标对象中显示的效果值CCLabelTTF
