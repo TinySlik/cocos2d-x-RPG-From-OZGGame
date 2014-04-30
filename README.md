@@ -11,7 +11,7 @@ ozg game — RPG Demo
 
 目前只部署了ios平台。
 
-每次的更新完毕之后，数据结构都可能发生了变化，所以要把旧的数据库删除。
+游戏第一次启动的时候会把数据库复制到可写文件夹，若数据库结构因为一些改动发生了变化，需要把旧的数据库删除。
 
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot1.png)
 
