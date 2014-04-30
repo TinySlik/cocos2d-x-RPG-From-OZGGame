@@ -13,6 +13,8 @@ ozg game — RPG Demo
 
 游戏第一次启动的时候会把数据库复制到可写文件夹，若数据库结构因为一些改动发生了变化，需要把旧的数据库删除。
 
+编译时需要将本游戏的目录复制到cocos2d-x-2.2.3/projects/。
+
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot1.png)
 
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot2.png)
