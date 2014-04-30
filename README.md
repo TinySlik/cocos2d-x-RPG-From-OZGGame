@@ -1,4 +1,4 @@
-ozg game — RPG
+ozg game — RPG Demo
 ================
 
 本游戏主要用于技术的研究和积累
