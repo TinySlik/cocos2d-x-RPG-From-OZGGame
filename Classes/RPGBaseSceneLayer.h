@@ -61,7 +61,6 @@ void addLab(CCNode* parentNode, int tag, CCString* text, float fontSize, CCTextA
 
 void saveData(CppSQLite3DB* db, RPGSaveData *saveData);
 RPGSaveData* loadSaveData(CppSQLite3DB* db);
-void savePlayerData(CppSQLite3DB* db, CCArray* playerDataList);
 
 class RPGBaseSceneLayer : public CCLayer
 {

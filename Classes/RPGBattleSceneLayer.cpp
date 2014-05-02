@@ -666,31 +666,10 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
             if(this->m_totalGold > MAX_GOLD)
                 this->m_totalGold = MAX_GOLD;
             
-            RPGSaveData *saveDataObj = RPGSaveData::create();
-            saveDataObj->m_mapId = CCUserDefault::sharedUserDefault()->getIntegerForKey("map_id");
-            saveDataObj->m_playerToX = CCUserDefault::sharedUserDefault()->getFloatForKey("player_to_x");
-            saveDataObj->m_playerToY = CCUserDefault::sharedUserDefault()->getFloatForKey("player_to_y");
-            saveDataObj->m_playerDirection = CCUserDefault::sharedUserDefault()->getStringForKey("player_direction");
+            RPGSaveData *saveDataObj = loadSaveData(&this->m_db);
             saveDataObj->m_gold = this->m_totalGold;
             
             saveData(&this->m_db, saveDataObj);
-        }
-        
-        //保存player的状态到数据库
-        for (int i = 0; i < this->m_playerDataList->count(); i++)
-        {
-            RPGPlayer *playerData = (RPGPlayer*)this->m_playerDataList->objectAtIndex(i);
-            
-            CCString *sql = CCString::createWithFormat(UPDATE_PLAYER, playerData->m_HP, playerData->m_MP, playerData->m_attack, playerData->m_defense, playerData->m_speed, playerData->m_skillAttack, playerData->m_skillDefense, playerData->m_level, playerData->m_skill.c_str(), playerData->m_nextExp, playerData->m_exp, playerData->m_dataId);
-//            CCLog("%s", sql->getCString());
-            this->m_db.execDML(sql->getCString());
-        }
-        
-        //保存现有道具到数据库
-        for (int i = 0; i < this->m_existingItems->count(); i++)
-        {
-            RPGExistingItems *itemsData = (RPGExistingItems*)this->m_existingItems->objectAtIndex(i);
-            this->m_db.execDML(CCString::createWithFormat(UPDATE_EXISTING_ITEMS, itemsData->m_total, itemsData->m_dataId)->getCString());
         }
         
         this->goToMap();
@@ -698,6 +677,8 @@ void RPGBattleSceneLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
     else if(loseResultsDialog)
     {
 //        CCLog("战斗输了后返回初始界面");
+        
+        //输了不保存任何内容
         
         this->enabledTouched(false);
         this->removeAllChildrenWithCleanup(true);
@@ -786,8 +767,33 @@ void RPGBattleSceneLayer::hideMsg(float dt)
 
 void RPGBattleSceneLayer::goToMap()
 {
-    //保存player的数据
-    savePlayerData(&this->m_db, this->m_playerDataList);
+    //保存所在地图和位置到数据库
+    {
+        RPGSaveData *saveDataObj = loadSaveData(&this->m_db);
+        saveDataObj->m_mapId = CCUserDefault::sharedUserDefault()->getIntegerForKey("map_id");
+        saveDataObj->m_playerToX = CCUserDefault::sharedUserDefault()->getFloatForKey("player_to_x");
+        saveDataObj->m_playerToY = CCUserDefault::sharedUserDefault()->getFloatForKey("player_to_y");
+        saveDataObj->m_playerDirection = CCUserDefault::sharedUserDefault()->getStringForKey("player_direction");
+        
+        saveData(&this->m_db, saveDataObj);
+    }
+    
+    //保存player的状态到数据库
+    for (int i = 0; i < this->m_playerDataList->count(); i++)
+    {
+        RPGPlayer *playerData = (RPGPlayer*)this->m_playerDataList->objectAtIndex(i);
+        
+        CCString *sql = CCString::createWithFormat(UPDATE_PLAYER, playerData->m_HP, playerData->m_MP, playerData->m_attack, playerData->m_defense, playerData->m_speed, playerData->m_skillAttack, playerData->m_skillDefense, playerData->m_level, playerData->m_skill.c_str(), playerData->m_nextExp, playerData->m_exp, playerData->m_dataId);
+//        CCLog("%s", sql->getCString());
+        this->m_db.execDML(sql->getCString());
+    }
+    
+    //保存现有道具到数据库
+    for (int i = 0; i < this->m_existingItems->count(); i++)
+    {
+        RPGExistingItems *itemsData = (RPGExistingItems*)this->m_existingItems->objectAtIndex(i);
+        this->m_db.execDML(CCString::createWithFormat(UPDATE_EXISTING_ITEMS, itemsData->m_total, itemsData->m_dataId)->getCString());
+    }
     
     this->enabledTouched(false);
     
