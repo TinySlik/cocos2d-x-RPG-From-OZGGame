@@ -64,34 +64,34 @@ bool RPGBattleMenu::initWithParentNode(CCDictionary* stringList, CppSQLite3DB* d
         if(!bgLayer)
         {
             bgLayer = CCTMXTiledMap::create("battle_battlemenu_style1.tmx");
-            bgLayer->setPosition(ccp(750, 64));
+            bgLayer->setPosition(ccp(718, 0));
             bgLayer->setTag(kRPGBattleMenuTagBg);
             parentNode->addChild(bgLayer);
         }
         
         //角色名字
-        addLab(this->m_parentNode, kRPGBattleMenuTagNameLab, CCString::create(playerData->m_name), 20, kCCTextAlignmentCenter, ccp(830, 292));
+        addLab(this->m_parentNode, kRPGBattleMenuTagNameLab, CCString::create(playerData->m_name), 20, kCCTextAlignmentCenter, ccp(798, 228));
         CCLabelTTF *nameLab = (CCLabelTTF*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagNameLab);
         nameLab->setFontFillColor(ccc3(144, 144, 144));
         
         //分割线
         CCSprite *separate = CCSprite::createWithSpriteFrameName("separate.png");
         separate->setTag(kRPGBattleMenuTagSeparate);
-        separate->setPosition(ccp(830, 275));
+        separate->setPosition(ccp(798, 211));
         separate->setScaleX(0.34);
         this->m_parentNode->addChild(separate);
         
         CCString *menuAttackStr = (CCString*)this->m_stringList->objectForKey("battle_playermenu_attack");
-        this->createMenuItem(830, 250, menuAttackStr, kRPGBattleMenuTagAttack);
+        this->createMenuItem(798, 186, menuAttackStr, kRPGBattleMenuTagAttack);
 
         CCString *menuSkillStr = (CCString*)this->m_stringList->objectForKey("battle_playermenu_skill");
-        this->createMenuItem(830, 200, menuSkillStr, kRPGBattleMenuTagSkill);
+        this->createMenuItem(798, 136, menuSkillStr, kRPGBattleMenuTagSkill);
 
         CCString *menuItemsStr = (CCString*)this->m_stringList->objectForKey("battle_playermenu_items");
-        this->createMenuItem(830, 150, menuItemsStr, kRPGBattleMenuTagItems);
+        this->createMenuItem(798, 86, menuItemsStr, kRPGBattleMenuTagItems);
         
         CCString *menuEscapeStr = (CCString*)this->m_stringList->objectForKey("battle_playermenu_escape");
-        this->createMenuItem(830, 100, menuEscapeStr, kRPGBattleMenuTagEscape);
+        this->createMenuItem(798, 36, menuEscapeStr, kRPGBattleMenuTagEscape);
         
         SimpleAudioEngine::sharedEngine()->playEffect("audio_battle_menu.wav");
         
@@ -194,7 +194,7 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             this->m_selectedMenuTag = kRPGBattleMenuTagSkill;
             
             CCMenuItemSprite *menuCancel = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGBattleMenu::onMenu));
-            menuCancel->setPosition(ccp(75, 660));
+            menuCancel->setPosition(ccp(43, 596));
             menuCancel->setTag(kRPGBattleMenuTagCancel);
             menuCancel->setScale(0.75);
             this->addChild(menuCancel);
@@ -290,7 +290,7 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             this->m_selectedMenuTag = kRPGBattleMenuTagItems;
             
             CCMenuItemSprite *menuCancel = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGBattleMenu::onMenu));
-            menuCancel->setPosition(ccp(75, 660));
+            menuCancel->setPosition(ccp(43, 596));
             menuCancel->setTag(kRPGBattleMenuTagCancel);
             menuCancel->setScale(0.75);
             this->addChild(menuCancel);
@@ -441,7 +441,7 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             this->m_selectedMenuTag = kRPGBattleMenuTagAttack;
             
             CCMenuItemSprite *menuCancel = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGBattleMenu::onMenu));
-            menuCancel->setPosition(ccp(75, 660));
+            menuCancel->setPosition(ccp(43, 596));
             menuCancel->setTag(kRPGBattleMenuTagCancel);
             menuCancel->setScale(0.75);
             this->addChild(menuCancel);
@@ -462,7 +462,7 @@ void RPGBattleMenu::onButton(cocos2d::CCObject *pSender, CCControlEvent event)
     menuCancel->setVisible(false);
     
     CCMenuItemSprite *menuCancel2 = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), CCSprite::createWithSpriteFrameName("commons_btn_back_04.png"), this, menu_selector(RPGBattleMenu::onMenu));
-    menuCancel2->setPosition(ccp(75, 660));
+    menuCancel2->setPosition(ccp(43, 596));
     menuCancel2->setTag(kRPGBattleMenuTagCancel2);
     menuCancel2->setScale(0.75);
     this->addChild(menuCancel2);

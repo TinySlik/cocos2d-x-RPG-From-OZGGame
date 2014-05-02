@@ -107,10 +107,10 @@ bool RPGBattleSceneLayer::init()
         //加载已有道具 end
         
         //player
-        float playerY = 620;
-        float separateY = 197;
-        float playerLabY = 215;
-        float progressY = 217;
+        float playerY = 556;
+        float separateY = 133;
+        float playerLabY = 151;
+        float progressY = 153;
         
         int i = 0;
         
@@ -150,7 +150,7 @@ bool RPGBattleSceneLayer::init()
             
             //角色
             RPGBattlePlayerSprite *player = RPGBattlePlayerSprite::createWithPlayerData(playerData);
-            player->setPosition(ccp(880, playerY));
+            player->setPosition(ccp(848, playerY));
             player->setTag(kRPGBattleSceneLayerTagPlayer + playerData->m_dataId);
             this->addChild(player);
             
@@ -160,7 +160,7 @@ bool RPGBattleSceneLayer::init()
             if(i > 0)
             {
                 CCSprite *separate = CCSprite::createWithSpriteFrameName("separate.png");
-                separate->setPosition(ccp(665, separateY));
+                separate->setPosition(ccp(633, separateY));
                 separate->setScaleX(1.4);
                 this->addChild(separate);
                 
@@ -168,12 +168,12 @@ bool RPGBattleSceneLayer::init()
             }
             
             //名字
-            addLab(this, kRPGBattleSceneLayerTagPlayerNameLab + playerData->m_dataId, CCString::create(playerData->m_name), 18, ccp(575, playerLabY));
+            addLab(this, kRPGBattleSceneLayerTagPlayerNameLab + playerData->m_dataId, CCString::create(playerData->m_name), 18, ccp(543, playerLabY));
             
             //进度条
             CCSprite *battleProgressBg = CCSprite::createWithSpriteFrameName("gui_battle_progress_bar01_a.png");
             battleProgressBg->setTag(kRPGBattleSceneLayerTagPlayerProgressBg + playerData->m_dataId);
-            battleProgressBg->setPosition(ccp(880, progressY));
+            battleProgressBg->setPosition(ccp(848, progressY));
             battleProgressBg->setScaleX(0.4);
             battleProgressBg->setScaleY(0.5);
             this->addChild(battleProgressBg);
@@ -182,7 +182,7 @@ bool RPGBattleSceneLayer::init()
             battleProgress->setBarChangeRate(ccp(1, 0));    //设置进度条的长度和高度开始变化的大小
             battleProgress->setType(kCCProgressTimerTypeBar);    //设置进度条为水平
             battleProgress->setMidpoint(ccp(0, 0));
-            battleProgress->setPosition(ccp(880, progressY));
+            battleProgress->setPosition(ccp(848, progressY));
             battleProgress->setScaleX(0.4);
             battleProgress->setScaleY(0.5);
             battleProgress->setTag(kRPGBattleSceneLayerTagPlayerProgress + playerData->m_dataId);
@@ -194,14 +194,14 @@ bool RPGBattleSceneLayer::init()
             //CCLog("%f", progress);
             
             //HP
-            addLab(this, kRPGBattleSceneLayerTagPlayerHP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_HP), 18, kCCTextAlignmentRight, ccp(380, playerLabY));
-            addLab(this, kRPGBattleSceneLayerTagPlayerHPSeparate + playerData->m_dataId, CCString::create("/"), 18, kCCTextAlignmentCenter, ccp(590, playerLabY));
-            addLab(this, kRPGBattleSceneLayerTagPlayerMaxHP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_maxHP), 18, kCCTextAlignmentLeft, ccp(800, playerLabY));
+            addLab(this, kRPGBattleSceneLayerTagPlayerHP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_HP), 18, kCCTextAlignmentRight, ccp(348, playerLabY));
+            addLab(this, kRPGBattleSceneLayerTagPlayerHPSeparate + playerData->m_dataId, CCString::create("/"), 18, kCCTextAlignmentCenter, ccp(558, playerLabY));
+            addLab(this, kRPGBattleSceneLayerTagPlayerMaxHP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_maxHP), 18, kCCTextAlignmentLeft, ccp(768, playerLabY));
             
             //MP
-            addLab(this, kRPGBattleSceneLayerTagPlayerMP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_MP), 15, kCCTextAlignmentRight, ccp(510, playerLabY - 3));
-            addLab(this, kRPGBattleSceneLayerTagPlayerMPSeparate + playerData->m_dataId, CCString::create("/"), 15, kCCTextAlignmentCenter, ccp(720, playerLabY - 3));
-            addLab(this, kRPGBattleSceneLayerTagPlayerMaxMP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_maxMP), 15, kCCTextAlignmentLeft, ccp(930, playerLabY - 3));
+            addLab(this, kRPGBattleSceneLayerTagPlayerMP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_MP), 15, kCCTextAlignmentRight, ccp(478, playerLabY - 3));
+            addLab(this, kRPGBattleSceneLayerTagPlayerMPSeparate + playerData->m_dataId, CCString::create("/"), 15, kCCTextAlignmentCenter, ccp(688, playerLabY - 3));
+            addLab(this, kRPGBattleSceneLayerTagPlayerMaxMP + playerData->m_dataId, CCString::createWithFormat("%i", playerData->m_maxMP), 15, kCCTextAlignmentLeft, ccp(898, playerLabY - 3));
             
             playerY -= 100;
             playerLabY -= 40;
@@ -285,7 +285,7 @@ bool RPGBattleSceneLayer::init()
         }
 
         //怪物显示部分
-        float monsterNameLabY = 220;
+        float monsterNameLabY = 156;
 
         this->m_addedMonsters.clear();
         
@@ -307,7 +307,7 @@ bool RPGBattleSceneLayer::init()
                 //左下角的怪物名称
                 if(j == 0)
                 {
-                    addLab(this, kRPGBattleSceneLayerTagMonsterNameLab + monsterData->m_dataId, CCString::createWithFormat("%s x %i", monsterData->m_name.c_str(), (int)monsters->count()), 18, ccp(270, monsterNameLabY));
+                    addLab(this, kRPGBattleSceneLayerTagMonsterNameLab + monsterData->m_dataId, CCString::createWithFormat("%s x %i", monsterData->m_name.c_str(), (int)monsters->count()), 18, ccp(238, monsterNameLabY));
                     
                     monsterNameLabY -= 40;
                 }
@@ -752,7 +752,7 @@ void RPGBattleSceneLayer::showMsg(cocos2d::CCString *msgText, bool autoRelease)
     }
     
     bgLayer = CCTMXTiledMap::create("battle_msg_style1.tmx");
-    bgLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - bgLayer->getContentSize().width) / 2, 657));
+    bgLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - bgLayer->getContentSize().width) / 2, 593));
     bgLayer->setTag(kRPGBattleSceneLayerTagMsg);
     this->addChild(bgLayer);
     
@@ -1215,7 +1215,7 @@ CCArray* RPGBattleSceneLayer::monsterDataListWithDataId(int dataId)
 void RPGBattleSceneLayer::setMonsterPosition(RPGBattleMonsterSprite* monster)
 {
 //    CCLayerColor *l = CCLayerColor::create(ccc4(200, 200, 200, 200), 700, 420);
-//    l->setPosition(ccp(50, 270));
+//    l->setPosition(ccp(18, 206));
 //    this->addChild(l);
     
     bool overlap; //是否重叠
@@ -1223,8 +1223,8 @@ void RPGBattleSceneLayer::setMonsterPosition(RPGBattleMonsterSprite* monster)
     {
         overlap = false;
         
-        float x = OzgCCUtility::randomFloat(50 + (monster->getContentSize().width * monster->getAnchorPoint().x), 750 - ((monster->getContentSize().width * monster->getAnchorPoint().x)));
-        float y = OzgCCUtility::randomFloat(270 + (monster->getContentSize().height * monster->getAnchorPoint().y), 690 - (monster->getContentSize().height * monster->getAnchorPoint().y));
+        float x = OzgCCUtility::randomFloat(18 + (monster->getContentSize().width * monster->getAnchorPoint().x), 718 - ((monster->getContentSize().width * monster->getAnchorPoint().x)));
+        float y = OzgCCUtility::randomFloat(206 + (monster->getContentSize().height * monster->getAnchorPoint().y), 626 - (monster->getContentSize().height * monster->getAnchorPoint().y));
         
         monster->setPosition(ccp(x, y));
         
