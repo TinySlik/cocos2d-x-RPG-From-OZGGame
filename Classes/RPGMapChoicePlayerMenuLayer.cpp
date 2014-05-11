@@ -30,7 +30,7 @@ bool RPGMapChoicePlayerMenuLayer::init(CppSQLite3DB *db, CCString* titleLab, CCO
         
         this->m_db = db;
         
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("select_player_style1.tmx");
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("select_player_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
         mainBg->setPosition(ccp(270, 280));
         mainBg->setTag(kRPGMapChoicePlayerMenuLayerTagBg);
         this->addChild(mainBg);

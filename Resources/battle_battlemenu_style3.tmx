@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="10" height="16" tilewidth="16" tileheight="16">
- <tileset firstgid="1" name="Window_a_00" tilewidth="16" tileheight="16">
-  <image source="Window_a_00.png" width="128" height="128"/>
+ <tileset firstgid="1" name="Window_c_00" tilewidth="16" tileheight="16">
+  <image source="Window_c_00.png" width="128" height="128"/>
  </tileset>
  <layer name="behind" width="10" height="16" opacity="0.79">
   <data encoding="base64" compression="zlib">
-   eJwTYmBgEBrFo3iAMAAp0gtB
+   eJzjYmBg4BrFo3iAMADfaQZB
   </data>
  </layer>
  <layer name="bront" width="10" height="16">

@@ -28,8 +28,7 @@ void addLab(CCNode* parentNode, int tag, CCString* text, float fontSize, CCTextA
 
 void saveData(CppSQLite3DB* db, RPGSaveData *saveData)
 {
-    
-    db->execDML(CCString::createWithFormat("update save_data set map_id = %i, player_to_x = %f, player_to_y = %f, player_direction = '%s', gold = %i where id = 1", saveData->m_mapId, saveData->m_playerToX, saveData->m_playerToY, saveData->m_playerDirection.c_str(), saveData->m_gold)->getCString());
+    db->execDML(CCString::createWithFormat("update save_data set map_id = %i, player_to_x = %f, player_to_y = %f, player_direction = '%s', gold = %i, window_style = '%s' where id = 1", saveData->m_mapId, saveData->m_playerToX, saveData->m_playerToY, saveData->m_playerDirection.c_str(), saveData->m_gold, saveData->m_windowStyle.c_str())->getCString());
 }
 
 RPGSaveData* loadSaveData(CppSQLite3DB* db)
@@ -43,6 +42,7 @@ RPGSaveData* loadSaveData(CppSQLite3DB* db)
     saveDataObj->m_playerToY = query.getFloatField("player_to_y");
     saveDataObj->m_playerDirection = query.getStringField("player_direction");
     saveDataObj->m_gold = query.getIntField("gold");
+    saveDataObj->m_windowStyle = query.getStringField("window_style");
     
     query.finalize();
     

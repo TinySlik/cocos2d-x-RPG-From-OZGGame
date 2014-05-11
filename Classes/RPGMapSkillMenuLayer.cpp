@@ -39,6 +39,11 @@ bool RPGMapSkillMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
         
         this->m_isDefault = true;
         
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("map_menu5_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
+        mainBg->setPosition(CCPointZero);
+        mainBg->setTag(kRPGMapSkillMenuLayerTagBg);
+        this->addChild(mainBg);
+        
         CCMenu *mainMenu = CCMenu::create();
         mainMenu->setTag(kRPGMapSkillMenuLayerTagMainMenu);
         mainMenu->setAnchorPoint(CCPointZero);
@@ -54,11 +59,6 @@ bool RPGMapSkillMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
             menuBack->setScale(0.5);
             mainMenu->addChild(menuBack);
         }
-        
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu5_style1.tmx");
-        mainBg->setPosition(CCPointZero);
-        mainBg->setTag(kRPGMapSkillMenuLayerTagBg);
-        this->addChild(mainBg);
         
         //显示上面的4个角色
         float playerX = 200;
@@ -353,7 +353,7 @@ void RPGMapSkillMenuLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent e
     float height = 640;
     
     //临时背景
-    CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu3_style1.tmx");
+    CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("map_menu3_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
     mainBg->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, CCDirector::sharedDirector()->getWinSize().height / 2));
     mainBg->setAnchorPoint(ccp(0.5, 0.5));
     mainBg->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg);

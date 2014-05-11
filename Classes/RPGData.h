@@ -165,6 +165,7 @@ public:
     float m_playerToY;
     string m_playerDirection;
     int m_gold;
+    string m_windowStyle;
     
     RPGSaveData();
     virtual ~RPGSaveData();

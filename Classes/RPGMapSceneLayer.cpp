@@ -597,7 +597,7 @@ void RPGMapSceneLayer::playerMoveEnd()
             saveDataObj->m_playerToY = toY;
             saveDataObj->m_playerDirection = playerDirection->getCString();
             saveDataObj->m_gold = this->m_mapData.gold;
-            
+            saveDataObj->m_windowStyle = CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE);
             saveData(&this->m_db, saveDataObj);
             
             CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);

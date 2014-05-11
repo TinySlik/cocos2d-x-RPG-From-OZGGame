@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="60" height="40" tilewidth="16" tileheight="16">
- <tileset firstgid="1" name="Window_a_00" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="Window_c_00" tilewidth="16" tileheight="16">
   <tileoffset x="-1" y="0"/>
-  <image source="Window_a_00.png" width="128" height="128"/>
+  <image source="Window_c_00.png" width="128" height="128"/>
  </tileset>
  <layer name="behind" width="60" height="40">
   <data encoding="base64" compression="zlib">
@@ -11,7 +11,7 @@
  </layer>
  <layer name="bront" width="60" height="40">
   <data encoding="base64" compression="zlib">
-   eJzt2TEKgDAQRNFpojaCjWCj5v6nNDnDRhiy/8O04isCQYukJcm2tl15OoR35vDOHd65y+i9294kq21FY+8v/Xmr6fr7nRqX+/m4hDcSXq/wxsLrFd5YGb39fvqYrv7g5T7pE+c3Fl6v8MbC6xXeWHi9whsLr1d4Y+H1KqN35P/BKv/vOR9xCx/X
+   eJzt2UsKhTAQRNGe+Jk8cCI4UbP/Vb5kDdVCkb4Xaho4oBB0iYi1yPa+M+p0BN6Zwzt3eOeuovfue4us9S2Re38Z522my75fjefll3hedlfgVcLrFV4tvF7h1aroHffTx3TtAy/3SZ94f7XweoVXC69XeLXweoVXC69XeLXwelXRm/l/sIX/95w/w4MgFw==
   </data>
  </layer>
 </map>

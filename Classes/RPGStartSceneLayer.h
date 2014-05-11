@@ -15,20 +15,35 @@
 enum RPGStartSceneLayerTag
 {
     kRPGStartSceneLayerTagBg = 1,
-    kRPGStartSceneLayerTagMenu = 2,
-    kRPGStartSceneLayerTagMenuItemStart = 3,
-    kRPGStartSceneLayerTagMenuItemDelete = 4,
+    kRPGStartSceneLayerTagMainMenu = 2,
+    kRPGStartSceneLayerTagMainMenuItemStart = 3,
+    kRPGStartSceneLayerTagMainMenuItemRestart = 4,
+    kRPGStartSceneLayerTagMainMenuItemSettings = 9,
     kRPGStartSceneLayerTagDialogOK = 5,
     kRPGStartSceneLayerTagDialogCancel = 6,
-    kRPGStartSceneLayerTagDialog = 7
+    kRPGStartSceneLayerTagDialog = 7,
+    kRPGStartSceneLayerTagSettingsMenu = 8,
+    kRPGStartSceneLayerTagSettingsStyleLeft = 10,
+    kRPGStartSceneLayerTagSettingsStyleRight = 12,
+    kRPGStartSceneLayerTagSettingsRestore = 14,
+    kRPGStartSceneLayerTagSettingsBack = 13,
+    kRPGStartSceneLayerTagLabStyle = 11,
+    kRPGStartSceneLayerTagLabCurrStyle = 15
 };
 
 class RPGStartSceneLayer : public RPGBaseSceneLayer
 {
     
 private:
+    
+    vector< pair<string, string> > m_styleData;
+    int m_selectedStyleIndex;
+    
     void onMenu(CCObject *pObject);
     void onDialog(CCObject *pObject);
+    
+    void showMainMenu();
+    void showSettingsMenu();
     
 public:
     

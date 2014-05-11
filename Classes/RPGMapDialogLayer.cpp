@@ -29,7 +29,7 @@ bool RPGMapDialogLayer::init(RPGMapNPCRoleSprite* npc)
         this->m_npc = npc;
         this->m_npc->retain();
         
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("dialog_style1.tmx");
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("dialog_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
         float x = (CCDirector::sharedDirector()->getWinSize().width - mainBg->getContentSize().width) / 2.0f;
         float y = 40;
         mainBg->setPosition(ccp(x, y));

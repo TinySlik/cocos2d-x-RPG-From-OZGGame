@@ -8,6 +8,7 @@
 
 #include "RPGDialogLayer.h"
 #include "OzgCCUtility.h"
+#include "GameCfg.h"
 
 RPGDialogLayer::RPGDialogLayer()
 {
@@ -98,7 +99,7 @@ RPGDialogLayer* RPGDialogLayer::create(string titleStr, string menuOKStr, int me
 //private
 void RPGDialogLayer::initCommons(string titleStr)
 {
-    CCTMXTiledMap *mainBg = CCTMXTiledMap::create("alert_style1.tmx");
+    CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("alert_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
     float x = (CCDirector::sharedDirector()->getWinSize().width - mainBg->getContentSize().width) / 2.0f;
     float y = (CCDirector::sharedDirector()->getWinSize().height - mainBg->getContentSize().height) / 2.0f;
     mainBg->setPosition(ccp(x, y));

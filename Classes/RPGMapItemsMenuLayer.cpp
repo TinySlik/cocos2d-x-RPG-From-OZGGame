@@ -36,6 +36,11 @@ bool RPGMapItemsMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
         this->m_itemsList = new CCArray();
         this->m_itemsList->init();
         
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("map_menu3_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
+        mainBg->setPosition(CCPointZero);
+        mainBg->setTag(kRPGMapItemsMenuLayerTagBg);
+        this->addChild(mainBg);
+        
         CCMenu *mainMenu = CCMenu::create();
         mainMenu->setTag(kRPGMapItemsMenuLayerTagMainMenu);
         mainMenu->setAnchorPoint(CCPointZero);
@@ -51,11 +56,6 @@ bool RPGMapItemsMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
             menuBack->setScale(0.5);
             mainMenu->addChild(menuBack);
         }
-        
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu3_style1.tmx");
-        mainBg->setPosition(CCPointZero);
-        mainBg->setTag(kRPGMapItemsMenuLayerTagBg);
-        this->addChild(mainBg);
         
         CCTableView *tableView = CCTableView::create(this, CCSizeMake(900, 570));
         tableView->setDirection(kCCScrollViewDirectionVertical);
@@ -257,7 +257,7 @@ void RPGMapItemsMenuLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent e
         float height = 640;
         
         //临时背景
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu3_style1.tmx");
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("map_menu3_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
         mainBg->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, CCDirector::sharedDirector()->getWinSize().height / 2));
         mainBg->setAnchorPoint(ccp(0.5, 0.5));
         mainBg->setTag(kRPGMapSceneLayerTagChoicePlayerMenuLayerBg);

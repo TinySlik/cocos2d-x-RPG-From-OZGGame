@@ -38,6 +38,11 @@ bool RPGMapStatusMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB
         
         this->m_isDefault = true;
         
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("map_menu4_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
+        mainBg->setPosition(CCPointZero);
+        mainBg->setTag(kRPGMapStatusMenuLayerTagBg);
+        this->addChild(mainBg);
+        
         CCMenu *mainMenu = CCMenu::create();
         mainMenu->setTag(kRPGMapStatusMenuLayerTagMainMenu);
         mainMenu->setAnchorPoint(CCPointZero);
@@ -53,11 +58,6 @@ bool RPGMapStatusMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB
             menuBack->setScale(0.5);
             mainMenu->addChild(menuBack);
         }
-        
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu4_style1.tmx");
-        mainBg->setPosition(CCPointZero);
-        mainBg->setTag(kRPGMapStatusMenuLayerTagBg);
-        this->addChild(mainBg);
         
         //显示上面的4个角色
         float playerX = 200;

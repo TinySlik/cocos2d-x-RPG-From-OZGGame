@@ -61,7 +61,7 @@ bool RPGBattleSceneLayer::init()
         }
         
         //下面的菜单
-        CCTMXTiledMap *menuLayer = CCTMXTiledMap::create("battle_menu_style1.tmx");
+        CCTMXTiledMap *menuLayer = CCTMXTiledMap::create(CCString::createWithFormat("battle_menu_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
         menuLayer->setTag(kRPGBattleSceneLayerTagMenuBg);
         menuLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - menuLayer->getContentSize().width) / 2.0, (CCDirector::sharedDirector()->getWinSize().height - bg->getContentSize().height) / 2));
         this->addChild(menuLayer);
@@ -732,7 +732,7 @@ void RPGBattleSceneLayer::showMsg(cocos2d::CCString *msgText, bool autoRelease)
         this->unschedule(schedule_selector(RPGBattleSceneLayer::hideMsg));
     }
     
-    bgLayer = CCTMXTiledMap::create("battle_msg_style1.tmx");
+    bgLayer = CCTMXTiledMap::create(CCString::createWithFormat("battle_msg_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
     bgLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - bgLayer->getContentSize().width) / 2, 593));
     bgLayer->setTag(kRPGBattleSceneLayerTagMsg);
     this->addChild(bgLayer);
@@ -1328,7 +1328,7 @@ bool RPGBattleSceneLayer::judgeLose()
 
 void RPGBattleSceneLayer::showWinResults()
 {
-    CCTMXTiledMap *winResults = CCTMXTiledMap::create("battle_select_style1.tmx");
+    CCTMXTiledMap *winResults = CCTMXTiledMap::create(CCString::createWithFormat("battle_select_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
     winResults->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - winResults->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - winResults->getContentSize().height) / 2));
     winResults->setTag(kRPGBattleSceneLayerTagWinResultsDialog);
     this->addChild(winResults);
@@ -1450,7 +1450,7 @@ void RPGBattleSceneLayer::showWinResults()
 
 void RPGBattleSceneLayer::showLoseResults()
 {
-    CCTMXTiledMap *loseResults = CCTMXTiledMap::create("battle_select_style1.tmx");
+    CCTMXTiledMap *loseResults = CCTMXTiledMap::create(CCString::createWithFormat("battle_select_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
     loseResults->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - loseResults->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - loseResults->getContentSize().height) / 2));
     loseResults->setTag(kRPGBattleSceneLayerTagLoseResultsDialog);
     this->addChild(loseResults);

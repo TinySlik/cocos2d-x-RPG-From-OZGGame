@@ -45,6 +45,11 @@ bool RPGMapMenuLayer::init(CCDictionary* stringList, CppSQLite3DB* db, float wid
         
 //        CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("main.plist");
         
+        CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("map_menu1_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
+        mainBg->setPosition(CCPointZero);
+        mainBg->setTag(kRPGMapMenuLayerTagMainBg);
+        this->addChild(mainBg);
+        
         CCMenu *mainMenu = CCMenu::create();
         mainMenu->setTag(kRPGMapMenuLayerTagMainMenu);
         mainMenu->setAnchorPoint(CCPointZero);
@@ -52,12 +57,6 @@ bool RPGMapMenuLayer::init(CCDictionary* stringList, CppSQLite3DB* db, float wid
         this->addChild(mainMenu);
         
         this->setMainMenuDefault();
-        
-        CCTMXTiledMap *mainBg = CCTMXTiledMap::create("map_menu1_style1.tmx");
-        mainBg->setPosition(CCPointZero);
-        mainBg->setTag(kRPGMapMenuLayerTagMainBg);
-        this->addChild(mainBg);
-        
         this->setDefaultInterface();
         
         return true;

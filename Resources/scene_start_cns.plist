@@ -8,9 +8,17 @@
 	<string>取消</string>
 	<key>confirm_delete</key>
 	<string>确定删除之前的进度吗？</string>
-	<key>menuitem_start</key>
+	<key>mainmenu_start</key>
 	<string>继续游戏</string>
-	<key>menuitem_delete</key>
+	<key>mainmenu_restart</key>
 	<string>重新开始</string>
+	<key>mainmenu_settings</key>
+	<string>游戏设置</string>
+	<key>settingslab_style</key>
+	<string>选择样式</string>
+	<key>settingsmenu_restore</key>
+	<string>恢复默认</string>
+	<key>settingsmenu_back</key>
+	<string>返回</string>
 </dict>
 </plist>

@@ -63,7 +63,7 @@ bool RPGBattleMenu::initWithParentNode(CCDictionary* stringList, CppSQLite3DB* d
         CCTMXTiledMap *bgLayer = (CCTMXTiledMap*)this->m_parentNode->getChildByTag(kRPGBattleMenuTagBg);
         if(!bgLayer)
         {
-            bgLayer = CCTMXTiledMap::create("battle_battlemenu_style1.tmx");
+            bgLayer = CCTMXTiledMap::create(CCString::createWithFormat("battle_battlemenu_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
             bgLayer->setPosition(ccp(718, 0));
             bgLayer->setTag(kRPGBattleMenuTagBg);
             parentNode->addChild(bgLayer);
@@ -199,7 +199,7 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             menuCancel->setScale(0.75);
             this->addChild(menuCancel);
             
-            CCTMXTiledMap *selectLayer = CCTMXTiledMap::create("battle_select_style1.tmx");
+            CCTMXTiledMap *selectLayer = CCTMXTiledMap::create(CCString::createWithFormat("battle_select_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
             selectLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - selectLayer->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - selectLayer->getContentSize().height) / 2));
             selectLayer->setTag(kRPGBattleSceneLayerTagSkillSelectDialog);
             
@@ -295,7 +295,7 @@ void RPGBattleMenu::onMenu(cocos2d::CCObject *pObject)
             menuCancel->setScale(0.75);
             this->addChild(menuCancel);
             
-            CCTMXTiledMap *selectLayer = CCTMXTiledMap::create("battle_select_style1.tmx");
+            CCTMXTiledMap *selectLayer = CCTMXTiledMap::create(CCString::createWithFormat("battle_select_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
             selectLayer->setPosition(ccp((CCDirector::sharedDirector()->getWinSize().width - selectLayer->getContentSize().width) / 2, (CCDirector::sharedDirector()->getWinSize().height - selectLayer->getContentSize().height) / 2));
             selectLayer->setTag(kRPGBattleSceneLayerTagItemsSelectDialog);
             
