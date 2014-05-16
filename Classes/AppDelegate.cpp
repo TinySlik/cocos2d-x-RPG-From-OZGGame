@@ -79,6 +79,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     query.finalize();
     db.close();
     
+    //初始化背景音乐和效果音的默认大小值
+    SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0));
+    SimpleAudioEngine::sharedEngine()->setEffectsVolume(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0));
+    
     CCScene *mainScene = RPGStartSceneLayer::scene();
     pDirector->runWithScene(mainScene);
     

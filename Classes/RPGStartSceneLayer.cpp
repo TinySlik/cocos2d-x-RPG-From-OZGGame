@@ -115,6 +115,8 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
             this->removeChildByTag(kRPGStartSceneLayerTagSettingsMenu, true);
             this->removeChildByTag(kRPGStartSceneLayerTagLabStyle, true);
             this->removeChildByTag(kRPGStartSceneLayerTagLabCurrStyle, true);
+            this->removeChildByTag(kRPGStartSceneLayerTagLabBgAudio, true);
+            this->removeChildByTag(kRPGStartSceneLayerTagLabEffectAudio, true);
             this->showMainMenu();
             
         }
@@ -136,6 +138,19 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
             
             //更新当前样式
             CCUserDefault::sharedUserDefault()->setStringForKey(GAME_STYLE, saveDataObj->m_windowStyle);
+            
+            CCMenu *settingsMenu = (CCMenu*)this->getChildByTag(kRPGStartSceneLayerTagSettingsMenu);
+            
+            //还原背景音乐
+            CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0);
+            ((CCMenuItemLabel*)settingsMenu->getChildByTag(kRPGStartSceneLayerTagSettingsBgAudioBtn))->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+            SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1);
+            
+            //还原效果声音
+            CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0);
+            ((CCMenuItemLabel*)settingsMenu->getChildByTag(kRPGStartSceneLayerTagSettingsEffectAudioBtn))->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+            SimpleAudioEngine::sharedEngine()->setEffectsVolume(1);
+            
         }
             break;
         case kRPGStartSceneLayerTagSettingsStyleLeft:
@@ -179,6 +194,49 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
             
             //更新当前样式
             CCUserDefault::sharedUserDefault()->setStringForKey(GAME_STYLE, saveDataObj->m_windowStyle);
+        }
+            break;
+        case kRPGStartSceneLayerTagSettingsBgAudioBtn:
+        {
+            //点击了背景音乐的开关
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+            
+            if(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0) == 0)
+            {
+                CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0);
+                
+                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+                SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1);
+            }
+            else
+            {
+                CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_BG_AUDIO_VOLUME, 0);
+                
+                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str());
+                SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0);
+            }
+            
+        }
+            break;
+        case kRPGStartSceneLayerTagSettingsEffectAudioBtn:
+        {
+            //点击了效果声音的开关
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+            
+            if(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0) == 0)
+            {
+                CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0);
+                
+                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+                SimpleAudioEngine::sharedEngine()->setEffectsVolume(1);
+            }
+            else
+            {
+                CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 0);
+                
+                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str());
+                SimpleAudioEngine::sharedEngine()->setEffectsVolume(0);
+            }
         }
             break;
         default:
@@ -311,6 +369,44 @@ void RPGStartSceneLayer::showSettingsMenu()
         labCurrStyleLabel->setPosition(ccp(550, 550));
         this->addChild(labCurrStyleLabel);
     }
+    
+    //背景音乐的开关
+    CCString *labBgAudioStr = (CCString*)this->m_stringList->objectForKey("settingsmenu_bgaudio");
+    CCLabelTTF *labBgAudioLabel = CCLabelTTF::create(OzgCCUtility::generalString(labBgAudioStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    labBgAudioLabel->setFontFillColor(ccc3(188, 188, 188));
+    labBgAudioLabel->setTag(kRPGStartSceneLayerTagLabBgAudio);
+    labBgAudioLabel->setPosition(ccp(300, 470));
+    this->addChild(labBgAudioLabel);
+    
+    //背景音乐的开关的按钮
+    CCLabelTTF *labBgAudioBtnLabel = NULL;
+    if(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0) == 0)
+        labBgAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    else
+        labBgAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCMenuItemLabel *labBgAudioBtn = CCMenuItemLabel::create(labBgAudioBtnLabel, this, menu_selector(RPGStartSceneLayer::onMenu));
+    labBgAudioBtn->setPosition(ccp(550, 470));
+    labBgAudioBtn->setTag(kRPGStartSceneLayerTagSettingsBgAudioBtn);
+    settingsMenu->addChild(labBgAudioBtn);
+    
+    //效果声音的开关
+    CCString *labEffectAudioStr = (CCString*)this->m_stringList->objectForKey("settingsmenu_effectaudio");
+    CCLabelTTF *labEffectAudioLabel = CCLabelTTF::create(OzgCCUtility::generalString(labEffectAudioStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    labEffectAudioLabel->setFontFillColor(ccc3(188, 188, 188));
+    labEffectAudioLabel->setTag(kRPGStartSceneLayerTagLabEffectAudio);
+    labEffectAudioLabel->setPosition(ccp(300, 390));
+    this->addChild(labEffectAudioLabel);
+    
+    //效果声音的开关的按钮
+    CCLabelTTF *labEffectAudioBtnLabel = NULL;
+    if(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0) == 0)
+        labEffectAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    else
+        labEffectAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCMenuItemLabel *labEffectAudioBtn = CCMenuItemLabel::create(labEffectAudioBtnLabel, this, menu_selector(RPGStartSceneLayer::onMenu));
+    labEffectAudioBtn->setPosition(ccp(550, 390));
+    labEffectAudioBtn->setTag(kRPGStartSceneLayerTagSettingsEffectAudioBtn);
+    settingsMenu->addChild(labEffectAudioBtn);
     
     //恢复默认
     CCString *menuRestoreStr = (CCString*)this->m_stringList->objectForKey("settingsmenu_restore");

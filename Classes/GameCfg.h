@@ -27,4 +27,7 @@
 #define MAX_STATUS1 9999 //HP最大值
 #define MAX_STATUS2 999 //MP、攻击力、防御力、速度、技能攻击、技能防御的最大值
 
+#define GAME_BG_AUDIO_VOLUME "GAME_BG_AUDIO_VOLUME" //背景音乐大小
+#define GAME_EFFECT_AUDIO_VOLUME "GAME_EFFECT_AUDIO_VOLUME" //效果音大小
+
 #endif

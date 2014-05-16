@@ -25,10 +25,15 @@ enum RPGStartSceneLayerTag
     kRPGStartSceneLayerTagSettingsMenu = 8,
     kRPGStartSceneLayerTagSettingsStyleLeft = 10,
     kRPGStartSceneLayerTagSettingsStyleRight = 12,
+    kRPGStartSceneLayerTagSettingsBgAudioBtn = 18,
+    kRPGStartSceneLayerTagSettingsEffectAudioBtn = 19,
     kRPGStartSceneLayerTagSettingsRestore = 14,
     kRPGStartSceneLayerTagSettingsBack = 13,
     kRPGStartSceneLayerTagLabStyle = 11,
-    kRPGStartSceneLayerTagLabCurrStyle = 15
+    kRPGStartSceneLayerTagLabCurrStyle = 15,
+    kRPGStartSceneLayerTagLabBgAudio = 16,
+    kRPGStartSceneLayerTagLabEffectAudio = 17
+    
 };
 
 class RPGStartSceneLayer : public RPGBaseSceneLayer

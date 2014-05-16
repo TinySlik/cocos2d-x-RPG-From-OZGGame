@@ -16,9 +16,17 @@
 	<string>游戏设置</string>
 	<key>settingslab_style</key>
 	<string>选择样式</string>
+	<key>settingsmenu_bgaudio</key>
+	<string>背景音乐</string>
+	<key>settingsmenu_effectaudio</key>
+	<string>效果声音</string>
 	<key>settingsmenu_restore</key>
 	<string>恢复默认</string>
 	<key>settingsmenu_back</key>
 	<string>返回</string>
+	<key>settingsmenu_audio_on</key>
+	<string>开</string>
+	<key>settingsmenu_audio_off</key>
+	<string>关</string>
 </dict>
 </plist>
