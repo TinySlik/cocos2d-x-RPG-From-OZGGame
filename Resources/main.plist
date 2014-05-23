@@ -59,7 +59,7 @@
             <key>commons_btn_back_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{188,437},{64,64}}</string>
+                <string>{{254,371},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>commons_btn_back_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{188,371},{64,64}}</string>
+                <string>{{188,437},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +85,7 @@
             <key>commons_btn_back_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{122,420},{64,64}}</string>
+                <string>{{188,371},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -159,6 +159,19 @@
                 <string>{{7,8},{18,16}}</string>
                 <key>sourceSize</key>
                 <string>{32,32}</string>
+            </dict>
+            <key>commons_btn_pause.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{122,420},{64,64}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{64,64}}</string>
+                <key>sourceSize</key>
+                <string>{64,64}</string>
             </dict>
             <key>gui_battle_progress_bar01_a.png</key>
             <dict>
@@ -391,7 +404,7 @@
             <key>size</key>
             <string>{512,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:bc5c1e7831f1dd2a30267cbbc66b73f5:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:f3e07513133a479d10c9f9a2c2324822:1/1$</string>
             <key>textureFileName</key>
             <string>main.png</string>
         </dict>

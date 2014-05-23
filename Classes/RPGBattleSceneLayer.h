@@ -21,6 +21,10 @@ enum RPGBattleSceneLayerTag
     kRPGBattleSceneLayerTagBg = 1,
     kRPGBattleSceneLayerTagMenuBg = 2,
     kRPGBattleSceneLayerTagBattleMenu = 3,
+    kRPGBattleSceneLayerTagMainMenu = 66,
+    kRPGBattleSceneLayerTagPauseMask = 67,
+    kRPGBattleSceneLayerTagMainMenuPause = 68,
+    kRPGBattleSceneLayerTagBtnResume = 69,
     kRPGBattleSceneLayerTagWinResultsDialog = 70,
     kRPGBattleSceneLayerTagLoseResultsDialog = 71,
     kRPGBattleSceneLayerTagSkillSelectDialog = 72,
@@ -77,6 +81,9 @@ private:
     
     void showWinResults(); //显示胜利后获得的经验值和金钱，统计升级也在这里执行
     void showLoseResults(); //显示输了的界面
+    
+    void onMenu(cocos2d::CCObject *pObject);
+    void onButton(CCObject* pSender, CCControlEvent event);
     
 public:
     

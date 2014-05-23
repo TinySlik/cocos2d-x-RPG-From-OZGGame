@@ -177,6 +177,7 @@
             <filename>start_btn_right_01.png</filename>
             <filename>start_btn_right_02.png</filename>
             <filename>separate.png</filename>
+            <filename>commons_btn_pause.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

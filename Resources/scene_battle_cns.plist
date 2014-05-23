@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>btn_resume</key>
+	<string>继续</string>
 	<key>skill_title</key>
 	<string>选择技能</string>
 	<key>items_title</key>

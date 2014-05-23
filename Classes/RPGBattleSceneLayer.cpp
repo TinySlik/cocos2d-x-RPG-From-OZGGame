@@ -53,6 +53,20 @@ bool RPGBattleSceneLayer::init()
         bg->setTag(kRPGBattleSceneLayerTagBg);
         this->addChild(bg);
         
+        CCMenu *mainMenu = CCMenu::create();
+        mainMenu->setTag(kRPGBattleSceneLayerTagMainMenu);
+        mainMenu->setAnchorPoint(CCPointZero);
+        mainMenu->setPosition(CCPointZero);
+        this->addChild(mainMenu);
+        
+        //暂停按钮
+        CCMenuItemSprite *menuPause = CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("commons_btn_pause.png"), CCSprite::createWithSpriteFrameName("commons_btn_pause.png"), this, menu_selector(RPGBattleSceneLayer::onMenu));
+        menuPause->setTag(kRPGBattleSceneLayerTagMainMenuPause);
+        menuPause->setPosition(ccp(910, 600));
+        menuPause->setScale(0.7);
+        menuPause->setVisible(false);
+        mainMenu->addChild(menuPause);
+        
         //背景音乐
         if(SimpleAudioEngine::sharedEngine()->isBackgroundMusicPlaying())
         {
@@ -340,6 +354,10 @@ void RPGBattleSceneLayer::update(float delta)
 {
     float progressSpeed = 1.0;
     
+    CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGBattleSceneLayerTagMainMenu);
+    CCMenuItemSprite *menuPause = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGBattleSceneLayerTagMainMenuPause);
+    menuPause->setVisible(true);
+    
     //更新player进度条
     for (int i = 0; i < this->m_playerDataList->count(); i++)
     {
@@ -377,6 +395,7 @@ void RPGBattleSceneLayer::update(float delta)
             battleMenu->setTag(kRPGBattleSceneLayerTagBattleMenu);
             this->addChild(battleMenu);
             
+            menuPause->setVisible(false);
             this->unscheduleUpdate();
             return;
         }
@@ -429,6 +448,7 @@ void RPGBattleSceneLayer::update(float delta)
                 RPGBattlePlayerSprite *targetPlayer = (RPGBattlePlayerSprite*)this->getChildByTag(kRPGBattleSceneLayerTagPlayer + tagetPlayerId);
                 monster->animAttack(this, targetPlayer->m_data);
                 
+                menuPause->setVisible(false);
                 this->unscheduleUpdate();
                 return;
             }
@@ -1460,4 +1480,70 @@ void RPGBattleSceneLayer::showLoseResults()
     //显示title
     addLab(loseResults, 5, CCString::create(((CCString*)this->m_stringList->objectForKey("lose_title"))->getCString()), 28, kCCTextAlignmentCenter, ccp(loseResults->getContentSize().width / 2, loseResults->getContentSize().height / 2));
     
+}
+
+void RPGBattleSceneLayer::onMenu(cocos2d::CCObject *pObject)
+{
+    CCMenuItem *menuItem = (CCMenuItem*)pObject;
+    switch (menuItem->getTag())
+    {
+        case kRPGBattleSceneLayerTagMainMenuPause:
+        {
+//            CCLog("按了暂停");
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+            
+            menuItem->setVisible(false);
+            
+            //player进入暂停状态
+            for (int i = 0; i < this->m_playerList->count(); i++)
+            {
+                RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+                player->pauseSchedulerAndActions();
+            }
+            
+            CCLayerColor *pauseMask = CCLayerColor::create(ccc4(0, 0, 0, 180), CCDirector::sharedDirector()->getWinSize().width, CCDirector::sharedDirector()->getWinSize().height);
+            pauseMask->setTag(kRPGBattleSceneLayerTagPauseMask);
+            pauseMask->setAnchorPoint(CCPointZero);
+            pauseMask->setPosition(CCPointZero);
+            this->addChild(pauseMask);
+            
+            CCControlButton *btnResume = CCControlButton::create(((CCString*)this->m_stringList->objectForKey("btn_resume"))->getCString(), "Arial", 30);
+            btnResume->setTag(kRPGBattleSceneLayerTagBtnResume);
+            btnResume->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, CCDirector::sharedDirector()->getWinSize().height / 2));
+            btnResume->addTargetWithActionForControlEvents(this, cccontrol_selector(RPGBattleSceneLayer::onButton), CCControlEventTouchUpInside);
+            pauseMask->addChild(btnResume);
+            
+            this->unscheduleUpdate();
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+void RPGBattleSceneLayer::onButton(cocos2d::CCObject *pSender, CCControlEvent event)
+{
+    CCControlButton *btn = (CCControlButton*)pSender;
+    switch (btn->getTag())
+    {
+        case kRPGBattleSceneLayerTagBtnResume:
+        {
+//            CCLog("按了继续");
+            SimpleAudioEngine::sharedEngine()->playEffect("audio_effect_btn.wav");
+            
+            for (int i = 0; i < this->m_playerList->count(); i++)
+            {
+                RPGBattlePlayerSprite *player = (RPGBattlePlayerSprite*)this->m_playerList->objectAtIndex(i);
+                player->resumeSchedulerAndActions();
+            }
+            
+            this->removeChildByTag(kRPGBattleSceneLayerTagPauseMask, true);
+            this->scheduleUpdate();
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
