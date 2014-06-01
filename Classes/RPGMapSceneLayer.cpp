@@ -617,7 +617,7 @@ void RPGMapSceneLayer::playerMoveEnd()
     {
         float val = CCRANDOM_0_1();
         val = CCRANDOM_0_1();
-        if(val >= 0.0 && val <= 0.025)
+        if(val >= 0.0 && val <= GAME_MAP_ENCOUNTER)
         {
 //            CCLog("遇敌!");
             CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);

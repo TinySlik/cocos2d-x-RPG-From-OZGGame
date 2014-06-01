@@ -1093,6 +1093,10 @@ void RPGBattleSceneLayer::actionWithTargetEffectLabEnd(cocos2d::CCNode *sender, 
         CCLabelTTF *targetPlayerHP = (CCLabelTTF*)this->getChildByTag(kRPGBattleSceneLayerTagPlayerHP + targetPlayer->m_data->m_dataId);
         targetPlayerHP->setString(CCString::createWithFormat("%i", targetPlayer->m_data->m_HP)->getCString());
         
+        //更新下面显示的MP
+        CCLabelTTF *targetPlayerMP = (CCLabelTTF*)this->getChildByTag(kRPGBattleSceneLayerTagPlayerMP + targetPlayer->m_data->m_dataId);
+        targetPlayerMP->setString(CCString::createWithFormat("%i", targetPlayer->m_data->m_MP)->getCString());
+        
         if(dynamic_cast<RPGBattlePlayerSprite*>((CCObject*)data) != NULL)
         {
             //发起攻击的player还原通常时状态，并重新计算进度条

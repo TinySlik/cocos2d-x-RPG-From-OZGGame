@@ -40,7 +40,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>fonts/方正粗圆简体.ttf</string>
+		<string>fonts/fzcyjt.ttf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
