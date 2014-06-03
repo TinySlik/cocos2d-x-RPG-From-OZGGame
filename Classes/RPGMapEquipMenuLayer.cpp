@@ -186,19 +186,23 @@ void RPGMapEquipMenuLayer::loadItemsData()
     CppSQLite3Query query = this->m_db->execQuery(EQUIP_EXISTING_QUERY);
     while(!query.eof())
     {
-        RPGExistingItems *itemsData = RPGExistingItems::create();
-        itemsData->m_dataId = query.getIntField("id");
-        itemsData->m_name = query.getStringField("name_cns");
-        itemsData->m_buy = query.getIntField("buy");
-        itemsData->m_sell = query.getIntField("sell");
-        itemsData->m_type = query.getIntField("type");
-        itemsData->m_attack = query.getFloatField("attack");
-        itemsData->m_defense = query.getFloatField("defense");
-        itemsData->m_speed = query.getFloatField("speed");
-        itemsData->m_skillAttack = query.getFloatField("skill_attack");
-        itemsData->m_skillDefense = query.getFloatField("skill_defense");
-        itemsData->m_total = query.getIntField("total");
-        this->m_itemsList->addObject(itemsData);
+        string players = query.getStringField("players");
+        if((int)players.find(CCString::createWithFormat("%i,", this->m_selectedPlayerId)->getCString()) > -1)
+        {
+            RPGExistingItems *itemsData = RPGExistingItems::create();
+            itemsData->m_dataId = query.getIntField("id");
+            itemsData->m_name = query.getStringField("name_cns");
+            itemsData->m_buy = query.getIntField("buy");
+            itemsData->m_sell = query.getIntField("sell");
+            itemsData->m_type = query.getIntField("type");
+            itemsData->m_attack = query.getFloatField("attack");
+            itemsData->m_defense = query.getFloatField("defense");
+            itemsData->m_speed = query.getFloatField("speed");
+            itemsData->m_skillAttack = query.getFloatField("skill_attack");
+            itemsData->m_skillDefense = query.getFloatField("skill_defense");
+            itemsData->m_total = query.getIntField("total");
+            this->m_itemsList->addObject(itemsData);
+        }
         
         query.nextRow();
     }
