@@ -17,11 +17,13 @@ RPGMapNPCRoleSprite::~RPGMapNPCRoleSprite()
 //    CCLog("RPGMapNPCRoleSprite 释放");
 }
 
-bool RPGMapNPCRoleSprite::init(CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove)
+bool RPGMapNPCRoleSprite::init(int dataId, CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove)
 {
     if(RPGMapRoleSprite::init(roleTexture, name, false, defaultSpriteFrameIndex))
     {
         this->m_autoMove = autoMove;
+        
+        this->m_dataId = dataId;
         
         this->m_content = content;
         this->m_content->retain();
@@ -36,10 +38,10 @@ bool RPGMapNPCRoleSprite::init(CCString *roleTexture, CCString* headTexture, CCS
 }
 
 //static
-RPGMapNPCRoleSprite* RPGMapNPCRoleSprite::create(CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove)
+RPGMapNPCRoleSprite* RPGMapNPCRoleSprite::create(int dataId, CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove)
 {
     RPGMapNPCRoleSprite *obj = new RPGMapNPCRoleSprite();
-    if(obj && obj->init(roleTexture, headTexture, name, content, defaultSpriteFrameIndex, autoMove))
+    if(obj && obj->init(dataId, roleTexture, headTexture, name, content, defaultSpriteFrameIndex, autoMove))
     {
         obj->autorelease();
         return obj;

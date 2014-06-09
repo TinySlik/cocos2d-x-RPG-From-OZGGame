@@ -5,7 +5,7 @@
  </tileset>
  <layer name="behind" width="24" height="12">
   <data encoding="base64" compression="zlib">
-   eJwTZmBgEB7Fo3gUj+IBwABKEBVh
+   eJzTZmBg0B7Fo3gUj+IBwABDozBh
   </data>
  </layer>
  <layer name="front" width="24" height="12">

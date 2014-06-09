@@ -36,6 +36,8 @@ bool RPGMapEquipMenuLayer::init(cocos2d::CCDictionary *stringList, CppSQLite3DB 
         this->m_itemsList = new CCArray();
         this->m_itemsList->init();
         
+        this->m_isDefault = true;
+        
         CCTMXTiledMap *mainBg = CCTMXTiledMap::create(CCString::createWithFormat("map_menu2_%s.tmx", CCUserDefault::sharedUserDefault()->getStringForKey(GAME_STYLE).c_str())->getCString());
         mainBg->setPosition(CCPointZero);
         mainBg->setTag(kRPGMapEquipMenuLayerTagBg);

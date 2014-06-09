@@ -3,9 +3,9 @@
  <tileset firstgid="1" name="Window_b_00" tilewidth="16" tileheight="16">
   <image source="Window_b_00.png" width="128" height="128"/>
  </tileset>
- <layer name="behind" width="60" height="40">
+ <layer name="behind" width="60" height="40" opacity="0.64">
   <data encoding="base64" compression="zlib">
-   eJztwzENAEAIBLDTwvr418eKgJ9Im7STtKqq3z5PL1VVVVVVVV0HugBaeA==
+   eJztw0ENAAAMA6HTUP9ip2F/SFg1VVVVVVVVVVVV3w9AgqjB
   </data>
  </layer>
  <layer name="bront" width="60" height="40">

@@ -4,9 +4,9 @@
   <tileoffset x="-1" y="0"/>
   <image source="Window_a_00.png" width="128" height="128"/>
  </tileset>
- <layer name="behind" width="60" height="40">
+ <layer name="behind" width="60" height="40" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJztw8EJAAAMA6GD7L9zZ+hfwVVTVVVVVVVVVVX1/QDUoRwh
+   eJztw0ENAAAMA6GzUP9mp2F/SFg1VVVVVVVVVVVV3w9bcp9h
   </data>
  </layer>
  <layer name="bront" width="60" height="40">

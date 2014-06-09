@@ -28,8 +28,13 @@
 #define MAX_GOLD 999999 //金钱最大值
 #define MAX_STATUS1 9999 //HP最大值
 #define MAX_STATUS2 999 //MP、攻击力、防御力、速度、技能攻击、技能防御的最大值
+#define MAX_ITEMS_TOTAL 99 //最大物品数
 
 #define GAME_BG_AUDIO_VOLUME "GAME_BG_AUDIO_VOLUME" //背景音乐大小
 #define GAME_EFFECT_AUDIO_VOLUME "GAME_EFFECT_AUDIO_VOLUME" //效果音大小
+
+#define GAME_MAPSHOP_NPC_ID 7 //商店NPC的id
+#define GAME_MAPINN_NPC_ID 8 //旅馆NPC的id
+#define GAME_INN 100 //住宿一次花费多少钱
 
 #endif

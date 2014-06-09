@@ -4,7 +4,7 @@ ozg game — RPG Demo
 本游戏主要用于技术的研究和积累
 
 
-游戏中所用的一部分图片来自 http://www.66rpg.com/type.php?t=17 另一部分图片来自 http://usui.moo.jp/rpg_tukuru.html
+游戏中所用图片来自 http://www.66rpg.com/type.php?t=17 和 http://usui.moo.jp/rpg_tukuru.html
 
 声音文件来自 http://www.66rpg.com/type.php?t=17
 

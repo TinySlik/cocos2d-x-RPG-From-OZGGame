@@ -6,7 +6,7 @@
  </tileset>
  <layer name="behind" width="60" height="40">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAMBKGb37/gaugOCaumqqqqqqqqqqrq+wEYEV3B
+   eJztw0ENAAAMA6HzU//+pmF/SFg1VVVVVVVVVVVV3w+e5ZMw
   </data>
  </layer>
  <layer name="bront" width="60" height="40">

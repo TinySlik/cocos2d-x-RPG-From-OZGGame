@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="Window_a_00" tilewidth="16" tileheight="16">
   <image source="Window_a_00.png" width="128" height="128"/>
  </tileset>
- <layer name="behind" width="60" height="12" opacity="0.33">
+ <layer name="behind" width="60" height="12" opacity="0.5">
   <data encoding="base64" compression="zlib">
    eJztwwENAAAMw6BqmH+xt3ABkLBqqqrq6wFFMzKh
   </data>

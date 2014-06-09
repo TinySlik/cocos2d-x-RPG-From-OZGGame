@@ -22,11 +22,12 @@ private:
     
 public:
     
+    int m_dataId;
     CCString* m_content;
     
     virtual ~RPGMapNPCRoleSprite();
-    virtual bool init(CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove);
-    static RPGMapNPCRoleSprite* create(CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove);
+    virtual bool init(int dataId, CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove);
+    static RPGMapNPCRoleSprite* create(int dataId, CCString *roleTexture, CCString* headTexture, CCString* name, CCString* content, int defaultSpriteFrameIndex, bool autoMove);
     
     void stopAutoMove();
     void startAutoMove();

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="24" height="12" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" width="12" height="26" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="Window_b_00" tilewidth="16" tileheight="16">
   <image source="Window_b_00.png" width="128" height="128"/>
  </tileset>
- <layer name="behind" width="24" height="12" opacity="0.66">
+ <layer name="behind" width="12" height="26" opacity="0.65">
   <data encoding="base64" compression="zlib">
-   eJzjYmBg4BrFo3gUj+IBwABsdwtB
+   eJwTZmBgEB7Fo3gUj+JhiAGn+Bcp
   </data>
  </layer>
- <layer name="front" width="24" height="12">
+ <layer name="front" width="12" height="26">
   <data encoding="base64" compression="zlib">
-   eJxjZWBgYKMR5gBiXgbaAYFR8wfcfNFR84e1+bJALE8jrADEAMynBMM=
+   eJxjZWBgYCMScwCxKAPxQIAO6mWBWJ5IrADErEDMTiQejP4dVT+qfiSrJzW/AwADLAax
   </data>
  </layer>
 </map>

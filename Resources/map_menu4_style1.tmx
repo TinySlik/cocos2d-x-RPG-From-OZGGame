@@ -4,7 +4,7 @@
   <tileoffset x="-1" y="0"/>
   <image source="Window_a_00.png" width="128" height="128"/>
  </tileset>
- <layer name="behind" width="60" height="40">
+ <layer name="behind" width="60" height="40" opacity="0.47">
   <data encoding="base64" compression="zlib">
    eJztw0ENAAAMA6HzUP9ep2F/SFg1VVVVVVVVVVVV3w8lkrIh
   </data>

@@ -366,8 +366,10 @@ void RPGMapSceneLayer::ccTouchEnded(CCTouch* touch, CCEvent* event)
         {
             this->m_touchedDialogNPC->stopAutoMove(); //暂时停止自动移动
             
+            this->enabledControl(false);
+            
             string content = this->m_touchedDialogNPC->m_content->getCString();
-            RPGMapDialogLayer *dialogLayer = RPGMapDialogLayer::create(this->m_touchedDialogNPC);
+            RPGMapDialogLayer *dialogLayer = RPGMapDialogLayer::create(this->m_stringList, &this->m_db, this->m_touchedDialogNPC);
             this->addChild(dialogLayer);
             
             CCMenu *mainMenu = (CCMenu*)bgMap->getChildByTag(kRPGMapSceneLayerTagMainMenu);
@@ -461,7 +463,7 @@ void RPGMapSceneLayer::startPlay(float delay)
         float y = (stringToNumber<float>(query.getStringField("tmx_y")) + 0.5) * GAME_TMX_ROLE_HEIGHT;
         bool autoMove = query.getIntField("auto_move") == 1 ? true : false;
         
-        RPGMapNPCRoleSprite *npc = RPGMapNPCRoleSprite::create(CCString::create(query.getStringField("map_texture")), CCString::create("head_texture"), CCString::create(query.getStringField("name_cns")), CCString::create(query.getStringField("content_cns")), 1, autoMove);
+        RPGMapNPCRoleSprite *npc = RPGMapNPCRoleSprite::create(query.getIntField("id"), CCString::create(query.getStringField("map_texture")), CCString::create("head_texture"), CCString::create(query.getStringField("name_cns")), CCString::create(query.getStringField("content_cns")), 1, autoMove);
         npc->setTag(kRPGMapSceneLayerTagNPC + query.getIntField("id"));
         npc->setPosition(ccp(x, y));
         bgMap->addChild(npc);

@@ -131,6 +131,7 @@ public:
     float m_speed;
     float m_skillAttack;
     float m_skillDefense;
+    string m_description;
     
     RPGItems();
     virtual ~RPGItems();
