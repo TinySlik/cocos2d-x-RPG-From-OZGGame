@@ -11,8 +11,8 @@ usage: $0 [options]
 Build C/C++ code for $APPNAME using Android NDK
 
 OPTIONS:
--s  Build externals from source
--h  this help
+-s	Build externals from source
+-h	this help
 EOF
 }
 
@@ -65,18 +65,7 @@ if [ -f "$file" ]; then
 fi
 done
 
-# copy common luaScript
-for file in "$APP_ROOT"/../../scripting/lua/script/*
-do
-if [ -d "$file" ]; then
-    cp -rf "$file" "$APP_ANDROID_ROOT"/assets
-fi
-
-if [ -f "$file" ]; then
-    cp "$file" "$APP_ANDROID_ROOT"/assets
-fi
-done
-
+# run ndk-build
 if [[ "$buildexternalsfromsource" ]]; then
     echo "Building external dependencies from source"
     "$NDK_ROOT"/ndk-build -C "$APP_ANDROID_ROOT" $* \

@@ -31,7 +31,7 @@ bool RPGMapRoleSprite::init(CCString *roleTexture, CCString* name, bool isPlayer
     
     if(CCSprite::initWithSpriteFrame((CCSpriteFrame*)this->m_roleSpriteFrames->objectAtIndex(defaultSpriteFrameIndex)))
     {
-        CCLabelTTF *nameLab = CCLabelTTF::create(this->m_name->getCString(), "Arial", 15, CCSizeMake(this->getContentSize().width * 2.0, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF *nameLab = CCLabelTTF::create(this->m_name->getCString(), "Arial", 15, CCSizeMake(this->getContentSize().width * 3.0, 20), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         nameLab->setPosition(ccp(15, 45));
         
         if(this->m_isPlayer)
