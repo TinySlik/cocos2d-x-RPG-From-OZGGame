@@ -352,7 +352,7 @@ CCScene* RPGBattleSceneLayer::scene()
 
 void RPGBattleSceneLayer::update(float delta)
 {
-    float progressSpeed = 1.0;
+    float progressSpeed = 0.3;
     
     CCMenu *mainMenu = (CCMenu*)this->getChildByTag(kRPGBattleSceneLayerTagMainMenu);
     CCMenuItemSprite *menuPause = (CCMenuItemSprite*)mainMenu->getChildByTag(kRPGBattleSceneLayerTagMainMenuPause);
