@@ -306,7 +306,7 @@ void RPGMapEquipMenuLayer::setPlayerEquip(int dataId)
         {
             addLab(this, kRPGMapEquipMenuLayerTagEquipArms, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_arms"))->getCString(), query.getStringField("arms_name")), 26, ccp(600, 405));
             
-            CCControlButton *btnRemoveArms = CCControlButton::create(((CCString*)this->m_stringList->objectForKey("menu_equip_unset"))->getCString(), "Arial", 26);
+            CCControlButton *btnRemoveArms = CCControlButton::create(((CCString*)this->m_stringList->objectForKey("menu_equip_remove"))->getCString(), "Arial", 26);
             btnRemoveArms->setPosition(ccp(700, 405));
             btnRemoveArms->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
             btnRemoveArms->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArms);
@@ -320,7 +320,7 @@ void RPGMapEquipMenuLayer::setPlayerEquip(int dataId)
         {
             addLab(this, kRPGMapEquipMenuLayerTagEquipArmor, CCString::createWithFormat(((CCString*)this->m_stringList->objectForKey("menu_equip_armor"))->getCString(), query.getStringField("armor_name")), 26, ccp(600, 320));
             
-            CCControlButton *btnRemoveArmor = CCControlButton::create(((CCString*)this->m_stringList->objectForKey("menu_equip_unset"))->getCString(), "Arial", 26);
+            CCControlButton *btnRemoveArmor = CCControlButton::create(((CCString*)this->m_stringList->objectForKey("menu_equip_remove"))->getCString(), "Arial", 26);
             btnRemoveArmor->setPosition(ccp(700, 320));
             btnRemoveArmor->setTitleColorForState(ccc3(177, 177, 177), CCControlStateNormal);
             btnRemoveArmor->setTag(kRPGMapEquipMenuLayerTagBtnRemoveArmor);
