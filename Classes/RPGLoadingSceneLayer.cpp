@@ -36,7 +36,7 @@ bool RPGLoadingSceneLayer::init(CCArray* loadTextures, CCArray* releaseTextures,
         this->m_stringList = CCDictionary::createWithContentsOfFileThreadSafe(languageFile.c_str());
         
         CCString *loadingStr = (CCString*)this->m_stringList->objectForKey("loading");
-        CCLabelTTF *loadingLabel = CCLabelTTF::create(OzgCCUtility::generalString(loadingStr->getCString()).c_str(), "FZCuYuan-M03S", 20, CCSizeMake(CCDirector::sharedDirector()->getWinSize().width, 30), kCCTextAlignmentCenter);
+        CCLabelTTF *loadingLabel = CCLabelTTF::create(loadingStr->getCString(), "FZCuYuan-M03S", 20, CCSizeMake(CCDirector::sharedDirector()->getWinSize().width, 30), kCCTextAlignmentCenter);
         
         loadingLabel->setColor(ccc3(255, 255, 255));
         loadingLabel->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, 100));

@@ -216,7 +216,7 @@ void RPGMapMenuLayer::createMenuItem(float x, float y, CCString *text, RPGMapMen
     CCMenuItemLabel *menuItems = (CCMenuItemLabel*)mainMenu->getChildByTag(tag);
     if(!menuItems)
     {
-        CCLabelTTF *menuItemsLabel = CCLabelTTF::create(OzgCCUtility::generalString(text->getCString()).c_str(), "FZCuYuan-M03S", 25, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF *menuItemsLabel = CCLabelTTF::create(text->getCString(), "FZCuYuan-M03S", 25, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     
         menuItems = CCMenuItemLabel::create(menuItemsLabel, this, menu_selector(RPGMapMenuLayer::onMenu));
         menuItems->setPosition(ccp(x, y));

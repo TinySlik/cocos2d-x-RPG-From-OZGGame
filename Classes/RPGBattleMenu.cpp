@@ -168,7 +168,7 @@ void RPGBattleMenu::createMenuItem(float x, float y, CCString *text, RPGBattleMe
     CCMenuItemLabel *menuItems = (CCMenuItemLabel*)this->getChildByTag(tag);
     if(!menuItems)
     {
-        CCLabelTTF *menuItemsLabel = CCLabelTTF::create(OzgCCUtility::generalString(text->getCString()).c_str(), "Arial", 28, CCSizeMake(120, 30), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF *menuItemsLabel = CCLabelTTF::create(text->getCString(), "Arial", 28, CCSizeMake(120, 30), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         
         CCMenuItemLabel *menuItems = CCMenuItemLabel::create(menuItemsLabel, this, menu_selector(RPGBattleMenu::onMenu));
         menuItems->setPosition(ccp(x, y));

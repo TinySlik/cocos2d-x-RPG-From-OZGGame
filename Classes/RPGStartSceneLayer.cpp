@@ -143,12 +143,12 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
             
             //还原背景音乐
             CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0);
-            ((CCMenuItemLabel*)settingsMenu->getChildByTag(kRPGStartSceneLayerTagSettingsBgAudioBtn))->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+            ((CCMenuItemLabel*)settingsMenu->getChildByTag(kRPGStartSceneLayerTagSettingsBgAudioBtn))->setString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString());
             SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1);
             
             //还原效果声音
             CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0);
-            ((CCMenuItemLabel*)settingsMenu->getChildByTag(kRPGStartSceneLayerTagSettingsEffectAudioBtn))->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+            ((CCMenuItemLabel*)settingsMenu->getChildByTag(kRPGStartSceneLayerTagSettingsEffectAudioBtn))->setString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString());
             SimpleAudioEngine::sharedEngine()->setEffectsVolume(1);
             
         }
@@ -205,14 +205,14 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
             {
                 CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0);
                 
-                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+                ((CCMenuItemLabel*)menuItem)->setString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString());
                 SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1);
             }
             else
             {
                 CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_BG_AUDIO_VOLUME, 0);
                 
-                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str());
+                ((CCMenuItemLabel*)menuItem)->setString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString());
                 SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0);
             }
             
@@ -227,14 +227,14 @@ void RPGStartSceneLayer::onMenu(cocos2d::CCObject *pObject)
             {
                 CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0);
                 
-                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str());
+                ((CCMenuItemLabel*)menuItem)->setString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString());
                 SimpleAudioEngine::sharedEngine()->setEffectsVolume(1);
             }
             else
             {
                 CCUserDefault::sharedUserDefault()->setFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 0);
                 
-                ((CCMenuItemLabel*)menuItem)->setString(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str());
+                ((CCMenuItemLabel*)menuItem)->setString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString());
                 SimpleAudioEngine::sharedEngine()->setEffectsVolume(0);
             }
         }
@@ -294,13 +294,13 @@ void RPGStartSceneLayer::showMainMenu()
     this->addChild(mainMenu);
     
     CCString *menuStartStr = (CCString*)this->m_stringList->objectForKey("mainmenu_start");
-    CCLabelTTF *menuStartLabel = CCLabelTTF::create(OzgCCUtility::generalString(menuStartStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *menuStartLabel = CCLabelTTF::create(menuStartStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     
     CCString *menuRestartStr = (CCString*)this->m_stringList->objectForKey("mainmenu_restart");
-    CCLabelTTF *menuRestartLabel = CCLabelTTF::create(OzgCCUtility::generalString(menuRestartStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *menuRestartLabel = CCLabelTTF::create(menuRestartStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     
     CCString *menuSettingsStr = (CCString*)this->m_stringList->objectForKey("mainmenu_settings");
-    CCLabelTTF *menuSettingsLabel = CCLabelTTF::create(OzgCCUtility::generalString(menuSettingsStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *menuSettingsLabel = CCLabelTTF::create(menuSettingsStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     
     CCMenuItemLabel *menuStart = CCMenuItemLabel::create(menuStartLabel, this, menu_selector(RPGStartSceneLayer::onMenu));
     menuStart->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width / 2, 230));
@@ -330,7 +330,7 @@ void RPGStartSceneLayer::showSettingsMenu()
     
     //设置样式的标题
     CCString *labStyleStr = (CCString*)this->m_stringList->objectForKey("settingslab_style");
-    CCLabelTTF *labStyleLabel = CCLabelTTF::create(OzgCCUtility::generalString(labStyleStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *labStyleLabel = CCLabelTTF::create(labStyleStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     labStyleLabel->setFontFillColor(ccc3(188, 188, 188));
     labStyleLabel->setTag(kRPGStartSceneLayerTagLabStyle);
     labStyleLabel->setPosition(ccp(300, 550));
@@ -363,7 +363,7 @@ void RPGStartSceneLayer::showSettingsMenu()
     }
     if(labCurrStyleStr)
     {
-        CCLabelTTF *labCurrStyleLabel = CCLabelTTF::create(OzgCCUtility::generalString(labCurrStyleStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF *labCurrStyleLabel = CCLabelTTF::create(labCurrStyleStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         labCurrStyleLabel->setFontFillColor(ccc3(188, 188, 188));
         labCurrStyleLabel->setTag(kRPGStartSceneLayerTagLabCurrStyle);
         labCurrStyleLabel->setPosition(ccp(550, 550));
@@ -372,7 +372,7 @@ void RPGStartSceneLayer::showSettingsMenu()
     
     //背景音乐的开关
     CCString *labBgAudioStr = (CCString*)this->m_stringList->objectForKey("settingsmenu_bgaudio");
-    CCLabelTTF *labBgAudioLabel = CCLabelTTF::create(OzgCCUtility::generalString(labBgAudioStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *labBgAudioLabel = CCLabelTTF::create(labBgAudioStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     labBgAudioLabel->setFontFillColor(ccc3(188, 188, 188));
     labBgAudioLabel->setTag(kRPGStartSceneLayerTagLabBgAudio);
     labBgAudioLabel->setPosition(ccp(300, 470));
@@ -381,9 +381,9 @@ void RPGStartSceneLayer::showSettingsMenu()
     //背景音乐的开关的按钮
     CCLabelTTF *labBgAudioBtnLabel = NULL;
     if(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0) == 0)
-        labBgAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        labBgAudioBtnLabel = CCLabelTTF::create(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     else
-        labBgAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        labBgAudioBtnLabel = CCLabelTTF::create(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     CCMenuItemLabel *labBgAudioBtn = CCMenuItemLabel::create(labBgAudioBtnLabel, this, menu_selector(RPGStartSceneLayer::onMenu));
     labBgAudioBtn->setPosition(ccp(550, 470));
     labBgAudioBtn->setTag(kRPGStartSceneLayerTagSettingsBgAudioBtn);
@@ -391,7 +391,7 @@ void RPGStartSceneLayer::showSettingsMenu()
     
     //效果声音的开关
     CCString *labEffectAudioStr = (CCString*)this->m_stringList->objectForKey("settingsmenu_effectaudio");
-    CCLabelTTF *labEffectAudioLabel = CCLabelTTF::create(OzgCCUtility::generalString(labEffectAudioStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *labEffectAudioLabel = CCLabelTTF::create(labEffectAudioStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     labEffectAudioLabel->setFontFillColor(ccc3(188, 188, 188));
     labEffectAudioLabel->setTag(kRPGStartSceneLayerTagLabEffectAudio);
     labEffectAudioLabel->setPosition(ccp(300, 390));
@@ -400,9 +400,9 @@ void RPGStartSceneLayer::showSettingsMenu()
     //效果声音的开关的按钮
     CCLabelTTF *labEffectAudioBtnLabel = NULL;
     if(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0) == 0)
-        labEffectAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        labEffectAudioBtnLabel = CCLabelTTF::create(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_on"))->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     else
-        labEffectAudioBtnLabel = CCLabelTTF::create(OzgCCUtility::generalString(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        labEffectAudioBtnLabel = CCLabelTTF::create(((CCString*)this->m_stringList->objectForKey("settingsmenu_audio_off"))->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
     CCMenuItemLabel *labEffectAudioBtn = CCMenuItemLabel::create(labEffectAudioBtnLabel, this, menu_selector(RPGStartSceneLayer::onMenu));
     labEffectAudioBtn->setPosition(ccp(550, 390));
     labEffectAudioBtn->setTag(kRPGStartSceneLayerTagSettingsEffectAudioBtn);
@@ -410,7 +410,7 @@ void RPGStartSceneLayer::showSettingsMenu()
     
     //恢复默认
     CCString *menuRestoreStr = (CCString*)this->m_stringList->objectForKey("settingsmenu_restore");
-    CCLabelTTF *menuRestoreLabel = CCLabelTTF::create(OzgCCUtility::generalString(menuRestoreStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *menuRestoreLabel = CCLabelTTF::create(menuRestoreStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     CCMenuItemLabel *menuRestore = CCMenuItemLabel::create(menuRestoreLabel, this, menu_selector(RPGStartSceneLayer::onMenu));
     menuRestore->setPosition(ccp(300, 170));
     menuRestore->setTag(kRPGStartSceneLayerTagSettingsRestore);
@@ -418,7 +418,7 @@ void RPGStartSceneLayer::showSettingsMenu()
     
     //返回
     CCString *menuBackStr = (CCString*)this->m_stringList->objectForKey("settingsmenu_back");
-    CCLabelTTF *menuBackLabel = CCLabelTTF::create(OzgCCUtility::generalString(menuBackStr->getCString()).c_str(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
+    CCLabelTTF *menuBackLabel = CCLabelTTF::create(menuBackStr->getCString(), "FZCuYuan-M03S", 28, CCSizeMake(120, 40), kCCTextAlignmentLeft, kCCVerticalTextAlignmentCenter);
     CCMenuItemLabel *menuBack = CCMenuItemLabel::create(menuBackLabel, this, menu_selector(RPGStartSceneLayer::onMenu));
     menuBack->setPosition(ccp(300, 100));
     menuBack->setTag(kRPGStartSceneLayerTagSettingsBack);

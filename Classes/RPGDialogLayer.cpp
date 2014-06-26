@@ -29,7 +29,7 @@ bool RPGDialogLayer::init(string titleStr, string menuOKStr, int menuItemOKTag, 
         CCTMXTiledMap *mainBg = (CCTMXTiledMap*)this->getChildByTag(kRPGDialogLayerBg);
         CCMenu *menu = (CCMenu*)mainBg->getChildByTag(kRPGDialogLayerBgMenu);
         
-        CCLabelTTF *menuOKLab = CCLabelTTF::create(OzgCCUtility::generalString(CCString::create(menuOKStr)->getCString()).c_str(), "Arial", 20, CCSizeMake(120, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF *menuOKLab = CCLabelTTF::create(menuOKStr.c_str(), "Arial", 20, CCSizeMake(120, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         menuOKLab->setColor(ccc3(160, 160, 160));
         CCMenuItemLabel *menuOK = CCMenuItemLabel::create(menuOKLab, target, seletor);
         menuOK->setTag(menuItemOKTag);
@@ -50,14 +50,14 @@ bool RPGDialogLayer::init(string titleStr, string menuOKStr, int menuItemOKTag, 
         CCTMXTiledMap *mainBg = (CCTMXTiledMap*)this->getChildByTag(kRPGDialogLayerBg);
         CCMenu *menu = (CCMenu*)mainBg->getChildByTag(kRPGDialogLayerBgMenu);
         
-        CCLabelTTF *menuOKLab = CCLabelTTF::create(OzgCCUtility::generalString(CCString::create(menuOKStr)->getCString()).c_str(), "Arial", 20, CCSizeMake(120, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF *menuOKLab = CCLabelTTF::create(menuOKStr.c_str(), "Arial", 20, CCSizeMake(120, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         menuOKLab->setColor(ccc3(160, 160, 160));
         CCMenuItemLabel *menuOK = CCMenuItemLabel::create(menuOKLab, target, seletor);
         menuOK->setTag(menuItemOKTag);
         menuOK->setPosition(ccp(100, 60));
         menu->addChild(menuOK);
         
-        CCLabelTTF *menuCancelLab = CCLabelTTF::create(OzgCCUtility::generalString(CCString::create(menuCancelStr)->getCString()).c_str(), "Arial", 20, CCSizeMake(120, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
+        CCLabelTTF *menuCancelLab = CCLabelTTF::create(menuCancelStr.c_str(), "Arial", 20, CCSizeMake(120, 25), kCCTextAlignmentCenter, kCCVerticalTextAlignmentCenter);
         menuCancelLab->setColor(ccc3(160, 160, 160));
         CCMenuItemLabel *menuCancel = CCMenuItemLabel::create(menuCancelLab, target, seletor);
         menuCancel->setTag(menuItemCancelTag);
