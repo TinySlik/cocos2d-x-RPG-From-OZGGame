@@ -62,6 +62,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>../libs;../libs/JsonBox/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
@@ -81,7 +82,7 @@
       <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libExtensions.lib;libcocos2d.lib;libCocosDenshion.lib;opengl32.lib;glew32.lib;libBox2d.lib;libchipmunk.lib;libcurl_imp.lib;pthreadVCE2.lib;websockets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libExtensions.lib;libcocos2d.lib;libCocosDenshion.lib;opengl32.lib;glew32.lib;libBox2d.lib;libchipmunk.lib;libcurl_imp.lib;pthreadVCE2.lib;websockets.lib;libiconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -132,12 +133,71 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\OzgCCScrollBgNode.cpp" />
+    <ClCompile Include="..\Classes\OzgCCUtility.cpp" />
+    <ClCompile Include="..\Classes\OzgFileUtility.cpp" />
+    <ClCompile Include="..\Classes\OzgJoystickLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGBaseSceneLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGBattleMenu.cpp" />
+    <ClCompile Include="..\Classes\RPGBattleMonsterSprite.cpp" />
+    <ClCompile Include="..\Classes\RPGBattlePlayerSprite.cpp" />
+    <ClCompile Include="..\Classes\RPGBattleSceneLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGComputingResults.cpp" />
+    <ClCompile Include="..\Classes\RPGData.cpp" />
+    <ClCompile Include="..\Classes\RPGDialogLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGLoadingSceneLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapChoicePlayerMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapDialogLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapEquipMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapItemsMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapNPCRoleSprite.cpp" />
+    <ClCompile Include="..\Classes\RPGMapRoleSprite.cpp" />
+    <ClCompile Include="..\Classes\RPGMapSceneLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapSkillMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGMapStatusMenuLayer.cpp" />
+    <ClCompile Include="..\Classes\RPGResultsLogic.cpp" />
+    <ClCompile Include="..\Classes\RPGStartSceneLayer.cpp" />
+    <ClCompile Include="..\libs\CppSQLite3.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\Array.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\Convert.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\Escaper.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\IndentCanceller.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\Indenter.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\Object.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\SolidusEscaper.cpp" />
+    <ClCompile Include="..\libs\JsonBox\src\Value.cpp" />
+    <ClCompile Include="..\libs\sqlite3.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\GameCfg.h" />
+    <ClInclude Include="..\Classes\OzgCCScrollBgNode.h" />
+    <ClInclude Include="..\Classes\OzgCCUtility.h" />
+    <ClInclude Include="..\Classes\OzgFileUtility.h" />
+    <ClInclude Include="..\Classes\OzgJoystickLayer.h" />
+    <ClInclude Include="..\Classes\RPGBaseSceneLayer.h" />
+    <ClInclude Include="..\Classes\RPGBattleMenu.h" />
+    <ClInclude Include="..\Classes\RPGBattleMonsterSprite.h" />
+    <ClInclude Include="..\Classes\RPGBattlePlayerSprite.h" />
+    <ClInclude Include="..\Classes\RPGBattleSceneLayer.h" />
+    <ClInclude Include="..\Classes\RPGComputingResults.h" />
+    <ClInclude Include="..\Classes\RPGData.h" />
+    <ClInclude Include="..\Classes\RPGDialogLayer.h" />
+    <ClInclude Include="..\Classes\RPGLoadingSceneLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapChoicePlayerMenuLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapDialogLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapEquipMenuLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapItemsMenuLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapMenuLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapNPCRoleSprite.h" />
+    <ClInclude Include="..\Classes\RPGMapRoleSprite.h" />
+    <ClInclude Include="..\Classes\RPGMapSceneLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapSkillMenuLayer.h" />
+    <ClInclude Include="..\Classes\RPGMapStatusMenuLayer.h" />
+    <ClInclude Include="..\Classes\RPGResultsLogic.h" />
+    <ClInclude Include="..\Classes\RPGStartSceneLayer.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
