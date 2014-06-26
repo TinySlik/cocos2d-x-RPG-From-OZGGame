@@ -41,9 +41,9 @@ bool RPGStartSceneLayer::init()
         this->m_stringList->retain();
         
         //样式数据
-        this->m_styleData.push_back(pair<string, string>("style1", "样式1"));
-        this->m_styleData.push_back(pair<string, string>("style2", "样式2"));
-        this->m_styleData.push_back(pair<string, string>("style3", "样式3"));
+        this->m_styleData.push_back(pair<string, string>("style1", ((CCString*)this->m_stringList->objectForKey("settingsmenu_style01"))->getCString()));
+        this->m_styleData.push_back(pair<string, string>("style2", ((CCString*)this->m_stringList->objectForKey("settingsmenu_style02"))->getCString()));
+        this->m_styleData.push_back(pair<string, string>("style3", ((CCString*)this->m_stringList->objectForKey("settingsmenu_style03"))->getCString()));
         
         //使用数据库的当前样式
         RPGSaveData *saveDataObj = loadSaveData(&this->m_db);

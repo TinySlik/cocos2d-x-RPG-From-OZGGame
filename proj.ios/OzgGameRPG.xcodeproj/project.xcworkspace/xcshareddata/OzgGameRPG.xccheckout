@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BE783F00-5C7D-4F2B-BBA1-1933C415D2DE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>OzgGameRPG</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>49362472-CDB7-4896-8E37-80DA1C167755</key>
+		<string>https://github.com/ouzhigang/OzgGameRPG.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>proj.ios/OzgGameRPG.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>49362472-CDB7-4896-8E37-80DA1C167755</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ouzhigang/OzgGameRPG.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>49362472-CDB7-4896-8E37-80DA1C167755</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>49362472-CDB7-4896-8E37-80DA1C167755</string>
+			<key>IDESourceControlWCCName</key>
+			<string>OzgGameRPG</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -76,6 +76,8 @@
 	<string>武器：%s</string>
 	<key>menu_equip_armor</key>
 	<string>防具：%s</string>
+	<key>menu_equip_unset</key>
+	<string>卸掉</string>
 	<key>npc_dialog_buy</key>
 	<string>买入</string>
 	<key>npc_dialog_buy_msg</key>

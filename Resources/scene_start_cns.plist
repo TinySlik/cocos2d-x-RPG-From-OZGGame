@@ -28,5 +28,11 @@
 	<string>开</string>
 	<key>settingsmenu_audio_off</key>
 	<string>关</string>
+	<key>settingsmenu_style01</key>
+	<string>样式1</string>
+	<key>settingsmenu_style02</key>
+	<string>样式2</string>
+	<key>settingsmenu_style03</key>
+	<string>样式3</string>
 </dict>
 </plist>

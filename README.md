@@ -9,7 +9,8 @@ ozg game — RPG Demo
 声音文件来自 http://www.66rpg.com/type.php?t=17
 
 
-目前只部署了ios、mac平台。
+目前部署了ios、mac、win32平台。
+win32平台下需要将Classes文件夹里面的所有文件的编码转为GBK
 
 游戏第一次启动的时候会把数据库复制到可写文件夹，若数据库结构因为一些改动发生了变化，需要把旧的数据库删除。
 
