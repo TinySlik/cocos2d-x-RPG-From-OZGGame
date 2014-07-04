@@ -13,8 +13,8 @@ ozg game — RPG Demo
 
 
 目前部署了ios、mac、win32平台。
-win32平台下需要将Classes文件夹里面的所有文件的编码转为GBK
-sqlite3需要自行下载，然后把sqlite3.h和sqlite3.c复制到libs里面（ios、mac不需要进行这个步骤）
+win32平台下需要将Classes文件夹里面的所有文件的编码转为GBK。
+sqlite3需要自行下载，然后把sqlite3.h和sqlite3.c复制到libs里面（ios、mac不需要进行这个步骤）。
 
 
 
