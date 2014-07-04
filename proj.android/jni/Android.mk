@@ -6,11 +6,15 @@ LOCAL_MODULE := cocos2dcpp_shared
 
 LOCAL_MODULE_FILENAME := libcocos2dcpp
 
-LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../Classes/AppDelegate.cpp \
-                   ../../Classes/HelloWorldScene.cpp
+FILE_LIST := hellocpp/main.cpp
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../libs/*.c)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../libs/*.cpp)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../libs/JsonBox/src/*.cpp)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../Classes/*.cpp)
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../libs
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../libs/JsonBox/include
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes
 
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocosdenshion_static
@@ -19,6 +23,9 @@ LOCAL_WHOLE_STATIC_LIBRARIES += chipmunk_static
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
 
 include $(BUILD_SHARED_LIBRARY)
+
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4)
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4\cocos2dx\platform\third_party\android\prebuilt)
 
 $(call import-module,cocos2dx)
 $(call import-module,cocos2dx/platform/third_party/android/prebuilt/libcurl)

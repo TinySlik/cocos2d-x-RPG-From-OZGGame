@@ -1,0 +1,35 @@
+1，引用项目cocos2d-x-2.2.4/cocos2dx/platform/android/java
+
+2，设置eclipse的C/C++ Build 修改android-ndk-r9d/ndk-build.cmd
+
+3，proj.android/jni/Application.mk 加入APP_PLATFORM := android-8
+
+4，proj.android/jni/Android.mk 加入
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4)
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4\cocos2dx\platform\third_party\android\prebuilt)
+（根据实际路径修改）
+
+5，proj.android/jni/Android.mk 修改
+FILE_LIST := hellocpp/main.cpp
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../libs/*.c)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../libs/*.cpp)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../libs/JsonBox/src/*.cpp)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../Classes/*.cpp)
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../libs
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../libs/JsonBox/include
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes
+
+6，AndroidManifest.xml加入权限
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+7，将Resources下面的所有文件复制到proj.android/assets
+
+
+
+
+
+目前遇到的问题：
+A/libc(2412): Fatal signal 11 (SIGSEGV) at 0x00000000 (code=1), thread 2412 (game.OzgGameRPG)
+
+执行以下命令也不知道是什么问题，adb logcat|ndk-stack -sym D:\root\Temp\cocos2d-x-2.2.4\projects\OzgGameRPG\proj.android\obj\local\armeabi
