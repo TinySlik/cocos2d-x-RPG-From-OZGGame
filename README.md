@@ -29,7 +29,7 @@ sqlite3需要自行下载，然后把sqlite3.h和sqlite3.c复制到libs里面（
 
 ================
 
-运行状况
+运行状况:
 
 ![](https://raw.github.com/ouzhigang/OzgGameRPG/master/screenshot1.png)
 
