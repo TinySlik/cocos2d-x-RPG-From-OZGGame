@@ -24,8 +24,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4)
-$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4\cocos2dx\platform\third_party\android\prebuilt)
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.5)
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.5\cocos2dx\platform\third_party\android\prebuilt)
 
 $(call import-module,cocos2dx)
 $(call import-module,cocos2dx/platform/third_party/android/prebuilt/libcurl)
