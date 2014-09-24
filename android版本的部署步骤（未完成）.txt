@@ -33,4 +33,4 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes
 目前遇到的问题：
 A/libc(2412): Fatal signal 11 (SIGSEGV) at 0x00000000 (code=1), thread 2412 (game.OzgGameRPG)
 
-执行以下命令也不知道是什么问题，adb logcat|ndk-stack -sym D:\root\Temp\cocos2d-x-2.2.4\projects\OzgGameRPG\proj.android\obj\local\armeabi
+执行以下命令也不知道是什么问题，adb logcat|ndk-stack -sym D:\root\Temp\cocos2d-x-2.2.5\projects\OzgGameRPG\proj.android\obj\local\armeabi
