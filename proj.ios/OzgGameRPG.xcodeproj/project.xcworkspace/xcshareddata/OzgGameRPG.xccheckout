@@ -10,29 +10,29 @@
 	<string>OzgGameRPG</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>49362472-CDB7-4896-8E37-80DA1C167755</key>
+		<key>C98AD18A18B5A6907222BB73E0D52A8C8449EF4A</key>
 		<string>https://github.com/ouzhigang/OzgGameRPG.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>proj.ios/OzgGameRPG.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>49362472-CDB7-4896-8E37-80DA1C167755</key>
+		<key>C98AD18A18B5A6907222BB73E0D52A8C8449EF4A</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/ouzhigang/OzgGameRPG.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>49362472-CDB7-4896-8E37-80DA1C167755</string>
+	<string>C98AD18A18B5A6907222BB73E0D52A8C8449EF4A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>49362472-CDB7-4896-8E37-80DA1C167755</string>
+			<string>C98AD18A18B5A6907222BB73E0D52A8C8449EF4A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>OzgGameRPG</string>
 		</dict>

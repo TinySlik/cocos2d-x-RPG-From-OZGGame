@@ -51,7 +51,10 @@ bool RPGStartSceneLayer::init()
         CCUserDefault::sharedUserDefault()->setStringForKey(GAME_STYLE, saveDataObj->m_windowStyle);
         
         //背景
-        OzgCCScrollBgNode *bg = OzgCCScrollBgNode::create("start_bg.png");
+        std::vector<std::string> bgList;
+        bgList.push_back("start_bg.png");
+        bgList.push_back("start_bg.png");
+        OzgCCScrollBgNode *bg = OzgCCScrollBgNode::create(bgList);
         bg->setAnchorPoint(CCPointZero);
         bg->setPosition(CCPointZero);
         bg->setTag(kRPGStartSceneLayerTagBg);

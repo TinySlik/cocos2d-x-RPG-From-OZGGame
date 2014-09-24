@@ -1,59 +1,149 @@
-
 #include "OzgCCScrollBgNode.h"
 
-#define SCROLL_SPEED -1.0f //滚动速度，负数为向左，正数为向右
+USING_NS_CC;
+using namespace std;
 
 OzgCCScrollBgNode::~OzgCCScrollBgNode()
 {
     this->unscheduleUpdate();
-    this->m_bgSprite1->removeFromParentAndCleanup(true);
-    this->m_bgSprite2->removeFromParentAndCleanup(true);
-    CCTextureCache::sharedTextureCache()->removeTextureForKey(this->m_bg.c_str());
+
+	for (int i = 0; i < (int)this->m_bgList.size(); i++)
+        CCTextureCache::sharedTextureCache()->removeTextureForKey(this->m_bgList[i].c_str());
     
+	CCLOG("ScrollBgNode释放");
 }
 
-bool OzgCCScrollBgNode::init(const char* bg)
+bool OzgCCScrollBgNode::init(std::vector<std::string> bgList)
 {
-    if(CCNode::init())
-    {
-        this->m_bg = string(bg);
-        this->m_bgSprite1 = CCSprite::create(this->m_bg.c_str());
-        this->m_bgSprite1->setAnchorPoint(CCPointZero);
-        this->m_bgSprite1->setPosition(CCPointZero);
-        this->addChild(this->m_bgSprite1);
-        
-        this->m_bgSprite2 = CCSprite::create(this->m_bg.c_str());
-        this->m_bgSprite2->setAnchorPoint(CCPointZero);
-        this->m_bgSprite2->setPosition(ccp(this->m_bgSprite1->getContentSize().width, 0));
-        this->addChild(this->m_bgSprite2);
-        
-        this->scheduleUpdate();
-        return true;
-    }
-    return false;
+	if (CCNode::init())
+	{
+		//只有1个元素的情况下，会出现问题，所以需要再补1个同样的元素上去
+		if (bgList.size() == 1)
+			bgList.push_back(bgList[0]);
+
+		this->m_bgList = bgList;
+
+		this->m_scrollSpeed = -1.0f; //默认滚动速度，负数为向左，正数为向右
+
+		auto node = CCNode::create();
+
+		if (this->m_scrollSpeed < 0)
+		{
+			//向左
+
+			for (int i = 0; i < (int)bgList.size(); i++)
+			{
+				auto bg = CCSprite::create(bgList[i].c_str());
+				bg->setAnchorPoint(CCPoint(0, 0));
+
+				if (i == 0)
+					bg->setPosition(CCPoint(0, 0));
+				else
+				{
+					auto prevBg = node->getChildByTag(i - 1);
+					bg->setPosition(CCPoint(prevBg->getContentSize().width, 0));
+				}
+
+				bg->setTag(i);
+				node->addChild(bg);
+			}
+		}
+		else if (this->m_scrollSpeed > 0)
+		{
+			//向右
+
+			for (int i = 0; i < (int)bgList.size(); i++)
+			{
+				auto bg = CCSprite::create(bgList[i].c_str());
+				bg->setAnchorPoint(CCPoint(0, 0));
+
+				if (i == 0)
+					bg->setPosition(CCPoint(0, 0));
+				else
+				{
+					auto prevBg = node->getChildByTag(i - 1);
+					bg->setPosition(CCPoint(-prevBg->getContentSize().width, 0));
+				}
+
+				bg->setTag(i);
+				node->addChild(bg);
+			}
+		}
+				
+		node->setTag(1);
+		this->addChild(node, 1, CCPoint(1, 0), CCPoint(0, 0));
+
+		this->scheduleUpdate();
+
+		return true;
+	}
+	return false;
 }
 
-OzgCCScrollBgNode* OzgCCScrollBgNode::create(const char *bg)
+OzgCCScrollBgNode* OzgCCScrollBgNode::create(std::vector<std::string> bgList)
 {
-    OzgCCScrollBgNode *obj = new OzgCCScrollBgNode();
-    if(obj && obj->init(bg))
-    {
-        obj->autorelease();
-        return obj;
-    }
-    
-    CC_SAFE_DELETE(obj);
-    return NULL;
+	OzgCCScrollBgNode *obj = new OzgCCScrollBgNode();
+	if (obj && obj->init(bgList))
+	{
+		obj->autorelease();
+		return obj;
+	}
+	CC_SAFE_DELETE(obj);
+	return NULL;
 }
 
 void OzgCCScrollBgNode::update(float delta)
 {
-    this->m_bgSprite1->setPositionX(this->m_bgSprite1->getPositionX() + SCROLL_SPEED);
-    this->m_bgSprite2->setPositionX(this->m_bgSprite2->getPositionX() + SCROLL_SPEED);
-    
-    if(this->m_bgSprite1->getPositionX() <= -this->m_bgSprite1->getContentSize().width)
-        this->m_bgSprite1->setPosition(ccp(this->m_bgSprite1->getContentSize().width, 0));
-    else if(this->m_bgSprite2->getPositionX() <= -this->m_bgSprite2->getContentSize().width)
-        this->m_bgSprite2->setPosition(ccp(this->m_bgSprite2->getContentSize().width, 0));
-    
+	CCAssert(this->m_scrollSpeed != 0, "速度值不能为0");
+
+	auto x = this->getPositionX() + this->m_scrollSpeed;
+	this->setPositionX(x);
+
+	auto node = this->getChildByTag(1);
+
+	if (this->m_scrollSpeed < 0)
+	{
+		//向左
+
+		for (int i = 0; i < (int)this->m_bgList.size(); i++)
+		{
+			auto bg = node->getChildByTag(i);
+
+			auto point = node->convertToWorldSpace(bg->getPosition());
+			point = this->getParent()->convertToNodeSpace(point);
+			if (point.x < -bg->getContentSize().width)
+			{
+				CCNode *bg2 = NULL;
+				if (i + 1 >= this->m_bgList.size())
+					bg2 = node->getChildByTag(0);
+				else
+					bg2 = node->getChildByTag(i + 1);
+
+				bg->setPositionX(bg2->getPositionX() + bg2->getContentSize().width);
+			}
+		}
+	}
+	else if (this->m_scrollSpeed > 0)
+	{
+		//向右
+
+		for (int i = 0; i < (int)this->m_bgList.size(); i++)
+		{
+			auto bg = node->getChildByTag(i);
+
+			auto point = node->convertToWorldSpace(bg->getPosition());
+			point = this->getParent()->convertToNodeSpace(point);
+			if (point.x > bg->getContentSize().width)
+			{
+				CCNode *bg2 = NULL;
+				if (i + 1 >= this->m_bgList.size())
+					bg2 = node->getChildByTag(0);
+				else
+					bg2 = node->getChildByTag(i + 1);
+
+				bg->setPositionX(bg2->getPositionX() - bg2->getContentSize().width);
+			}
+		}
+	}
+
 }
