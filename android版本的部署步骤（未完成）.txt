@@ -1,12 +1,12 @@
-1，引用项目cocos2d-x-2.2.4/cocos2dx/platform/android/java
+1，引用项目cocos2d-x-2.2.5/cocos2dx/platform/android/java
 
 2，设置eclipse的C/C++ Build 修改android-ndk-r9d/ndk-build.cmd
 
 3，proj.android/jni/Application.mk 加入APP_PLATFORM := android-8
 
 4，proj.android/jni/Android.mk 加入
-$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4)
-$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.4\cocos2dx\platform\third_party\android\prebuilt)
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.5)
+$(call import-add-path, D:\root\Temp\cocos2d-x-2.2.5\cocos2dx\platform\third_party\android\prebuilt)
 （根据实际路径修改）
 
 5，proj.android/jni/Android.mk 修改
@@ -22,6 +22,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../Classes
 
 6，AndroidManifest.xml加入权限
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
 7，将Resources下面的所有文件复制到proj.android/assets
 
