@@ -1,0 +1,13 @@
+﻿
+libs/sqlite3.c
+libs/sqlite3.h
+
+proj.win32/OzgGameRPG.sdf
+proj.win32/Debug.win32/
+proj.win32/OzgGameRPG.v12.suo
+
+proj.android/gen/
+proj.android/bin/
+proj.android/libs/
+proj.android/obj/
+proj.android/assets/

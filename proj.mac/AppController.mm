@@ -58,7 +58,7 @@
 		// set window parameters
 		[window becomeFirstResponder];
 		[window setContentView:glView];
-		[window setTitle:@"OzgGameRPG"];
+		[window setTitle:@"HelloCpp"];
 		[window makeKeyAndOrderFront:self];
 		[window setAcceptsMouseMovedEvents:NO];
 

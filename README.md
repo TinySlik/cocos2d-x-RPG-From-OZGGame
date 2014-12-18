@@ -24,7 +24,7 @@ sqlite3需要自行下载，然后把sqlite3.h和sqlite3.c复制到libs里面（
 
 ================
 
-编译时需要将本游戏的目录复制到cocos2d-x-2.2.5/projects/。
+编译时需要将本游戏的目录复制到cocos2d-x-2.2.x/projects/。
 
 
 ================

@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>BE783F00-5C7D-4F2B-BBA1-1933C415D2DE</string>
+	<string>CC3C8DFB-3D92-4C9E-B18F-4B4381412266</string>
 	<key>IDESourceControlProjectName</key>
 	<string>OzgGameRPG</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -14,7 +14,7 @@
 		<string>https://github.com/ouzhigang/OzgGameRPG.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>proj.ios/OzgGameRPG.xcodeproj/project.xcworkspace</string>
+	<string>proj.ios/OzgGameRPG.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>C98AD18A18B5A6907222BB73E0D52A8C8449EF4A</key>

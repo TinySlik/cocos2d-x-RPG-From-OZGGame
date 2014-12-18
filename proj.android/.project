@@ -102,7 +102,7 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<locationURI>COCOS2DX/projects/OzgGameRPG/Classes</locationURI>
+			<location>COCOS2DX/projects/OzgGameRPG/Classes</location>
 		</link>
 		<link>
 			<name>cocos2dx</name>
@@ -112,7 +112,7 @@
 		<link>
 			<name>extensions</name>
 			<type>2</type>
-			<locationURI>COCOS2DX/extensions</locationURI>
+			<location>COCOS2DX/extensions</location>
 		</link>
 		<link>
 			<name>scripting</name>

@@ -8,10 +8,10 @@
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\libs">
-      <UniqueIdentifier>{13a787af-7658-4f38-a8cf-a43f73fab5d1}</UniqueIdentifier>
+      <UniqueIdentifier>{deb8d010-b431-414a-9950-3769bd11d1a7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\libs\JsonBox">
-      <UniqueIdentifier>{ab033c4b-ae96-4497-9723-ec847d061b73}</UniqueIdentifier>
+      <UniqueIdentifier>{6940fc52-7355-4a4d-8a85-d157336aa714}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,12 +96,6 @@
     <ClCompile Include="..\Classes\RPGStartSceneLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\libs\CppSQLite3.cpp">
-      <Filter>Classes\libs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libs\sqlite3.c">
-      <Filter>Classes\libs</Filter>
-    </ClCompile>
     <ClCompile Include="..\libs\JsonBox\src\Array.cpp">
       <Filter>Classes\libs\JsonBox</Filter>
     </ClCompile>
@@ -125,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="..\libs\JsonBox\src\Value.cpp">
       <Filter>Classes\libs\JsonBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\CppSQLite3.cpp">
+      <Filter>Classes\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\sqlite3.c">
+      <Filter>Classes\libs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -72,7 +72,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <CompileAsWinRT>true</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4267;4251;4244;4453;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
     </ClCompile>
@@ -92,7 +92,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <CompileAsWinRT>true</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4267;4251;4244;4453;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
     </ClCompile>
@@ -112,7 +112,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <CompileAsWinRT>true</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4267;4251;4244;4453;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
     </ClCompile>
@@ -132,7 +132,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <CompileAsWinRT>true</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\cocos2dx\include;$(ProjectDir)..\..\..\..\..\cocos2dx;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\wp8;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\winrt;$(ProjectDir)..\..\..\Classes;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\winrt\angle\include;$(ProjectDir)..\..\..\..\..\CocosDenshion\include;$(ProjectDir)..\..\..\..\..\extensions;$(ProjectDir)..\..\..\..\..\extensions\network;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\;$(ProjectDir)..\..\..\..\..\cocos2dx\platform\third_party\wp8\libcurl;$(ProjectDir)..\..\..\..\..\external;$(ProjectDir)..\..\..\..\..\external\libwebsockets\wp8\include;$(ProjectDir)..\..\..\..\..\external\chipmunk\include\chipmunk;$(ProjectDir)..\..\..\..\..\cocos2dx\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4267;4251;4244;4453;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
     </ClCompile>
@@ -199,7 +199,7 @@
       <Project>{a5ce59f9-2785-4e08-bd3c-0f370eeca439}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\external\Box2D\proj.wp8\Box2D.vcxproj">
-      <Project>{79fc91d4-974c-4bc7-8e8c-79e194437de7}</Project>
+      <Project>{b04642cc-e2c3-4388-8eb9-19ba3922060c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\external\chipmunk\proj.wp8\chipmunk.vcxproj">
       <Project>{3ad76ea1-d698-40d2-b04d-d9ab8171f40b}</Project>

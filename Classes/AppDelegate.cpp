@@ -22,15 +22,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     pDirector->setOpenGLView(pEGLView);
 	
-    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(960, 640, kResolutionShowAll);
-    
+	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(960, 640, kResolutionShowAll);
+	
     // turn on display FPS
     pDirector->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
 
-    //将数据库复制到可写目录
+	//将数据库复制到可写目录
     string dbSrc = CCFileUtils::sharedFileUtils()->fullPathForFilename(GAME_SYS_DB);
     string dbDes = CCFileUtils::sharedFileUtils()->getWritablePath();
     dbDes.append(GAME_SYS_DB);
@@ -54,7 +54,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //初始化背景音乐和效果音的默认大小值
     SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_BG_AUDIO_VOLUME, 1.0));
     SimpleAudioEngine::sharedEngine()->setEffectsVolume(CCUserDefault::sharedUserDefault()->getFloatForKey(GAME_EFFECT_AUDIO_VOLUME, 1.0));
-    
+	
     // create a scene. it's an autorelease object
     CCScene *pScene = RPGStartSceneLayer::scene();
 
@@ -69,7 +69,7 @@ void AppDelegate::applicationDidEnterBackground() {
     CCDirector::sharedDirector()->stopAnimation();
 
     // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+    SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
@@ -77,5 +77,5 @@ void AppDelegate::applicationWillEnterForeground() {
     CCDirector::sharedDirector()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
+    SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
 }
