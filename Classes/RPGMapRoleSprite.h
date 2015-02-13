@@ -16,6 +16,7 @@ using namespace std;
 
 enum RPGMapRoleSpriteMoveActTag
 {
+    none                            =0,
     kRPGMapRoleSpriteMoveActTagUp = 1,
     kRPGMapRoleSpriteMoveActTagDown = 2,
     kRPGMapRoleSpriteMoveActTagLeft = 3,
@@ -47,9 +48,10 @@ private:
     bool m_isMoving;
     CCString* m_name;
     
-    void startMove(RPGMapRoleSpriteMoveActTag actTag);
+    void startMove(RPGMapRoleSpriteMoveActTag actTag ,bool force = false);
     
 public:
+    void setIsMoving(bool is);
     
     RPGMapRoleSpriteDirection m_direction; //该对象向着哪个方向
     

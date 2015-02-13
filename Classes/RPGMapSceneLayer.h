@@ -11,6 +11,7 @@
 
 #include "RPGBaseSceneLayer.h"
 #include "RPGMapNPCRoleSprite.h"
+#define SPEEDCUT 40
 
 enum RPGMapSceneLayerTag
 {

@@ -63,10 +63,15 @@ RPGMapRoleSprite* RPGMapRoleSprite::create(CCString *roleTexture, CCString* name
     return NULL;
 }
 
-////private
-void RPGMapRoleSprite::startMove(RPGMapRoleSpriteMoveActTag actTag)
+void RPGMapRoleSprite::setIsMoving(bool is)
 {
-    if(this->m_isMoving && this->m_currMoveActTag != actTag)
+    m_isMoving  = is;
+}
+
+////private
+void RPGMapRoleSprite::startMove(RPGMapRoleSpriteMoveActTag actTag,bool force)
+{
+    if(this->m_isMoving && (force || this->m_currMoveActTag != actTag))
     {
         this->stopActionByTag(this->m_currMoveActTag);
         this->m_isMoving = false;
@@ -159,8 +164,8 @@ void RPGMapRoleSprite::startMoveRight()
 
 void RPGMapRoleSprite::stopMove()
 {
-    if(!this->m_isMoving)
-        return;
+//    if(!this->m_isMoving)
+//        return;
     
     switch (this->m_currMoveActTag)
     {
@@ -191,8 +196,8 @@ void RPGMapRoleSprite::stopMove()
         default:
             break;
     }
-    
-    this->m_isMoving = false;
+    this->m_currMoveActTag = none;
+//    this->m_isMoving = false;
 }
 
 void RPGMapRoleSprite::setDirection(RPGMapRoleSpriteDirection direction)

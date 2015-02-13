@@ -16,7 +16,7 @@
 #define GAME_TMX_ROLE_HEIGHT 32.0
 #define GAME_PLAYER_MOVESPEED 0.5
 
-#define GAME_MAP_ENCOUNTER 0.025 //遇敌率
+#define GAME_MAP_ENCOUNTER 0.0025 //遇敌率
 
 #define GAME_INIT_SQL "insert into save_data (map_id, player_to_x, player_to_y, player_direction, gold, window_style) values(1, 14.5, 9.5, 'down', 200, 'style2');"
 

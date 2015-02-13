@@ -149,24 +149,27 @@ void RPGMapSceneLayer::update(float dt)
         float dx = joystick->m_currentPoint.x - joystick->m_centerPoint.x;
         float dy = joystick->m_currentPoint.y - joystick->m_centerPoint.y;
         
-        //CCLog("%f %f", dx, dy);
+        CCLog("%f %f", dx, dy);
+        
+        CCPoint targetPoint = ccp(dx, dy);
+        
         if(dx > 0 && dy > 0)
         {
             if(fabsf(dx) > fabsf(dy))
             {
-                CCPoint targetPoint = ccp(GAME_TMX_ROLE_WIDTH, 0);
+//                CCPoint targetPoint = ccp(GAME_TMX_ROLE_WIDTH, 0);
                 player->startMoveRight();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             else
             {
-                CCPoint targetPoint = ccp(0, GAME_TMX_ROLE_HEIGHT);
+//                CCPoint targetPoint = ccp(0, GAME_TMX_ROLE_HEIGHT);
                 player->startMoveUp();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             //            CCLog("右上");
         }
@@ -174,19 +177,19 @@ void RPGMapSceneLayer::update(float dt)
         {
             if(fabsf(dx) > fabsf(dy))
             {
-                CCPoint targetPoint = ccp(GAME_TMX_ROLE_WIDTH, 0);
+//                CCPoint targetPoint = ccp(GAME_TMX_ROLE_WIDTH, 0);
                 player->startMoveRight();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             else
             {
-                CCPoint targetPoint = ccp(0, -GAME_TMX_ROLE_HEIGHT);
+//                CCPoint targetPoint = ccp(0, -GAME_TMX_ROLE_HEIGHT);
                 player->startMoveDown();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             //            CCLog("右下");
         }
@@ -194,19 +197,19 @@ void RPGMapSceneLayer::update(float dt)
         {
             if(fabsf(dx) > fabsf(dy))
             {
-                CCPoint targetPoint = ccp(-GAME_TMX_ROLE_WIDTH, 0);
+//                CCPoint targetPoint = ccp(-GAME_TMX_ROLE_WIDTH, 0);
                 player->startMoveLeft();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             else
             {
-                CCPoint targetPoint = ccp(0, -GAME_TMX_ROLE_HEIGHT);
+//                CCPoint targetPoint = ccp(0, -GAME_TMX_ROLE_HEIGHT);
                 player->startMoveDown();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             //            CCLog("左下");
         }
@@ -214,65 +217,70 @@ void RPGMapSceneLayer::update(float dt)
         {
             if(fabsf(dx) > fabsf(dy))
             {
-                CCPoint targetPoint = ccp(-GAME_TMX_ROLE_WIDTH, 0);
+//                CCPoint targetPoint = ccp(-GAME_TMX_ROLE_WIDTH, 0);
                 player->startMoveLeft();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             else
             {
-                CCPoint targetPoint = ccp(0, GAME_TMX_ROLE_HEIGHT);
+//                CCPoint targetPoint = ccp(0, GAME_TMX_ROLE_HEIGHT);
                 player->startMoveUp();
                 
-                if(this->doMoving(targetPoint))
-                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//                if(this->doMoving(targetPoint))
+//                    this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             }
             //            CCLog("左上");
         }
         else if(dx == 0 && dy > 0)
         {
-            CCPoint targetPoint = ccp(0, GAME_TMX_ROLE_HEIGHT);
+//            CCPoint targetPoint = ccp(0, GAME_TMX_ROLE_HEIGHT);
             player->startMoveUp();
             
-            if(this->doMoving(targetPoint))
-                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//            if(this->doMoving(targetPoint))
+//                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             //            CCLog("上");
         }
         else if(dx == 0 && dy < 0)
         {
-            CCPoint targetPoint = ccp(0, -GAME_TMX_ROLE_HEIGHT);
+//            CCPoint targetPoint = ccp(0, -GAME_TMX_ROLE_HEIGHT);
             player->startMoveDown();
             
-            if(this->doMoving(targetPoint))
-                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//            if(this->doMoving(targetPoint))
+//                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             //            CCLog("下");
         }
         else if(dx < 0 && dy == 0)
         {
-            CCPoint targetPoint = ccp(-GAME_TMX_ROLE_WIDTH, 0);
+//            CCPoint targetPoint = ccp(-GAME_TMX_ROLE_WIDTH, 0);
             player->startMoveLeft();
             
-            if(this->doMoving(targetPoint))
-                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//            if(this->doMoving(targetPoint))
+//                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             //            CCLog("左");
         }
         else if(dx > 0 && dy == 0)
         {
-            CCPoint targetPoint = ccp(GAME_TMX_ROLE_WIDTH, 0);
+//            CCPoint targetPoint = ccp(GAME_TMX_ROLE_WIDTH, 0);
             player->startMoveRight();
             
-            if(this->doMoving(targetPoint))
-                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
+//            if(this->doMoving(targetPoint))
+//                this->m_playerMoveAct = CCMoveBy::create(this->m_playerMoveSpeed, targetPoint);
             //            CCLog("右");
 
         }
 
-        if(this->m_playerMoveAct)
-        {
-            this->m_playerMoveAct->setTag(kRPGMapSceneLayerActTagPlayerMove);
-            player->runAction(CCSequence::createWithTwoActions(this->m_playerMoveAct, CCCallFunc::create(this, callfunc_selector(RPGMapSceneLayer::playerMoveEnd))));
+        if (this->doMoving(targetPoint)) {
+            CCPoint finalSpeed = CCPoint(targetPoint.x/SPEEDCUT, targetPoint.y/SPEEDCUT);
+            player->setPosition(ccpAdd(player->getPosition(), finalSpeed));
+            this->playerMoveEnd();
         }
+//        if(this->m_playerMoveAct)
+//        {
+//            this->m_playerMoveAct->setTag(kRPGMapSceneLayerActTagPlayerMove);
+//            player->runAction(CCSequence::createWithTwoActions(this->m_playerMoveAct, CCCallFunc::create(this, callfunc_selector(RPGMapSceneLayer::playerMoveEnd))));
+//        }
 
     }
     
@@ -448,6 +456,7 @@ void RPGMapSceneLayer::joystickEndedFunc()
     mainMenu->setVisible(true);
     
     player->stopMove();
+    CCLog("stop");
 }
 
 //private
@@ -558,11 +567,11 @@ void RPGMapSceneLayer::playerMoveEnd()
 {
     CCTMXTiledMap *bgMap = (CCTMXTiledMap*)this->getChildByTag(kRPGMapSceneLayerTagBgMap);
     RPGMapRoleSprite *player = (RPGMapRoleSprite*)bgMap->getChildByTag(kRPGMapSceneLayerTagPlayer);
-    player->stopMove();
+//    player->stopMove();
     
-    player->stopActionByTag(kRPGMapSceneLayerActTagPlayerMove);
-
-    this->m_playerMoveAct = NULL;
+//    player->stopActionByTag(kRPGMapSceneLayerActTagPlayerMove);
+//
+//    this->m_playerMoveAct = NULL;
     
     //地图切换点的判断
     CCTMXObjectGroup *transitionsObjects = bgMap->objectGroupNamed("transitions");
@@ -689,7 +698,8 @@ bool RPGMapSceneLayer::doMoving(cocos2d::CCPoint targetPoint)
     RPGMapRoleSprite *player = (RPGMapRoleSprite*)bgMap->getChildByTag(kRPGMapSceneLayerTagPlayer);
     CCTMXObjectGroup *obstaclesObjects = bgMap->objectGroupNamed("obstacles");
     
-    targetPoint = ccpAdd(player->getPosition(), targetPoint);
+    CCPoint finalSpeed = CCPoint(targetPoint.x/SPEEDCUT, targetPoint.y/SPEEDCUT);
+    targetPoint = ccpAdd(player->getPosition(), finalSpeed);
     
     //地图上的障碍物
     for (int i = 0; i < obstaclesObjects->getObjects()->count(); i++)
